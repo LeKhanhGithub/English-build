@@ -68,6 +68,62 @@ def adaptive_font_size(width: int, height: int, *, title: bool = False) -> int:
     return max(minimum, min(maximum, base))
 
 
+def max_chars_for_font(
+    width: int,
+    font_size: int,
+    *,
+    max_width_ratio: float = 0.86,
+    average_char_ratio: float = 0.58,
+    minimum: int = 12,
+    maximum: int = 48,
+) -> int:
+    """Estimate how many subtitle characters can fit safely on one line."""
+
+    available_width = max(1, int(width * max_width_ratio))
+    estimated = int(available_width / max(1, font_size * average_char_ratio))
+    return max(minimum, min(maximum, estimated))
+
+
+def subtitle_max_chars(width: int, height: int) -> int:
+    """Return a conservative subtitle line length for the output resolution."""
+
+    font_size = adaptive_font_size(width, height)
+    return max_chars_for_font(width, font_size, minimum=18, maximum=42)
+
+
+def title_lines_and_font_size(text: str, width: int, height: int) -> tuple[list[str], int]:
+    """Choose wrapped title-card lines and a font size that fit the frame."""
+
+    max_font_size = adaptive_font_size(width, height, title=True)
+    min_font_size = max(34, min(width, height) // 18)
+
+    for font_size in range(max_font_size, min_font_size - 1, -2):
+        max_chars = max_chars_for_font(
+            width,
+            font_size,
+            max_width_ratio=0.72,
+            average_char_ratio=0.62,
+            minimum=8,
+            maximum=28,
+        )
+        lines = wrap_subtitle_text(text, max_chars=max_chars)
+        line_spacing = max(8, font_size // 6)
+        block_height = (len(lines) * font_size) + max(0, len(lines) - 1) * line_spacing
+        if len(lines) <= 4 and block_height <= height * 0.62:
+            return lines, font_size
+
+    fallback_font = min_font_size
+    fallback_chars = max_chars_for_font(
+        width,
+        fallback_font,
+        max_width_ratio=0.72,
+        average_char_ratio=0.62,
+        minimum=8,
+        maximum=24,
+    )
+    return wrap_subtitle_text(text, max_chars=fallback_chars), fallback_font
+
+
 def drawtext_filter(
     text: str,
     width: int,
@@ -75,31 +131,42 @@ def drawtext_filter(
     *,
     position: str,
     title: bool = False,
+    font_size: int | None = None,
+    y_expr: str | None = None,
+    line_spacing: int = 8,
+    text_file: Path | None = None,
 ) -> str:
     """Build an FFmpeg drawtext filter for centered or bottom-centered text."""
 
     escaped_text = escape_drawtext_text(text)
-    font_size = adaptive_font_size(width, height, title=title)
-    border = max(2, font_size // 14)
+    resolved_font_size = font_size or adaptive_font_size(width, height, title=title)
+    border = max(2, resolved_font_size // 14)
     font = find_font_file()
     font_part = f"fontfile='{escape_font_path(font)}':" if font else ""
+    text_part = (
+        f"textfile='{escape_font_path(text_file)}':"
+        if text_file
+        else f"text={escaped_text}:"
+    )
 
-    if position == "center":
-        y_expr = "(h-text_h)/2"
+    if y_expr is not None:
+        resolved_y_expr = y_expr
+    elif position == "center":
+        resolved_y_expr = "(h-text_h)/2"
     else:
-        y_expr = f"h-text_h-{max(32, height // 14)}"
+        resolved_y_expr = f"h-text_h-{max(32, height // 14)}"
 
     return (
         "drawtext="
         f"{font_part}"
-        f"text='{escaped_text}':"
+        f"{text_part}"
         "x=(w-text_w)/2:"
-        f"y={y_expr}:"
-        f"fontsize={font_size}:"
+        f"y={resolved_y_expr}:"
+        f"fontsize={resolved_font_size}:"
         "fontcolor=white:"
         "bordercolor=black:"
         f"borderw={border}:"
-        "line_spacing=8"
+        f"line_spacing={line_spacing}"
     )
 
 
@@ -130,15 +197,42 @@ def clip_filter(
     return ",".join(filters)
 
 
-def title_card_filter(text: str, width: int, height: int) -> str:
+def title_card_filter(
+    text: str,
+    width: int,
+    height: int,
+    *,
+    text_dir: Path | None = None,
+    file_prefix: str = "title",
+) -> str:
     """Build the video filter for an intro or outro title card."""
 
-    return ",".join(
-        [
-            "format=yuv420p",
-            drawtext_filter(text, width, height, position="center", title=True),
-        ]
-    )
+    lines, font_size = title_lines_and_font_size(text, width, height)
+    line_spacing = max(8, font_size // 6)
+    block_height = (len(lines) * font_size) + max(0, len(lines) - 1) * line_spacing
+    line_step = font_size + line_spacing
+
+    filters = ["format=yuv420p"]
+    for index, line in enumerate(lines):
+        y_expr = f"(h-{block_height})/2+{index * line_step}"
+        text_file = None
+        if text_dir:
+            text_file = text_dir / f"{file_prefix}-{index:02d}.txt"
+            text_file.write_text(line, encoding="utf-8")
+        filters.append(
+            drawtext_filter(
+                line,
+                width,
+                height,
+                position="center",
+                title=True,
+                font_size=font_size,
+                y_expr=y_expr,
+                line_spacing=line_spacing,
+                text_file=text_file,
+            )
+        )
+    return ",".join(filters)
 
 
 def ass_subtitle_filter(path: Path) -> str:
@@ -170,14 +264,15 @@ def write_karaoke_ass(
     font_name = (find_font_file().stem if find_font_file() else "Arial").replace(",", "")
     font_size = adaptive_font_size(play_res_x, play_res_y)
     margin_v = max(70, play_res_y // 13)
-    dialogue = build_karaoke_dialogue(text=text, words=words)
+    max_chars = subtitle_max_chars(play_res_x, play_res_y)
+    dialogue = build_karaoke_dialogue(text=text, words=words, max_chars=max_chars)
     end_time = ass_time(max(extract_end_ms(words), 1500) / 1000)
 
     content = "\n".join(
         [
             "[Script Info]",
             "ScriptType: v4.00+",
-            "WrapStyle: 2",
+            "WrapStyle: 0",
             "ScaledBorderAndShadow: yes",
             f"PlayResX: {play_res_x}",
             f"PlayResY: {play_res_y}",
@@ -192,7 +287,7 @@ def write_karaoke_ass(
             (
                 f"Style: Default,{font_name},{font_size},&H0031D1FD,&H00FFFFFF,"
                 "&H00000000,&H66000000,-1,0,0,0,100,100,0,0,1,4,0,2,"
-                f"60,60,{margin_v},1"
+                f"90,90,{margin_v},1"
             ),
             "",
             "[Events]",
@@ -231,8 +326,13 @@ def write_cued_ass(
     font_size = adaptive_font_size(play_res_x, play_res_y)
     margin_v = max(70, play_res_y // 13)
     events = []
+    max_chars = subtitle_max_chars(play_res_x, play_res_y)
     for cue in normalized_cues:
-        dialogue = build_highlighted_dialogue(cue["text"], highlight_text=highlight_text)
+        dialogue = build_highlighted_dialogue(
+            cue["text"],
+            highlight_text=highlight_text,
+            max_chars=max_chars,
+        )
         events.append(
             f"Dialogue: 0,{ass_time(cue['start'] / 1000)},{ass_time(cue['end'] / 1000)},"
             f"Default,,0,0,0,,{dialogue}"
@@ -242,7 +342,7 @@ def write_cued_ass(
         [
             "[Script Info]",
             "ScriptType: v4.00+",
-            "WrapStyle: 2",
+            "WrapStyle: 0",
             "ScaledBorderAndShadow: yes",
             f"PlayResX: {play_res_x}",
             f"PlayResY: {play_res_y}",
@@ -257,7 +357,7 @@ def write_cued_ass(
             (
                 f"Style: Default,{font_name},{font_size},&H00FFFFFF,&H0031D1FD,"
                 "&H00000000,&H66000000,-1,0,0,0,100,100,0,0,1,4,0,2,"
-                f"60,60,{margin_v},1"
+                f"90,90,{margin_v},1"
             ),
             "",
             "[Events]",
@@ -276,14 +376,15 @@ def write_plain_text_subtitle(path: Path, text: str) -> None:
     path.write_text(f"{text.strip()}\n", encoding="utf-8")
 
 
-def build_karaoke_dialogue(*, text: str, words: list[Any]) -> str:
+def build_karaoke_dialogue(*, text: str, words: list[Any], max_chars: int = 42) -> str:
     """Return ASS karaoke override text."""
 
     normalized_words = normalize_word_items(words)
     if not normalized_words:
-        return ass_escape_text(text)
+        return r"\N".join(ass_escape_text(line) for line in wrap_subtitle_text(text, max_chars=max_chars))
 
     pieces: list[str] = []
+    line_chars = 0
     for index, word in enumerate(normalized_words):
         start = word["start"]
         next_start = (
@@ -293,8 +394,12 @@ def build_karaoke_dialogue(*, text: str, words: list[Any]) -> str:
         )
         duration_ms = max(80, next_start - start)
         centiseconds = max(1, round(duration_ms / 10))
-        suffix = " " if index + 1 < len(normalized_words) else ""
-        pieces.append(f"{{\\k{centiseconds}}}{ass_escape_text(word['text'])}{suffix}")
+        visible_text = word["text"]
+        visible_len = max(1, len(visible_text))
+        should_wrap = bool(pieces) and line_chars + 1 + visible_len > max_chars
+        separator = r"\N" if should_wrap else (" " if pieces else "")
+        pieces.append(f"{separator}{{\\k{centiseconds}}}{ass_escape_text(visible_text)}")
+        line_chars = visible_len if should_wrap else (line_chars + (1 if pieces[:-1] else 0) + visible_len)
     return "".join(pieces)
 
 
@@ -368,9 +473,10 @@ def build_highlighted_dialogue(
 ) -> str:
     """Build non-karaoke ASS text with wrapping and searched-text highlighting."""
 
+    protected_text = protect_highlight_spaces(text, highlight_text=highlight_text)
     return r"\N".join(
-        highlight_ass_text(line, highlight_text=highlight_text)
-        for line in wrap_subtitle_text(text, max_chars=max_chars)
+        highlight_ass_text(line.replace("\x00", " "), highlight_text=highlight_text)
+        for line in wrap_subtitle_text(protected_text, max_chars=max_chars)
     )
 
 
@@ -415,22 +521,218 @@ def highlight_ass_text(text: str, *, highlight_text: str | None = None) -> str:
     if not query:
         return ass_escape_text(text)
 
-    pattern = re.compile(re.escape(query), re.IGNORECASE)
+    spans = highlight_spans(text, query)
+    if not spans:
+        return ass_escape_text(text)
+
     parts: list[str] = []
     last = 0
 
-    for match in pattern.finditer(text):
-        if match.start() > last:
-            parts.append(ass_escape_text(text[last : match.start()]))
+    for start, end in spans:
+        if start > last:
+            parts.append(ass_escape_text(text[last:start]))
         parts.append(r"{\c&H0031D1FD&}")
-        parts.append(ass_escape_text(match.group(0)))
+        parts.append(ass_escape_text(text[start:end]))
         parts.append(r"{\c&H00FFFFFF&}")
-        last = match.end()
+        last = end
 
     if last < len(text):
         parts.append(ass_escape_text(text[last:]))
 
-    return "".join(parts) if parts else ass_escape_text(text)
+    return "".join(parts)
+
+
+def protect_highlight_spaces(text: str, *, highlight_text: str | None = None) -> str:
+    """Protect spaces inside the highlighted phrase so wrapping keeps it together."""
+
+    query = " ".join((highlight_text or "").split()).strip()
+    if not query:
+        return text
+
+    spans = highlight_spans(text, query)
+    if not spans:
+        return text
+
+    parts: list[str] = []
+    last = 0
+    for start, end in spans:
+        parts.append(text[last:start])
+        parts.append(text[start:end].replace(" ", "\x00"))
+        last = end
+    parts.append(text[last:])
+    return "".join(parts)
+
+
+def highlight_spans(text: str, query: str) -> list[tuple[int, int]]:
+    """Return character spans that should be highlighted in ASS subtitles."""
+
+    text_tokens = token_spans(text)
+    query_tokens = [normalize_match_token(token) for token, _start, _end in token_spans(query)]
+    if not text_tokens or not query_tokens:
+        return []
+
+    spans = phrase_highlight_spans(text_tokens, query_tokens)
+    spans.extend(semantic_highlight_spans(text_tokens, query_tokens))
+    return merge_spans(spans)
+
+
+def phrase_highlight_spans(
+    text_tokens: list[tuple[str, int, int]],
+    query_tokens: list[str],
+) -> list[tuple[int, int]]:
+    """Return spans for direct phrase matches with small inflection tolerance."""
+
+    spans: list[tuple[int, int]] = []
+    query_length = len(query_tokens)
+    index = 0
+
+    while index <= len(text_tokens) - query_length:
+        candidate = text_tokens[index : index + query_length]
+        if all(
+            subtitle_tokens_match(query_token, candidate_token)
+            for query_token, (candidate_token, _start, _end) in zip(query_tokens, candidate)
+        ):
+            spans.append((candidate[0][1], candidate[-1][2]))
+            index += query_length
+            continue
+        index += 1
+
+    return spans
+
+
+def semantic_highlight_spans(
+    text_tokens: list[tuple[str, int, int]],
+    query_tokens: list[str],
+) -> list[tuple[int, int]]:
+    """Return spans for a few conservative phrase-equivalent subtitle patterns."""
+
+    if not query_asks_for_mean_world_idiom(query_tokens):
+        return []
+
+    tokens = [token for token, _start, _end in text_tokens]
+    spans: list[tuple[int, int]] = []
+    index = 0
+
+    while index < len(tokens):
+        if is_mean_token(tokens[index]):
+            end_index = mean_idiom_end_index(tokens, index)
+            if end_index is not None:
+                spans.append((text_tokens[index][1], text_tokens[end_index][2]))
+                index = end_index + 1
+                continue
+
+        important_end = important_idiom_end_index(tokens, index)
+        if important_end is not None:
+            spans.append((text_tokens[index][1], text_tokens[important_end][2]))
+            index = important_end + 1
+            continue
+
+        index += 1
+
+    return spans
+
+
+def query_asks_for_mean_world_idiom(query_tokens: list[str]) -> bool:
+    """Return True for searches such as 'you mean the world to me'."""
+
+    stems = [simple_english_stem(token) for token in query_tokens]
+    if not any(stem == "mean" for stem in stems):
+        return False
+    if "world" in stems or "everything" in stems:
+        return True
+    joined = " ".join(stems)
+    return "so much" in joined or "a lot" in joined
+
+
+def mean_idiom_end_index(tokens: list[str], mean_index: int) -> int | None:
+    """Return the last token index for mean-world style idioms."""
+
+    if tokens_match_at(tokens, mean_index + 1, ["the", "world", "to"]):
+        return mean_index + 4 if mean_index + 4 < len(tokens) else None
+    if tokens_match_at(tokens, mean_index + 1, ["everything", "to"]):
+        return mean_index + 3 if mean_index + 3 < len(tokens) else None
+    if tokens_match_at(tokens, mean_index + 1, ["so", "much", "to"]):
+        return mean_index + 4 if mean_index + 4 < len(tokens) else None
+    if tokens_match_at(tokens, mean_index + 1, ["a", "lot", "to"]):
+        return mean_index + 4 if mean_index + 4 < len(tokens) else None
+    return None
+
+
+def important_idiom_end_index(tokens: list[str], index: int) -> int | None:
+    """Return the last token index for 'nothing is more important than you'."""
+
+    if tokens_match_at(tokens, index, ["nothing", "is", "more", "important", "than"]):
+        return index + 5 if index + 5 < len(tokens) else None
+    return None
+
+
+def tokens_match_at(tokens: list[str], start: int, expected: list[str]) -> bool:
+    """Return True when normalized tokens match an expected sequence."""
+
+    if start < 0 or start + len(expected) > len(tokens):
+        return False
+    return tokens[start : start + len(expected)] == expected
+
+
+def is_mean_token(token: str) -> bool:
+    """Return True for mean/means/meant/meaning variants."""
+
+    return simple_english_stem(token) == "mean" or token in {"meant", "meaning"}
+
+
+def merge_spans(spans: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    """Sort and merge overlapping highlight spans."""
+
+    if not spans:
+        return []
+
+    merged: list[tuple[int, int]] = []
+    for start, end in sorted(spans):
+        if not merged or start > merged[-1][1]:
+            merged.append((start, end))
+            continue
+        previous_start, previous_end = merged[-1]
+        merged[-1] = (previous_start, max(previous_end, end))
+    return merged
+
+
+def token_spans(text: str) -> list[tuple[str, int, int]]:
+    """Return normalized word-like tokens with original character offsets."""
+
+    return [
+        (normalize_match_token(match.group(0)), match.start(), match.end())
+        for match in re.finditer(r"[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)?", text)
+    ]
+
+
+def subtitle_tokens_match(query_token: str, caption_token: str) -> bool:
+    """Return True when two subtitle tokens are close enough for phrase highlighting."""
+
+    if query_token == caption_token:
+        return True
+    if len(query_token) <= 2 or len(caption_token) <= 2:
+        return False
+    return simple_english_stem(query_token) == simple_english_stem(caption_token)
+
+
+def normalize_match_token(token: str) -> str:
+    """Normalize a token for subtitle phrase matching."""
+
+    return token.lower().replace("’", "'").strip("'")
+
+
+def simple_english_stem(token: str) -> str:
+    """Reduce common English inflections for conservative subtitle highlighting."""
+
+    word = normalize_match_token(token)
+    for suffix, min_length in (("ing", 6), ("ied", 5), ("ed", 5), ("es", 5), ("s", 4)):
+        if suffix == "s" and word.endswith("ss"):
+            continue
+        if word.endswith(suffix) and len(word) >= min_length:
+            if suffix == "ied":
+                return f"{word[:-3]}y"
+            return word[: -len(suffix)]
+    return word
 
 
 def extract_end_ms(words: list[Any]) -> int:
@@ -450,7 +752,6 @@ def ass_escape_text(text: str) -> str:
         .replace("{", "\\{")
         .replace("}", "\\}")
         .replace("\n", " ")
-        .strip()
     )
 
 

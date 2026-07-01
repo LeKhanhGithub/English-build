@@ -11,7 +11,7 @@ from fractions import Fraction
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.progress import Progress, TextColumn
 
 from src.config import Settings
 from src.search import SearchResult, SearchService
@@ -162,7 +162,6 @@ class VideoMerger:
         title = title_case_phrase(phrase)
 
         progress = Progress(
-            SpinnerColumn(),
             TextColumn("[bold green]{task.description}"),
             console=console,
             transient=False,
@@ -292,7 +291,13 @@ class VideoMerger:
             "-map",
             "1:a:0",
             "-vf",
-            title_card_filter(text, target.width, target.height),
+            title_card_filter(
+                text,
+                target.width,
+                target.height,
+                text_dir=output_path.parent,
+                file_prefix=output_path.stem,
+            ),
             "-t",
             "2",
             "-c:v",

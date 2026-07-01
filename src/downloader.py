@@ -14,7 +14,6 @@ from rich.progress import (
     BarColumn,
     DownloadColumn,
     Progress,
-    SpinnerColumn,
     TaskID,
     TextColumn,
     TimeRemainingColumn,
@@ -76,7 +75,6 @@ class DownloadManager:
         self.search_service.subtitle_root_for(result).mkdir(parents=True, exist_ok=True)
 
         progress = Progress(
-            SpinnerColumn(),
             TextColumn("[bold blue]{task.description}"),
             BarColumn(),
             DownloadColumn(),

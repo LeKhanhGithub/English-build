@@ -1,520 +1,558 @@
 {
-  "phrase": "nice to meet you",
-  "slug": "nice-to-meet-you",
-  "source_url": "https://www.playphrase.me/#/search?language=en&q=nice+to+meet+you",
-  "created_at": "2026-07-01T03:18:35.199103+00:00",
+  "phrase": "I'm falling for you",
+  "slug": "i-m-falling-for-you",
+  "source_url": "https://www.playphrase.me/#/search?language=en&q=I%27m+falling+for+you",
+  "created_at": "2026-07-01T06:04:18.197329+00:00",
   "clips": [
     {
       "index": 1,
       "source": "playphrase",
-      "title": "It was nice to meet you.",
-      "movie_name": "Paycheck (2003) [00:14:29]",
-      "playphrase_id": "672102a88bdb3513f30bfbd9",
+      "title": "I think I'm falling for you.",
+      "movie_name": "The 40 Year Old Virgin (2005) [01:45:26]",
+      "playphrase_id": "672202d9a753d0248a5f82af",
       "source_page_url": "https://www.playphrase.me",
-      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1838e78079eb4cd4a561e2/672102a88bdb3513f30bfbd9.mp4",
-      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1838e78079eb4cd4a561e2/672102a88bdb3513f30bfbd9.mp4",
-      "duration": 1.66,
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183cb38079eb4cd4a5d562/672202d9a753d0248a5f82af.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183cb38079eb4cd4a5d562/672202d9a753d0248a5f82af.mp4",
+      "duration": 2.043,
       "thumbnail": null,
-      "subtitle_text": "It was nice to meet you.",
+      "subtitle_text": "I think I'm falling for you.",
       "subtitle_cues": [],
       "words": [
         {
-          "text": "It",
+          "text": "I",
+          "start": 0,
+          "end": 20,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "think",
+          "start": 40,
+          "end": 201,
+          "index": 1,
+          "searched": false
+        },
+        {
+          "text": "I'm",
+          "start": 241,
+          "end": 361,
+          "index": 2,
+          "searched": true
+        },
+        {
+          "text": "falling",
+          "start": 421,
+          "end": 742,
+          "index": 3,
+          "searched": true
+        },
+        {
+          "text": "for",
+          "start": 782,
+          "end": 983,
+          "index": 4,
+          "searched": true
+        },
+        {
+          "text": "you.",
+          "start": 1043,
+          "end": 2043,
+          "index": 5,
+          "searched": true
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183cb38079eb4cd4a5d562/672202d9a753d0248a5f82af.mp4"
+      ]
+    },
+    {
+      "index": 2,
+      "source": "playphrase",
+      "title": "And he starts stumbling and mumbling and says, I think I'm falling for you.",
+      "movie_name": "The Double (2013) [00:22:19]",
+      "playphrase_id": "674fa8bca9e09c213cecba42",
+      "source_page_url": "https://www.playphrase.me",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183e8f8079eb4cd4a60e22/674fa8bca9e09c213cecba42.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183e8f8079eb4cd4a60e22/674fa8bca9e09c213cecba42.mp4",
+      "duration": 4.391,
+      "thumbnail": null,
+      "subtitle_text": "And he starts stumbling and mumbling and says, I think I'm falling for you.",
+      "subtitle_cues": [],
+      "words": [
+        {
+          "text": "And",
           "start": 0,
           "end": 60,
           "index": 0,
           "searched": false
         },
         {
-          "text": "was",
-          "start": 100,
-          "end": 200,
+          "text": "he",
+          "start": 80,
+          "end": 120,
           "index": 1,
           "searched": false
         },
         {
-          "text": "nice",
-          "start": 220,
-          "end": 380,
+          "text": "starts",
+          "start": 140,
+          "end": 361,
           "index": 2,
-          "searched": true
+          "searched": false
         },
         {
-          "text": "to",
-          "start": 400,
-          "end": 480,
+          "text": "stumbling",
+          "start": 521,
+          "end": 1203,
           "index": 3,
-          "searched": true
+          "searched": false
         },
         {
-          "text": "meet",
-          "start": 500,
-          "end": 640,
+          "text": "and",
+          "start": 1223,
+          "end": 1283,
           "index": 4,
-          "searched": true
+          "searched": false
         },
         {
-          "text": "you.",
-          "start": 660,
-          "end": 1660,
+          "text": "mumbling",
+          "start": 1343,
+          "end": 1684,
           "index": 5,
-          "searched": true
-        }
-      ],
-      "sources": [
-        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1838e78079eb4cd4a561e2/672102a88bdb3513f30bfbd9.mp4"
-      ]
-    },
-    {
-      "index": 2,
-      "source": "playphrase",
-      "title": "Nice to meet you.",
-      "movie_name": "Hustlers (2019) [00:15:41]",
-      "playphrase_id": "6717e05e2ddee743134f39ea",
-      "source_page_url": "https://www.playphrase.me",
-      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1ba0b47f26f21ffb4ec15/6717e05e2ddee743134f39ea.mp4",
-      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1ba0b47f26f21ffb4ec15/6717e05e2ddee743134f39ea.mp4",
-      "duration": 0.871,
-      "thumbnail": null,
-      "subtitle_text": "Nice to meet you.",
-      "subtitle_cues": [],
-      "words": [
+          "searched": false
+        },
         {
-          "text": "Nice",
-          "start": 0,
-          "end": 221,
-          "index": 0,
+          "text": "and",
+          "start": 1724,
+          "end": 1805,
+          "index": 6,
+          "searched": false
+        },
+        {
+          "text": "says,",
+          "start": 1825,
+          "end": 1965,
+          "index": 7,
+          "searched": false
+        },
+        {
+          "text": "I",
+          "start": 2627,
+          "end": 2687,
+          "index": 8,
+          "searched": false
+        },
+        {
+          "text": "think",
+          "start": 2707,
+          "end": 2847,
+          "index": 9,
+          "searched": false
+        },
+        {
+          "text": "I'm",
+          "start": 2887,
+          "end": 3028,
+          "index": 10,
           "searched": true
         },
         {
-          "text": "to",
-          "start": 241,
-          "end": 321,
-          "index": 1,
+          "text": "falling",
+          "start": 3068,
+          "end": 3368,
+          "index": 11,
           "searched": true
         },
         {
-          "text": "meet",
-          "start": 361,
-          "end": 461,
-          "index": 2,
+          "text": "for",
+          "start": 3388,
+          "end": 3529,
+          "index": 12,
           "searched": true
         },
         {
           "text": "you.",
-          "start": 481,
-          "end": 1481,
-          "index": 3,
+          "start": 3569,
+          "end": 3669,
+          "index": 13,
           "searched": true
         }
       ],
       "sources": [
-        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1ba0b47f26f21ffb4ec15/6717e05e2ddee743134f39ea.mp4"
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183e8f8079eb4cd4a60e22/674fa8bca9e09c213cecba42.mp4"
       ]
     },
     {
       "index": 3,
       "source": "playphrase",
-      "title": "Nice to meet you.",
-      "movie_name": "The Devil's Advocate (1997) [01:07:24]",
-      "playphrase_id": "671904f0c1401c4d23d4846b",
+      "title": "I'm falling for you.",
+      "movie_name": "From Prada to Nada (2011) [01:04:56]",
+      "playphrase_id": "6728412e1446de475119cae1",
       "source_page_url": "https://www.playphrase.me",
-      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183a468079eb4cd4a58c17/671904f0c1401c4d23d4846b.mp4",
-      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183a468079eb4cd4a58c17/671904f0c1401c4d23d4846b.mp4",
-      "duration": 1.381,
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c18b5447f26f21ffb4cf9e/6728412e1446de475119cae1.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c18b5447f26f21ffb4cf9e/6728412e1446de475119cae1.mp4",
+      "duration": 1.803,
       "thumbnail": null,
-      "subtitle_text": "Nice to meet you.",
+      "subtitle_text": "I'm falling for you.",
       "subtitle_cues": [],
       "words": [
         {
-          "text": "Nice",
+          "text": "I'm",
           "start": 0,
-          "end": 120,
+          "end": 141,
           "index": 0,
           "searched": true
         },
         {
-          "text": "to",
-          "start": 140,
-          "end": 180,
+          "text": "falling",
+          "start": 281,
+          "end": 602,
           "index": 1,
           "searched": true
         },
         {
-          "text": "meet",
-          "start": 220,
-          "end": 341,
+          "text": "for",
+          "start": 642,
+          "end": 763,
           "index": 2,
           "searched": true
         },
         {
           "text": "you.",
-          "start": 381,
-          "end": 1381,
+          "start": 803,
+          "end": 1803,
           "index": 3,
           "searched": true
         }
       ],
       "sources": [
-        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183a468079eb4cd4a58c17/671904f0c1401c4d23d4846b.mp4"
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c18b5447f26f21ffb4cf9e/6728412e1446de475119cae1.mp4"
       ]
     },
     {
       "index": 4,
       "source": "playphrase",
-      "title": "So nice to meet you.",
-      "movie_name": "The Reef (2010) [00:02:41]",
-      "playphrase_id": "66f861e3eff0f73d356352f1",
+      "title": "I think I'm falling for you.",
+      "movie_name": "The Kids Are All Right (2010) [01:08:55]",
+      "playphrase_id": "6729a27340118047623219f8",
       "source_page_url": "https://www.playphrase.me",
-      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183eba8079eb4cd4a61357/66f861e3eff0f73d356352f1.mp4",
-      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183eba8079eb4cd4a61357/66f861e3eff0f73d356352f1.mp4",
-      "duration": 1.192,
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183ec18079eb4cd4a61430/6729a27340118047623219f8.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183ec18079eb4cd4a61430/6729a27340118047623219f8.mp4",
+      "duration": 1.47,
       "thumbnail": null,
-      "subtitle_text": "So nice to meet you.",
+      "subtitle_text": "I think I'm falling for you.",
       "subtitle_cues": [],
       "words": [
         {
-          "text": "So",
+          "text": "I",
           "start": 0,
-          "end": 181,
+          "end": 60,
           "index": 0,
           "searched": false
         },
         {
-          "text": "nice",
-          "start": 241,
-          "end": 441,
+          "text": "think",
+          "start": 120,
+          "end": 300,
           "index": 1,
-          "searched": true
+          "searched": false
         },
         {
-          "text": "to",
-          "start": 481,
-          "end": 541,
+          "text": "I'm",
+          "start": 340,
+          "end": 520,
           "index": 2,
           "searched": true
         },
         {
-          "text": "meet",
-          "start": 601,
-          "end": 762,
+          "text": "falling",
+          "start": 540,
+          "end": 961,
           "index": 3,
           "searched": true
         },
         {
-          "text": "you.",
-          "start": 822,
-          "end": 1822,
+          "text": "for",
+          "start": 1001,
+          "end": 1241,
           "index": 4,
+          "searched": true
+        },
+        {
+          "text": "you.",
+          "start": 1261,
+          "end": 2261,
+          "index": 5,
           "searched": true
         }
       ],
       "sources": [
-        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183eba8079eb4cd4a61357/66f861e3eff0f73d356352f1.mp4"
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183ec18079eb4cd4a61430/6729a27340118047623219f8.mp4"
       ]
     },
     {
       "index": 5,
       "source": "playphrase",
-      "title": "Hi, nice to meet you.",
-      "movie_name": "Melancholia (2011) [00:14:56]",
-      "playphrase_id": "671ad20a24859c1869f505fc",
+      "title": "How about, hey, Steven, I'm falling for you.",
+      "movie_name": "Christmas Made to Order (2018) [01:16:56]",
+      "playphrase_id": "676340b027f4ac2e7658da5e",
       "source_page_url": "https://www.playphrase.me",
-      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183ed48079eb4cd4a6167d/671ad20a24859c1869f505fc.mp4",
-      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183ed48079eb4cd4a6167d/671ad20a24859c1869f505fc.mp4",
-      "duration": 1.94,
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b491c3a35cb7b9f3b4817/676340b027f4ac2e7658da5e.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b491c3a35cb7b9f3b4817/676340b027f4ac2e7658da5e.mp4",
+      "duration": 2.425,
       "thumbnail": null,
-      "subtitle_text": "Hi, nice to meet you.",
+      "subtitle_text": "How about, hey, Steven, I'm falling for you.",
       "subtitle_cues": [],
       "words": [
         {
-          "text": "Hi,",
+          "text": "How",
           "start": 0,
-          "end": 320,
+          "end": 120,
           "index": 0,
           "searched": false
         },
         {
-          "text": "nice",
-          "start": 360,
-          "end": 520,
+          "text": "about,",
+          "start": 140,
+          "end": 320,
           "index": 1,
-          "searched": true
+          "searched": false
         },
         {
-          "text": "to",
-          "start": 640,
-          "end": 680,
+          "text": "hey,",
+          "start": 521,
+          "end": 681,
           "index": 2,
+          "searched": false
+        },
+        {
+          "text": "Steven,",
+          "start": 701,
+          "end": 1142,
+          "index": 3,
+          "searched": false
+        },
+        {
+          "text": "I'm",
+          "start": 1282,
+          "end": 1423,
+          "index": 4,
           "searched": true
         },
         {
-          "text": "meet",
-          "start": 720,
-          "end": 900,
-          "index": 3,
+          "text": "falling",
+          "start": 1463,
+          "end": 1763,
+          "index": 5,
+          "searched": true
+        },
+        {
+          "text": "for",
+          "start": 1783,
+          "end": 1883,
+          "index": 6,
           "searched": true
         },
         {
           "text": "you.",
-          "start": 940,
-          "end": 1940,
-          "index": 4,
+          "start": 1924,
+          "end": 2024,
+          "index": 7,
           "searched": true
         }
       ],
       "sources": [
-        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183ed48079eb4cd4a6167d/671ad20a24859c1869f505fc.mp4"
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b491c3a35cb7b9f3b4817/676340b027f4ac2e7658da5e.mp4"
       ]
     },
     {
       "index": 6,
       "source": "comb",
-      "title": "Nice to meet you.",
-      "movie_name": "S9E20: The Trouble With Trillions",
+      "title": "You think I'm dumb enough to fall for that ? I'm insulted.",
+      "movie_name": "S1E2: Bart the Genius",
       "playphrase_id": null,
-      "source_page_url": "https://comb.io/fIIJJM",
-      "video_url": "https://s3.amazonaws.com/v.comb.io/EL8FINMi/fIIJJM.mp4?1540416261967",
-      "download_url": "https://s3.amazonaws.com/v.comb.io/EL8FINMi/fIIJJM.mp4?1540416261967",
-      "duration": 8.574,
-      "thumbnail": "https://tn.comb.io/EL8FINMi/6eca.jpg",
-      "subtitle_text": "Oh, you're gonna love it in Cuba, Marge. There's shredded pork everywhere!\nIt's carne de burro.\nNice to meet you.",
+      "source_page_url": "https://comb.io/RjqCWt",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/vCwqVTf9/RjqCWt.mp4?1526154484928",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/vCwqVTf9/RjqCWt.mp4?1526154484928",
+      "duration": 3.502,
+      "thumbnail": "https://tn.comb.io/vCwqVTf9/7dd5.jpg",
+      "subtitle_text": "You think I'm dumb enough to fall for that ? I'm insulted.",
       "subtitle_cues": [
         {
-          "text": "Oh, you're gonna love it in Cuba, Marge. There's shredded pork everywhere!",
+          "text": "You think I'm dumb enough to fall for that ? I'm insulted.",
           "start": 0,
-          "end": 4085
-        },
-        {
-          "text": "It's carne de burro.",
-          "start": 4153,
-          "end": 6137
-        },
-        {
-          "text": "Nice to meet you.",
-          "start": 6206,
-          "end": 8574
+          "end": 3502
         }
       ],
       "words": [],
       "sources": [
-        "https://s3.amazonaws.com/v.comb.io/EL8FINMi/fIIJJM.mp4?1540416261967"
+        "https://s3.amazonaws.com/v.comb.io/vCwqVTf9/RjqCWt.mp4?1526154484928"
       ]
     },
     {
       "index": 7,
       "source": "comb",
-      "title": "Nice to meet you.",
-      "movie_name": "S3E3: The Cryonic Woman",
+      "title": "Dad, I'm not gonna fall for that.",
+      "movie_name": "S5E9: The Last Temptation of Homer",
       "playphrase_id": null,
-      "source_page_url": "https://comb.io/wg8joy",
-      "video_url": "https://s3.amazonaws.com/v.comb.io/ENKWZR4i/wg8joy.mp4?1571084478508",
-      "download_url": "https://s3.amazonaws.com/v.comb.io/ENKWZR4i/wg8joy.mp4?1571084478508",
-      "duration": 12.645,
-      "thumbnail": "https://tn.comb.io/ENKWZR4i/4586.jpg",
-      "subtitle_text": "Michelle, this is Leela.\nThis is Bender.\nThe professor.\nHermes and Amy.\nNice to meet you.\nAnd this is Dr. Zoidberg.",
+      "source_page_url": "https://comb.io/Q2xlBm",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/kdOtjOfB/Q2xlBm.mp4?1560650497370",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/kdOtjOfB/Q2xlBm.mp4?1560650497370",
+      "duration": 9.591,
+      "thumbnail": "https://tn.comb.io/kdOtjOfB/527c.jpg",
+      "subtitle_text": "Lisa, look out behind you!\nDad, I'm not gonna fall for that.\nNo, Lisa, I swear to you! I'm 100% completely serious!\nYou've gotta turn around right now before it's too late!\n- Huh? - Sucker!",
       "subtitle_cues": [
         {
-          "text": "Michelle, this is Leela.",
+          "text": "Lisa, look out behind you!",
           "start": 0,
-          "end": 1568
+          "end": 499
         },
         {
-          "text": "This is Bender.",
-          "start": 2553,
-          "end": 3720
+          "text": "Dad, I'm not gonna fall for that.",
+          "start": 499,
+          "end": 2885
         },
         {
-          "text": "The professor.",
-          "start": 4371,
-          "end": 5472
+          "text": "No, Lisa, I swear to you! I'm 100% completely serious!",
+          "start": 2953,
+          "end": 5820
         },
         {
-          "text": "Hermes and Amy.",
-          "start": 8009,
-          "end": 9192
+          "text": "You've gotta turn around right now before it's too late!",
+          "start": 6089,
+          "end": 8224
         },
         {
-          "text": "Nice to meet you.",
-          "start": 9260,
-          "end": 10443
-        },
-        {
-          "text": "And this is Dr. Zoidberg.",
-          "start": 10511,
-          "end": 12645
+          "text": "- Huh? - Sucker!",
+          "start": 8291,
+          "end": 9591
         }
       ],
       "words": [],
       "sources": [
-        "https://s3.amazonaws.com/v.comb.io/ENKWZR4i/wg8joy.mp4?1571084478508"
+        "https://s3.amazonaws.com/v.comb.io/kdOtjOfB/Q2xlBm.mp4?1560650497370"
       ]
     },
     {
       "index": 8,
       "source": "comb",
-      "title": "Nice to meet you--",
-      "movie_name": "S3E12: Insane In The Mainframe",
+      "title": "I think I'm falling in love with you.",
+      "movie_name": "S4E2: Fast Times at Buddy Cianci Jr. High",
       "playphrase_id": null,
-      "source_page_url": "https://comb.io/roSDcU",
-      "video_url": "https://s3.amazonaws.com/v.comb.io/2YheghDh/roSDcU.mp4?1566410638848",
-      "download_url": "https://s3.amazonaws.com/v.comb.io/2YheghDh/roSDcU.mp4?1566410638848",
-      "duration": 16.065,
-      "thumbnail": "https://tn.comb.io/2YheghDh/69aa.jpg",
-      "subtitle_text": "Aw, He looks like a little insane drunken angel.\nHey, everybody. Meet my good pal, Roberto.\nHey, mon.\nNice to meet you--\nCome out with your hands up! hostages!",
+      "source_page_url": "https://comb.io/KU4XjD",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/bchDRTmA/KU4XjD.mp4?1544804640814",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/bchDRTmA/KU4XjD.mp4?1544804640814",
+      "duration": 17.21,
+      "thumbnail": "https://tn.comb.io/bchDRTmA/4ab5.jpg",
+      "subtitle_text": "Mrs. Lockhart?\nChris, come down here.\nI need to talk to you.\nWhy are you here?\n'Cause I couldn't stand to be away from you for another moment.\nI think I'm falling in love with you.\n\" love you, too! The only problem is I'm married.\nTherefore, there's only one thing to do.",
       "subtitle_cues": [
         {
-          "text": "Aw, He looks like a little insane drunken angel.",
+          "text": "Mrs. Lockhart?",
           "start": 0,
-          "end": 4720
+          "end": 1084
         },
         {
-          "text": "Hey, everybody. Meet my good pal, Roberto.",
-          "start": 6656,
-          "end": 10726
+          "text": "Chris, come down here.",
+          "start": 1084,
+          "end": 2662
         },
         {
-          "text": "Hey, mon.",
-          "start": 10794,
-          "end": 11208
+          "text": "I need to talk to you.",
+          "start": 2769,
+          "end": 4634
         },
         {
-          "text": "Nice to meet you--",
-          "start": 11208,
-          "end": 13162
+          "text": "Why are you here?",
+          "start": 4804,
+          "end": 6032
         },
         {
-          "text": "Come out with your hands up! hostages!",
-          "start": 13230,
-          "end": 16065
+          "text": "'Cause I couldn't stand to be away from you for another moment.",
+          "start": 6139,
+          "end": 9040
+        },
+        {
+          "text": "I think I'm falling in love with you.",
+          "start": 9142,
+          "end": 11702
+        },
+        {
+          "text": "\" love you, too! The only problem is I'm married.",
+          "start": 11811,
+          "end": 15110
+        },
+        {
+          "text": "Therefore, there's only one thing to do.",
+          "start": 15549,
+          "end": 17210
         }
       ],
       "words": [],
       "sources": [
-        "https://s3.amazonaws.com/v.comb.io/2YheghDh/roSDcU.mp4?1566410638848"
+        "https://s3.amazonaws.com/v.comb.io/bchDRTmA/KU4XjD.mp4?1544804640814"
       ]
     },
     {
       "index": 9,
       "source": "comb",
-      "title": "Nice to meet you.",
-      "movie_name": "S3E19: Stuck Together, Torn Apart",
+      "title": "I think I'm falling in love with you.",
+      "movie_name": "S9E14: Tiegs for Two",
       "playphrase_id": null,
-      "source_page_url": "https://comb.io/vROzLl",
-      "video_url": "https://s3.amazonaws.com/v.comb.io/Sp2RUd5c/vROzLl.mp4?1556384767997",
-      "download_url": "https://s3.amazonaws.com/v.comb.io/Sp2RUd5c/vROzLl.mp4?1556384767997",
-      "duration": 17.8,
-      "thumbnail": "https://tn.comb.io/Sp2RUd5c/63cc.jpg",
-      "subtitle_text": "Ah, Come on, stud.\nWe've got it all set up for you to go out with our niece.\nHoney, come on out here and meet Peter Griffin.\nPeter, this is our niece, Jennifer Love Hewitt.\nNice to meet you.\nAll right, I'm getting up.\nHi. Peter Griffin. So, Where do you want to go?\nWe can go Anywhere except the disco. They don't let me in there anymore.",
+      "source_page_url": "https://comb.io/LJGBdS",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/XzJJSC5L/LJGBdS.mp4?1608741611971",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/XzJJSC5L/LJGBdS.mp4?1608741611971",
+      "duration": 2.168,
+      "thumbnail": "https://tn.comb.io/XzJJSC5L/51d6.jpg",
+      "subtitle_text": "I think I'm falling in love with you.",
       "subtitle_cues": [
         {
-          "text": "Ah, Come on, stud.",
+          "text": "I think I'm falling in love with you.",
           "start": 0,
-          "end": 1150
-        },
-        {
-          "text": "We've got it all set up for you to go out with our niece.",
-          "start": 1218,
-          "end": 3720
-        },
-        {
-          "text": "Honey, come on out here and meet Peter Griffin.",
-          "start": 3787,
-          "end": 7173
-        },
-        {
-          "text": "Peter, this is our niece, Jennifer Love Hewitt.",
-          "start": 7241,
-          "end": 9975
-        },
-        {
-          "text": "Nice to meet you.",
-          "start": 9977,
-          "end": 11177
-        },
-        {
-          "text": "All right, I'm getting up.",
-          "start": 11228,
-          "end": 12561
-        },
-        {
-          "text": "Hi. Peter Griffin. So, Where do you want to go?",
-          "start": 12629,
-          "end": 14697
-        },
-        {
-          "text": "We can go Anywhere except the disco. They don't let me in there anymore.",
-          "start": 14765,
-          "end": 17800
+          "end": 2168
         }
       ],
       "words": [],
       "sources": [
-        "https://s3.amazonaws.com/v.comb.io/Sp2RUd5c/vROzLl.mp4?1556384767997"
+        "https://s3.amazonaws.com/v.comb.io/XzJJSC5L/LJGBdS.mp4?1608741611971"
       ]
     },
     {
       "index": 10,
       "source": "comb",
-      "title": "Nice to meet you.",
-      "movie_name": "S8E1: Road to the Multiverse",
+      "title": "I think Calculon's falling for you.",
+      "movie_name": "S5E13: Bend Her",
       "playphrase_id": null,
-      "source_page_url": "https://comb.io/9kxBP2",
-      "video_url": "https://s3.amazonaws.com/v.comb.io/uOvixyll/9kxBP2.mp4?1537744751095",
-      "download_url": "https://s3.amazonaws.com/v.comb.io/uOvixyll/9kxBP2.mp4?1537744751095",
-      "duration": 18.683,
-      "thumbnail": "https://tn.comb.io/uOvixyll/61e5.jpg",
-      "subtitle_text": "And this is our human, Brian.\nNice to meet you.\nSay hi to human Brian, Blake, says Gabe.\nHi.\nMommy, I want to play with the new human!\nOnly if it's okay with Blake.\nYeah, sure. It's fine.\nGabe is great with puppies.\nI swear to God, I hope the next universe we go to is all Koreans.",
+      "source_page_url": "https://comb.io/lw8q3o",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/UPi9MH0T/lw8q3o.mp4?1556346769988",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/UPi9MH0T/lw8q3o.mp4?1556346769988",
+      "duration": 15.398,
+      "thumbnail": "https://tn.comb.io/UPi9MH0T/521f.jpg",
+      "subtitle_text": "These gifts have been coming nonstop.\nI think Calculon's falling for you.\nAh! Any day now he'll dump me for a new wad of arm candy.\nAnd then I can turn back into a guy and hock all this stuff. It's just a game.",
       "subtitle_cues": [
         {
-          "text": "And this is our human, Brian.",
+          "text": "These gifts have been coming nonstop.",
           "start": 0,
-          "end": 1433
+          "end": 2118
         },
         {
-          "text": "Nice to meet you.",
-          "start": 1501,
-          "end": 3368
+          "text": "I think Calculon's falling for you.",
+          "start": 2186,
+          "end": 4955
         },
         {
-          "text": "Say hi to human Brian, Blake, says Gabe.",
-          "start": 3436,
-          "end": 6571
+          "text": "Ah! Any day now he'll dump me for a new wad of arm candy.",
+          "start": 7191,
+          "end": 11361
         },
         {
-          "text": "Hi.",
-          "start": 6639,
-          "end": 7805
-        },
-        {
-          "text": "Mommy, I want to play with the new human!",
-          "start": 7873,
-          "end": 9941
-        },
-        {
-          "text": "Only if it's okay with Blake.",
-          "start": 10008,
-          "end": 11709
-        },
-        {
-          "text": "Yeah, sure. It's fine.",
-          "start": 11777,
-          "end": 13227
-        },
-        {
-          "text": "Gabe is great with puppies.",
-          "start": 13295,
-          "end": 14896
-        },
-        {
-          "text": "I swear to God, I hope the next universe we go to is all Koreans.",
-          "start": 14964,
-          "end": 18683
+          "text": "And then I can turn back into a guy and hock all this stuff. It's just a game.",
+          "start": 11429,
+          "end": 15398
         }
       ],
       "words": [],
       "sources": [
-        "https://s3.amazonaws.com/v.comb.io/uOvixyll/9kxBP2.mp4?1537744751095"
+        "https://s3.amazonaws.com/v.comb.io/UPi9MH0T/lw8q3o.mp4?1556346769988"
       ]
     }
   ]

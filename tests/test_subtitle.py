@@ -6,6 +6,7 @@ from src.subtitle import (
     escape_drawtext_text,
     highlight_ass_text,
     normalize_cue_items,
+    title_card_filter,
     video_base_filter,
     wrap_subtitle_text,
 )
@@ -37,6 +38,23 @@ def test_build_karaoke_dialogue_uses_word_timings() -> None:
 
     assert "{\\k12}Nice" in dialogue
     assert "{\\k18}meet" in dialogue
+
+
+def test_build_karaoke_dialogue_wraps_long_playphrase_lines() -> None:
+    words = [
+        {"text": token, "start": index * 120, "end": (index + 1) * 120}
+        for index, token in enumerate(
+            "You mean the world to me but well then take your choice right now".split()
+        )
+    ]
+    dialogue = build_karaoke_dialogue(
+        text="You mean the world to me but well then take your choice right now",
+        words=words,
+        max_chars=30,
+    )
+
+    assert r"\N" in dialogue
+    assert "{\\k12}You" in dialogue
 
 
 def test_build_even_karaoke_dialogue_for_cue_text() -> None:
@@ -72,6 +90,62 @@ def test_highlight_ass_text_escapes_and_highlights() -> None:
 
     assert "{\\c&H0031D1FD&}Nice to meet you" in text
     assert "\\{friend\\}" in text
+
+
+def test_highlight_ass_text_matches_close_inflections() -> None:
+    text = highlight_ass_text(
+        "Oh, I missed you so much, boy.",
+        highlight_text="i miss you so much",
+    )
+
+    assert "Oh, " in text
+    assert "{\\c&H0031D1FD&}I missed you so much" in text
+    assert "{\\c&H00FFFFFF&}, boy." in text
+
+
+def test_highlight_ass_text_matches_mean_world_idiom_variants() -> None:
+    direct = highlight_ass_text(
+        "That woman means the world to me.",
+        highlight_text="you mean the world to me",
+    )
+    recipient_variant = highlight_ass_text(
+        "You know, it would mean the world to her if she could get her job back.",
+        highlight_text="you mean the world to me",
+    )
+    unrelated = highlight_ass_text(
+        "You have revealed to me a world of faith beyond the world of science.",
+        highlight_text="you mean the world to me",
+    )
+
+    assert "{\\c&H0031D1FD&}means the world to me" in direct
+    assert "{\\c&H0031D1FD&}mean the world to her" in recipient_variant
+    assert "\\c&H0031D1FD" not in unrelated
+
+
+def test_build_highlighted_dialogue_keeps_highlighted_phrase_together() -> None:
+    dialogue = build_highlighted_dialogue(
+        "Before before I missed you so much.",
+        highlight_text="i miss you so much",
+        max_chars=24,
+    )
+
+    assert r"\N{\c&H0031D1FD&}I missed you so much" in dialogue
+
+
+def test_title_card_filter_wraps_long_intro_text(tmp_path) -> None:
+    filters = title_card_filter(
+        "It's Good To See You",
+        640,
+        360,
+        text_dir=tmp_path,
+        file_prefix="intro",
+    )
+
+    assert filters.count("drawtext=") >= 2
+    assert "fontsize=" in filters
+    assert "textfile=" in filters
+    assert "It's" not in filters
+    assert (tmp_path / "intro-00.txt").read_text(encoding="utf-8")
 
 
 def test_normalize_cue_items() -> None:
