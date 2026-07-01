@@ -1,0 +1,51 @@
+{
+  "index": 4,
+  "text": "Maybe I'll see you around sometime.",
+  "words": [
+    {
+      "text": "Maybe",
+      "start": 0,
+      "end": 240,
+      "index": 0,
+      "searched": false
+    },
+    {
+      "text": "I'll",
+      "start": 280,
+      "end": 420,
+      "index": 1,
+      "searched": false
+    },
+    {
+      "text": "see",
+      "start": 440,
+      "end": 561,
+      "index": 2,
+      "searched": true
+    },
+    {
+      "text": "you",
+      "start": 581,
+      "end": 701,
+      "index": 3,
+      "searched": true
+    },
+    {
+      "text": "around",
+      "start": 741,
+      "end": 1001,
+      "index": 4,
+      "searched": true
+    },
+    {
+      "text": "sometime.",
+      "start": 1041,
+      "end": 1582,
+      "index": 5,
+      "searched": false
+    }
+  ],
+  "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b49e53a35cb7b9f3b4bcc/67653cf31bb2992d08d9d767.mp4",
+  "playphrase_id": "67653cf31bb2992d08d9d767",
+  "movie_name": "Prime (2024) [00:46:41]"
+}

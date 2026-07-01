@@ -1,0 +1,25 @@
+{
+  "phrase": "hello",
+  "slug": "hello",
+  "clips": [
+    {
+      "index": 1,
+      "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64bf19032f7a765b387a2a2e/67076cb50b10211aa9922115.mp4",
+      "path": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\hello\\clips\\001.mp4",
+      "skipped": true
+    },
+    {
+      "index": 2,
+      "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65f89df7b267755af6cf6f73/665b0c1ce7d77a68b54124bd.mp4",
+      "path": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\hello\\clips\\002.mp4",
+      "skipped": true
+    },
+    {
+      "index": 3,
+      "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183eb78079eb4cd4a612f9/66f3f570c5114b74c5f4045a.mp4",
+      "path": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\hello\\clips\\003.mp4",
+      "skipped": true
+    }
+  ],
+  "failed": []
+}

@@ -1,0 +1,52 @@
+{
+  "index": 9,
+  "source": "comb",
+  "text": "Ah, Come on, stud.\nWe've got it all set up for you to go out with our niece.\nHoney, come on out here and meet Peter Griffin.\nPeter, this is our niece, Jennifer Love Hewitt.\nNice to meet you.\nAll right, I'm getting up.\nHi. Peter Griffin. So, Where do you want to go?\nWe can go Anywhere except the disco. They don't let me in there anymore.",
+  "subtitle_cues": [
+    {
+      "text": "Ah, Come on, stud.",
+      "start": 0,
+      "end": 1150
+    },
+    {
+      "text": "We've got it all set up for you to go out with our niece.",
+      "start": 1218,
+      "end": 3720
+    },
+    {
+      "text": "Honey, come on out here and meet Peter Griffin.",
+      "start": 3787,
+      "end": 7173
+    },
+    {
+      "text": "Peter, this is our niece, Jennifer Love Hewitt.",
+      "start": 7241,
+      "end": 9975
+    },
+    {
+      "text": "Nice to meet you.",
+      "start": 9977,
+      "end": 11177
+    },
+    {
+      "text": "All right, I'm getting up.",
+      "start": 11228,
+      "end": 12561
+    },
+    {
+      "text": "Hi. Peter Griffin. So, Where do you want to go?",
+      "start": 12629,
+      "end": 14697
+    },
+    {
+      "text": "We can go Anywhere except the disco. They don't let me in there anymore.",
+      "start": 14765,
+      "end": 17800
+    }
+  ],
+  "words": [],
+  "source_url": "https://s3.amazonaws.com/v.comb.io/Sp2RUd5c/vROzLl.mp4?1556384767997",
+  "source_page_url": "https://comb.io/vROzLl",
+  "playphrase_id": null,
+  "movie_name": "S3E19: Stuck Together, Torn Apart"
+}

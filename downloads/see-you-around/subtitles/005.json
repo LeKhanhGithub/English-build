@@ -1,0 +1,58 @@
+{
+  "index": 5,
+  "text": "Maybe I'll see you around in school.",
+  "words": [
+    {
+      "text": "Maybe",
+      "start": 0,
+      "end": 200,
+      "index": 0,
+      "searched": false
+    },
+    {
+      "text": "I'll",
+      "start": 240,
+      "end": 381,
+      "index": 1,
+      "searched": false
+    },
+    {
+      "text": "see",
+      "start": 401,
+      "end": 521,
+      "index": 2,
+      "searched": true
+    },
+    {
+      "text": "you",
+      "start": 541,
+      "end": 661,
+      "index": 3,
+      "searched": true
+    },
+    {
+      "text": "around",
+      "start": 681,
+      "end": 902,
+      "index": 4,
+      "searched": true
+    },
+    {
+      "text": "in",
+      "start": 982,
+      "end": 1042,
+      "index": 5,
+      "searched": false
+    },
+    {
+      "text": "school.",
+      "start": 1062,
+      "end": 2062,
+      "index": 6,
+      "searched": false
+    }
+  ],
+  "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b18396e8079eb4cd4a5720b/672b393fdebb743e125ccf4d.mp4",
+  "playphrase_id": "672b393fdebb743e125ccf4d",
+  "movie_name": "The Perks of Being a Wallflower (2012) [00:14:50]"
+}

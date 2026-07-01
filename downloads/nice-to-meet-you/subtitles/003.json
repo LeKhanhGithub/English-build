@@ -1,0 +1,40 @@
+{
+  "index": 3,
+  "source": "playphrase",
+  "text": "Nice to meet you.",
+  "subtitle_cues": [],
+  "words": [
+    {
+      "text": "Nice",
+      "start": 0,
+      "end": 120,
+      "index": 0,
+      "searched": true
+    },
+    {
+      "text": "to",
+      "start": 140,
+      "end": 180,
+      "index": 1,
+      "searched": true
+    },
+    {
+      "text": "meet",
+      "start": 220,
+      "end": 341,
+      "index": 2,
+      "searched": true
+    },
+    {
+      "text": "you.",
+      "start": 381,
+      "end": 1381,
+      "index": 3,
+      "searched": true
+    }
+  ],
+  "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183a468079eb4cd4a58c17/671904f0c1401c4d23d4846b.mp4",
+  "source_page_url": "https://www.playphrase.me",
+  "playphrase_id": "671904f0c1401c4d23d4846b",
+  "movie_name": "The Devil's Advocate (1997) [01:07:24]"
+}

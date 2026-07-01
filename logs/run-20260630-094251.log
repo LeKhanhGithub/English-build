@@ -1,0 +1,24 @@
+2026-06-30 16:42:51 | INFO | src.main | Using project root: C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder
+2026-06-30 16:42:59 | INFO | src.search | Opening PlayPhrase
+2026-06-30 16:43:05 | INFO | src.search | Trying search URL fallback: https://www.playphrase.me/search?q=hello
+2026-06-30 16:43:07 | ERROR | src.main | Command failed
+Traceback (most recent call last):
+  File "C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder\src\main.py", line 120, in search_command
+    result = asyncio.run(service.search(phrase, force=force))
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python314\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python314\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python314\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder\src\search.py", line 121, in search
+    result = await self._search_playphrase(normalized_phrase)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder\src\search.py", line 163, in _search_playphrase
+    raise NoSearchResultsError(
+    ...<2 lines>...
+    )
+src.utils.NoSearchResultsError: No downloadable video clips were found for 'hello'. Try the phrase manually in PlayPhrase, or rerun with HEADLESS=false.

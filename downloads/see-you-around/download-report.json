@@ -1,0 +1,47 @@
+{
+  "phrase": "see you around",
+  "slug": "see-you-around",
+  "clips": [
+    {
+      "index": 1,
+      "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c16ba247f26f21ffb4bc33/67505c7401a3015ccfdaeea1.mp4",
+      "path": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\clips\\001.mp4",
+      "subtitle_ass": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\subtitles\\001.ass",
+      "subtitle_text": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\subtitles\\001.txt",
+      "skipped": false
+    },
+    {
+      "index": 2,
+      "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1fc0347f26f21ffb5167d/6704ae92d9406a78442f4a26.mp4",
+      "path": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\clips\\002.mp4",
+      "subtitle_ass": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\subtitles\\002.ass",
+      "subtitle_text": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\subtitles\\002.txt",
+      "skipped": false
+    },
+    {
+      "index": 3,
+      "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b49973a35cb7b9f3b4a5a/6755ab07b3982e41c2445e34.mp4",
+      "path": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\clips\\003.mp4",
+      "subtitle_ass": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\subtitles\\003.ass",
+      "subtitle_text": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\subtitles\\003.txt",
+      "skipped": false
+    },
+    {
+      "index": 4,
+      "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b49e53a35cb7b9f3b4bcc/67653cf31bb2992d08d9d767.mp4",
+      "path": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\clips\\004.mp4",
+      "subtitle_ass": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\subtitles\\004.ass",
+      "subtitle_text": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\subtitles\\004.txt",
+      "skipped": false
+    },
+    {
+      "index": 5,
+      "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b18396e8079eb4cd4a5720b/672b393fdebb743e125ccf4d.mp4",
+      "path": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\clips\\005.mp4",
+      "subtitle_ass": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\subtitles\\005.ass",
+      "subtitle_text": "C:\\Users\\admin\\OneDrive\\Desktop\\video-builder\\playphrase-video-builder\\downloads\\see-you-around\\subtitles\\005.txt",
+      "skipped": false
+    }
+  ],
+  "failed": []
+}

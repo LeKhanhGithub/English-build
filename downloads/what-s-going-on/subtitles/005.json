@@ -1,0 +1,72 @@
+{
+  "index": 5,
+  "text": "to understand what's going on inside of her head,",
+  "words": [
+    {
+      "text": "to",
+      "start": 0,
+      "end": 100,
+      "index": 0,
+      "searched": false
+    },
+    {
+      "text": "understand",
+      "start": 160,
+      "end": 641,
+      "index": 1,
+      "searched": false
+    },
+    {
+      "text": "what's",
+      "start": 701,
+      "end": 921,
+      "index": 2,
+      "searched": true
+    },
+    {
+      "text": "going",
+      "start": 981,
+      "end": 1242,
+      "index": 3,
+      "searched": true
+    },
+    {
+      "text": "on",
+      "start": 1402,
+      "end": 1502,
+      "index": 4,
+      "searched": true
+    },
+    {
+      "text": "inside",
+      "start": 1562,
+      "end": 1923,
+      "index": 5,
+      "searched": false
+    },
+    {
+      "text": "of",
+      "start": 1943,
+      "end": 1983,
+      "index": 6,
+      "searched": false
+    },
+    {
+      "text": "her",
+      "start": 2043,
+      "end": 2143,
+      "index": 7,
+      "searched": false
+    },
+    {
+      "text": "head,",
+      "start": 2183,
+      "end": 2423,
+      "index": 8,
+      "searched": false
+    }
+  ],
+  "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/660c0b81011b7046ee3fc440/665e4c90877ad250fbbb3d9e.mp4",
+  "playphrase_id": "665e4c90877ad250fbbb3d9e",
+  "movie_name": "And Salt the Earth Behind You (2019) [00:09:30]"
+}

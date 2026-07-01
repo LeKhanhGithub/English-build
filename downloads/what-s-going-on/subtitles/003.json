@@ -1,0 +1,86 @@
+{
+  "index": 3,
+  "text": "Just be thinking about what's going on here all the time.",
+  "words": [
+    {
+      "text": "Just",
+      "start": 0,
+      "end": 160,
+      "index": 0,
+      "searched": false
+    },
+    {
+      "text": "be",
+      "start": 200,
+      "end": 301,
+      "index": 1,
+      "searched": false
+    },
+    {
+      "text": "thinking",
+      "start": 341,
+      "end": 641,
+      "index": 2,
+      "searched": false
+    },
+    {
+      "text": "about",
+      "start": 662,
+      "end": 802,
+      "index": 3,
+      "searched": false
+    },
+    {
+      "text": "what's",
+      "start": 822,
+      "end": 1042,
+      "index": 4,
+      "searched": true
+    },
+    {
+      "text": "going",
+      "start": 1083,
+      "end": 1283,
+      "index": 5,
+      "searched": true
+    },
+    {
+      "text": "on",
+      "start": 1343,
+      "end": 1403,
+      "index": 6,
+      "searched": true
+    },
+    {
+      "text": "here",
+      "start": 1443,
+      "end": 1584,
+      "index": 7,
+      "searched": false
+    },
+    {
+      "text": "all",
+      "start": 1644,
+      "end": 1744,
+      "index": 8,
+      "searched": false
+    },
+    {
+      "text": "the",
+      "start": 1764,
+      "end": 1864,
+      "index": 9,
+      "searched": false
+    },
+    {
+      "text": "time.",
+      "start": 1884,
+      "end": 2105,
+      "index": 10,
+      "searched": false
+    }
+  ],
+  "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65fb55a2d58ee572fc82992f/666e6d1dab721a61ab9ee35c.mp4",
+  "playphrase_id": "666e6d1dab721a61ab9ee35c",
+  "movie_name": "Whitecaps (2002) [00:38:36]"
+}

@@ -1,0 +1,375 @@
+{
+  "phrase": "What's going on",
+  "slug": "what-s-going-on",
+  "source_url": "https://www.playphrase.me/#/search?language=en&q=What%27s+going+on",
+  "created_at": "2026-06-30T10:42:33.431038+00:00",
+  "clips": [
+    {
+      "index": 1,
+      "title": "Explain to me what's going on up there.",
+      "movie_name": "Live Free or Twi-hard (2010) [00:19:55]",
+      "playphrase_id": "665a5862e7d77a68b53d25b4",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65f87e56b267755af6cf6b0a/665a5862e7d77a68b53d25b4.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65f87e56b267755af6cf6b0a/665a5862e7d77a68b53d25b4.mp4",
+      "duration": 1.363,
+      "thumbnail": null,
+      "subtitle_text": "Explain to me what's going on up there.",
+      "words": [
+        {
+          "text": "Explain",
+          "start": 0,
+          "end": 381,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "to",
+          "start": 401,
+          "end": 461,
+          "index": 1,
+          "searched": false
+        },
+        {
+          "text": "me",
+          "start": 481,
+          "end": 541,
+          "index": 2,
+          "searched": false
+        },
+        {
+          "text": "what's",
+          "start": 581,
+          "end": 722,
+          "index": 3,
+          "searched": true
+        },
+        {
+          "text": "going",
+          "start": 762,
+          "end": 922,
+          "index": 4,
+          "searched": true
+        },
+        {
+          "text": "on",
+          "start": 1002,
+          "end": 1062,
+          "index": 5,
+          "searched": true
+        },
+        {
+          "text": "up",
+          "start": 1122,
+          "end": 1202,
+          "index": 6,
+          "searched": false
+        },
+        {
+          "text": "there.",
+          "start": 1222,
+          "end": 1363,
+          "index": 7,
+          "searched": false
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65f87e56b267755af6cf6b0a/665a5862e7d77a68b53d25b4.mp4"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "Seriously, what's going on?",
+      "movie_name": "Garbage Island (2011) [00:18:22]",
+      "playphrase_id": "665b1130e7d77a68b54141e9",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65f89ec7b267755af6cf6fd7/665b1130e7d77a68b54141e9.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65f89ec7b267755af6cf6fd7/665b1130e7d77a68b54141e9.mp4",
+      "duration": 1.704,
+      "thumbnail": null,
+      "subtitle_text": "Seriously, what's going on?",
+      "words": [
+        {
+          "text": "Seriously,",
+          "start": 0,
+          "end": 622,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "what's",
+          "start": 742,
+          "end": 1002,
+          "index": 1,
+          "searched": true
+        },
+        {
+          "text": "going",
+          "start": 1063,
+          "end": 1323,
+          "index": 2,
+          "searched": true
+        },
+        {
+          "text": "on?",
+          "start": 1584,
+          "end": 1704,
+          "index": 3,
+          "searched": true
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65f89ec7b267755af6cf6fd7/665b1130e7d77a68b54141e9.mp4"
+      ]
+    },
+    {
+      "index": 3,
+      "title": "Just be thinking about what's going on here all the time.",
+      "movie_name": "Whitecaps (2002) [00:38:36]",
+      "playphrase_id": "666e6d1dab721a61ab9ee35c",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65fb55a2d58ee572fc82992f/666e6d1dab721a61ab9ee35c.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65fb55a2d58ee572fc82992f/666e6d1dab721a61ab9ee35c.mp4",
+      "duration": 2.105,
+      "thumbnail": null,
+      "subtitle_text": "Just be thinking about what's going on here all the time.",
+      "words": [
+        {
+          "text": "Just",
+          "start": 0,
+          "end": 160,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "be",
+          "start": 200,
+          "end": 301,
+          "index": 1,
+          "searched": false
+        },
+        {
+          "text": "thinking",
+          "start": 341,
+          "end": 641,
+          "index": 2,
+          "searched": false
+        },
+        {
+          "text": "about",
+          "start": 662,
+          "end": 802,
+          "index": 3,
+          "searched": false
+        },
+        {
+          "text": "what's",
+          "start": 822,
+          "end": 1042,
+          "index": 4,
+          "searched": true
+        },
+        {
+          "text": "going",
+          "start": 1083,
+          "end": 1283,
+          "index": 5,
+          "searched": true
+        },
+        {
+          "text": "on",
+          "start": 1343,
+          "end": 1403,
+          "index": 6,
+          "searched": true
+        },
+        {
+          "text": "here",
+          "start": 1443,
+          "end": 1584,
+          "index": 7,
+          "searched": false
+        },
+        {
+          "text": "all",
+          "start": 1644,
+          "end": 1744,
+          "index": 8,
+          "searched": false
+        },
+        {
+          "text": "the",
+          "start": 1764,
+          "end": 1864,
+          "index": 9,
+          "searched": false
+        },
+        {
+          "text": "time.",
+          "start": 1884,
+          "end": 2105,
+          "index": 10,
+          "searched": false
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65fb55a2d58ee572fc82992f/666e6d1dab721a61ab9ee35c.mp4"
+      ]
+    },
+    {
+      "index": 4,
+      "title": "To understand what's going on inside of her head,",
+      "movie_name": "Episode.#1.8 (2019) [00:09:30]",
+      "playphrase_id": "6678b4eb6926467e70e3a1a8",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/667544aa171fe56cd43994f2/6678b4eb6926467e70e3a1a8.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/667544aa171fe56cd43994f2/6678b4eb6926467e70e3a1a8.mp4",
+      "duration": 2.405,
+      "thumbnail": null,
+      "subtitle_text": "To understand what's going on inside of her head,",
+      "words": [
+        {
+          "text": "To",
+          "start": 0,
+          "end": 100,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "understand",
+          "start": 160,
+          "end": 661,
+          "index": 1,
+          "searched": false
+        },
+        {
+          "text": "what's",
+          "start": 721,
+          "end": 922,
+          "index": 2,
+          "searched": true
+        },
+        {
+          "text": "going",
+          "start": 1002,
+          "end": 1242,
+          "index": 3,
+          "searched": true
+        },
+        {
+          "text": "on",
+          "start": 1423,
+          "end": 1503,
+          "index": 4,
+          "searched": true
+        },
+        {
+          "text": "inside",
+          "start": 1583,
+          "end": 1924,
+          "index": 5,
+          "searched": false
+        },
+        {
+          "text": "of",
+          "start": 1944,
+          "end": 1984,
+          "index": 6,
+          "searched": false
+        },
+        {
+          "text": "her",
+          "start": 2044,
+          "end": 2144,
+          "index": 7,
+          "searched": false
+        },
+        {
+          "text": "head,",
+          "start": 2204,
+          "end": 2405,
+          "index": 8,
+          "searched": false
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/667544aa171fe56cd43994f2/6678b4eb6926467e70e3a1a8.mp4"
+      ]
+    },
+    {
+      "index": 5,
+      "title": "to understand what's going on inside of her head,",
+      "movie_name": "And Salt the Earth Behind You (2019) [00:09:30]",
+      "playphrase_id": "665e4c90877ad250fbbb3d9e",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/660c0b81011b7046ee3fc440/665e4c90877ad250fbbb3d9e.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/660c0b81011b7046ee3fc440/665e4c90877ad250fbbb3d9e.mp4",
+      "duration": 2.423,
+      "thumbnail": null,
+      "subtitle_text": "to understand what's going on inside of her head,",
+      "words": [
+        {
+          "text": "to",
+          "start": 0,
+          "end": 100,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "understand",
+          "start": 160,
+          "end": 641,
+          "index": 1,
+          "searched": false
+        },
+        {
+          "text": "what's",
+          "start": 701,
+          "end": 921,
+          "index": 2,
+          "searched": true
+        },
+        {
+          "text": "going",
+          "start": 981,
+          "end": 1242,
+          "index": 3,
+          "searched": true
+        },
+        {
+          "text": "on",
+          "start": 1402,
+          "end": 1502,
+          "index": 4,
+          "searched": true
+        },
+        {
+          "text": "inside",
+          "start": 1562,
+          "end": 1923,
+          "index": 5,
+          "searched": false
+        },
+        {
+          "text": "of",
+          "start": 1943,
+          "end": 1983,
+          "index": 6,
+          "searched": false
+        },
+        {
+          "text": "her",
+          "start": 2043,
+          "end": 2143,
+          "index": 7,
+          "searched": false
+        },
+        {
+          "text": "head,",
+          "start": 2183,
+          "end": 2423,
+          "index": 8,
+          "searched": false
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/660c0b81011b7046ee3fc440/665e4c90877ad250fbbb3d9e.mp4"
+      ]
+    }
+  ]
+}

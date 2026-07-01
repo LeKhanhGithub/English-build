@@ -1,0 +1,40 @@
+{
+  "index": 2,
+  "source": "playphrase",
+  "text": "Nice to meet you.",
+  "subtitle_cues": [],
+  "words": [
+    {
+      "text": "Nice",
+      "start": 0,
+      "end": 221,
+      "index": 0,
+      "searched": true
+    },
+    {
+      "text": "to",
+      "start": 241,
+      "end": 321,
+      "index": 1,
+      "searched": true
+    },
+    {
+      "text": "meet",
+      "start": 361,
+      "end": 461,
+      "index": 2,
+      "searched": true
+    },
+    {
+      "text": "you.",
+      "start": 481,
+      "end": 1481,
+      "index": 3,
+      "searched": true
+    }
+  ],
+  "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1ba0b47f26f21ffb4ec15/6717e05e2ddee743134f39ea.mp4",
+  "source_page_url": "https://www.playphrase.me",
+  "playphrase_id": "6717e05e2ddee743134f39ea",
+  "movie_name": "Hustlers (2019) [00:15:41]"
+}

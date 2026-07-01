@@ -1,0 +1,51 @@
+{
+  "index": 3,
+  "text": "I guess I'll see you around.",
+  "words": [
+    {
+      "text": "I",
+      "start": 0,
+      "end": 40,
+      "index": 0,
+      "searched": false
+    },
+    {
+      "text": "guess",
+      "start": 80,
+      "end": 220,
+      "index": 1,
+      "searched": false
+    },
+    {
+      "text": "I'll",
+      "start": 260,
+      "end": 420,
+      "index": 2,
+      "searched": false
+    },
+    {
+      "text": "see",
+      "start": 460,
+      "end": 560,
+      "index": 3,
+      "searched": true
+    },
+    {
+      "text": "you",
+      "start": 580,
+      "end": 700,
+      "index": 4,
+      "searched": true
+    },
+    {
+      "text": "around.",
+      "start": 720,
+      "end": 1040,
+      "index": 5,
+      "searched": true
+    }
+  ],
+  "source_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b49973a35cb7b9f3b4a5a/6755ab07b3982e41c2445e34.mp4",
+  "playphrase_id": "6755ab07b3982e41c2445e34",
+  "movie_name": "Love Karma (2023) [01:07:28]"
+}

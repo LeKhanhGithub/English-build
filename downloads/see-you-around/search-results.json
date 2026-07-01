@@ -1,0 +1,305 @@
+{
+  "phrase": "see you around",
+  "slug": "see-you-around",
+  "source_url": "https://www.playphrase.me/#/search?language=en&q=see+you+around",
+  "created_at": "2026-06-30T10:27:42.088059+00:00",
+  "clips": [
+    {
+      "index": 1,
+      "title": "So, uh, maybe I'll see you around?",
+      "movie_name": "Chasing Waterfalls (2021) [00:12:12]",
+      "playphrase_id": "67505c7401a3015ccfdaeea1",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c16ba247f26f21ffb4bc33/67505c7401a3015ccfdaeea1.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c16ba247f26f21ffb4bc33/67505c7401a3015ccfdaeea1.mp4",
+      "duration": 2.422,
+      "thumbnail": null,
+      "subtitle_text": "So, uh, maybe I'll see you around?",
+      "words": [
+        {
+          "text": "So,",
+          "start": 0,
+          "end": 240,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "uh,",
+          "start": 460,
+          "end": 560,
+          "index": 1,
+          "searched": false
+        },
+        {
+          "text": "maybe",
+          "start": 1061,
+          "end": 1281,
+          "index": 2,
+          "searched": false
+        },
+        {
+          "text": "I'll",
+          "start": 1301,
+          "end": 1441,
+          "index": 3,
+          "searched": false
+        },
+        {
+          "text": "see",
+          "start": 1461,
+          "end": 1541,
+          "index": 4,
+          "searched": true
+        },
+        {
+          "text": "you",
+          "start": 1561,
+          "end": 1682,
+          "index": 5,
+          "searched": true
+        },
+        {
+          "text": "around?",
+          "start": 1702,
+          "end": 2002,
+          "index": 6,
+          "searched": true
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c16ba247f26f21ffb4bc33/67505c7401a3015ccfdaeea1.mp4"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "I'll see you around, girl.",
+      "movie_name": "Madagascar: Escape 2 Africa (2008) [00:26:46]",
+      "playphrase_id": "6704ae92d9406a78442f4a26",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1fc0347f26f21ffb5167d/6704ae92d9406a78442f4a26.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1fc0347f26f21ffb5167d/6704ae92d9406a78442f4a26.mp4",
+      "duration": 1.679,
+      "thumbnail": null,
+      "subtitle_text": "I'll see you around, girl.",
+      "words": [
+        {
+          "text": "I'll",
+          "start": 0,
+          "end": 101,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "see",
+          "start": 121,
+          "end": 262,
+          "index": 1,
+          "searched": true
+        },
+        {
+          "text": "you",
+          "start": 302,
+          "end": 402,
+          "index": 2,
+          "searched": true
+        },
+        {
+          "text": "around,",
+          "start": 423,
+          "end": 724,
+          "index": 3,
+          "searched": true
+        },
+        {
+          "text": "girl.",
+          "start": 744,
+          "end": 1744,
+          "index": 4,
+          "searched": false
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1fc0347f26f21ffb5167d/6704ae92d9406a78442f4a26.mp4"
+      ]
+    },
+    {
+      "index": 3,
+      "title": "I guess I'll see you around.",
+      "movie_name": "Love Karma (2023) [01:07:28]",
+      "playphrase_id": "6755ab07b3982e41c2445e34",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b49973a35cb7b9f3b4a5a/6755ab07b3982e41c2445e34.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b49973a35cb7b9f3b4a5a/6755ab07b3982e41c2445e34.mp4",
+      "duration": 1.621,
+      "thumbnail": null,
+      "subtitle_text": "I guess I'll see you around.",
+      "words": [
+        {
+          "text": "I",
+          "start": 0,
+          "end": 40,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "guess",
+          "start": 80,
+          "end": 220,
+          "index": 1,
+          "searched": false
+        },
+        {
+          "text": "I'll",
+          "start": 260,
+          "end": 420,
+          "index": 2,
+          "searched": false
+        },
+        {
+          "text": "see",
+          "start": 460,
+          "end": 560,
+          "index": 3,
+          "searched": true
+        },
+        {
+          "text": "you",
+          "start": 580,
+          "end": 700,
+          "index": 4,
+          "searched": true
+        },
+        {
+          "text": "around.",
+          "start": 720,
+          "end": 1040,
+          "index": 5,
+          "searched": true
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b49973a35cb7b9f3b4a5a/6755ab07b3982e41c2445e34.mp4"
+      ]
+    },
+    {
+      "index": 4,
+      "title": "Maybe I'll see you around sometime.",
+      "movie_name": "Prime (2024) [00:46:41]",
+      "playphrase_id": "67653cf31bb2992d08d9d767",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b49e53a35cb7b9f3b4bcc/67653cf31bb2992d08d9d767.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b49e53a35cb7b9f3b4bcc/67653cf31bb2992d08d9d767.mp4",
+      "duration": 2.041,
+      "thumbnail": null,
+      "subtitle_text": "Maybe I'll see you around sometime.",
+      "words": [
+        {
+          "text": "Maybe",
+          "start": 0,
+          "end": 240,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "I'll",
+          "start": 280,
+          "end": 420,
+          "index": 1,
+          "searched": false
+        },
+        {
+          "text": "see",
+          "start": 440,
+          "end": 561,
+          "index": 2,
+          "searched": true
+        },
+        {
+          "text": "you",
+          "start": 581,
+          "end": 701,
+          "index": 3,
+          "searched": true
+        },
+        {
+          "text": "around",
+          "start": 741,
+          "end": 1001,
+          "index": 4,
+          "searched": true
+        },
+        {
+          "text": "sometime.",
+          "start": 1041,
+          "end": 1582,
+          "index": 5,
+          "searched": false
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b49e53a35cb7b9f3b4bcc/67653cf31bb2992d08d9d767.mp4"
+      ]
+    },
+    {
+      "index": 5,
+      "title": "Maybe I'll see you around in school.",
+      "movie_name": "The Perks of Being a Wallflower (2012) [00:14:50]",
+      "playphrase_id": "672b393fdebb743e125ccf4d",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b18396e8079eb4cd4a5720b/672b393fdebb743e125ccf4d.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b18396e8079eb4cd4a5720b/672b393fdebb743e125ccf4d.mp4",
+      "duration": 2.062,
+      "thumbnail": null,
+      "subtitle_text": "Maybe I'll see you around in school.",
+      "words": [
+        {
+          "text": "Maybe",
+          "start": 0,
+          "end": 200,
+          "index": 0,
+          "searched": false
+        },
+        {
+          "text": "I'll",
+          "start": 240,
+          "end": 381,
+          "index": 1,
+          "searched": false
+        },
+        {
+          "text": "see",
+          "start": 401,
+          "end": 521,
+          "index": 2,
+          "searched": true
+        },
+        {
+          "text": "you",
+          "start": 541,
+          "end": 661,
+          "index": 3,
+          "searched": true
+        },
+        {
+          "text": "around",
+          "start": 681,
+          "end": 902,
+          "index": 4,
+          "searched": true
+        },
+        {
+          "text": "in",
+          "start": 982,
+          "end": 1042,
+          "index": 5,
+          "searched": false
+        },
+        {
+          "text": "school.",
+          "start": 1062,
+          "end": 2062,
+          "index": 6,
+          "searched": false
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b18396e8079eb4cd4a5720b/672b393fdebb743e125ccf4d.mp4"
+      ]
+    }
+  ]
+}

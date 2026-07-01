@@ -1,0 +1,6 @@
+2026-06-30 17:03:06 | INFO | src.main | Using project root: C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder
+2026-06-30 17:03:06 | INFO | src.downloader | Removing stale clip file C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder\downloads\hello\clips\004.mp4
+2026-06-30 17:03:06 | INFO | src.downloader | Removing stale clip file C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder\downloads\hello\clips\005.mp4
+2026-06-30 17:03:06 | INFO | src.downloader | Removing stale clip file C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder\downloads\hello\clips\006.mp4
+2026-06-30 17:03:06 | INFO | src.downloader | Removing stale clip file C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder\downloads\hello\clips\007.mp4
+2026-06-30 17:03:06 | INFO | src.downloader | Removing stale clip file C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder\downloads\hello\clips\008.mp4

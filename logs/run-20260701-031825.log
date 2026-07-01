@@ -1,0 +1,7 @@
+2026-07-01 10:18:25 | INFO | src.main | Using project root: C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder
+2026-07-01 10:18:25 | INFO | src.search | Opening PlayPhrase search for 'nice to meet you'
+2026-07-01 10:18:32 | INFO | src.search | PlayPhrase API returned 5 free downloadable clips
+2026-07-01 10:18:35 | INFO | src.search | Found 5 downloadable clips
+2026-07-01 10:18:42 | INFO | src.comb | Comb.io returned 10 timeline candidates
+2026-07-01 10:19:07 | INFO | src.comb | Comb.io added 5 public clips
+2026-07-01 10:19:16 | INFO | src.merger | Merged final video at C:\Users\admin\OneDrive\Desktop\video-builder\playphrase-video-builder\outputs\nice-to-meet-you.mp4

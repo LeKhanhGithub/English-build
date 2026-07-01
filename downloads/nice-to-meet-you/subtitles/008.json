@@ -1,0 +1,37 @@
+{
+  "index": 8,
+  "source": "comb",
+  "text": "Aw, He looks like a little insane drunken angel.\nHey, everybody. Meet my good pal, Roberto.\nHey, mon.\nNice to meet you--\nCome out with your hands up! hostages!",
+  "subtitle_cues": [
+    {
+      "text": "Aw, He looks like a little insane drunken angel.",
+      "start": 0,
+      "end": 4720
+    },
+    {
+      "text": "Hey, everybody. Meet my good pal, Roberto.",
+      "start": 6656,
+      "end": 10726
+    },
+    {
+      "text": "Hey, mon.",
+      "start": 10794,
+      "end": 11208
+    },
+    {
+      "text": "Nice to meet you--",
+      "start": 11208,
+      "end": 13162
+    },
+    {
+      "text": "Come out with your hands up! hostages!",
+      "start": 13230,
+      "end": 16065
+    }
+  ],
+  "words": [],
+  "source_url": "https://s3.amazonaws.com/v.comb.io/2YheghDh/roSDcU.mp4?1566410638848",
+  "source_page_url": "https://comb.io/roSDcU",
+  "playphrase_id": null,
+  "movie_name": "S3E12: Insane In The Mainframe"
+}
