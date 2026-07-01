@@ -87,9 +87,13 @@ class VideoMerger:
     def discover_subtitle_paths(self, result: SearchResult) -> list[Path | None]:
         """Return ASS subtitle files aligned to current search-result clip indexes."""
 
+        clip_dir = self.search_service.clip_root_for(result)
         subtitle_dir = self.search_service.subtitle_root_for(result)
         paths: list[Path | None] = []
         for clip in result.clips:
+            clip_path = clip_dir / f"{clip.index:03d}.mp4"
+            if not clip_path.is_file():
+                continue
             path = subtitle_dir / f"{clip.index:03d}.ass"
             paths.append(path if path.is_file() else None)
         return paths

@@ -7,6 +7,44 @@ import re
 from pathlib import Path
 from typing import Any
 
+CONTRACTION_EXPANSIONS = {
+    "i'm": ["i", "am"],
+    "you're": ["you", "are"],
+    "he's": ["he", "is"],
+    "she's": ["she", "is"],
+    "it's": ["it", "is"],
+    "we're": ["we", "are"],
+    "they're": ["they", "are"],
+    "i've": ["i", "have"],
+    "you've": ["you", "have"],
+    "we've": ["we", "have"],
+    "they've": ["they", "have"],
+    "i'll": ["i", "will"],
+    "you'll": ["you", "will"],
+    "he'll": ["he", "will"],
+    "she'll": ["she", "will"],
+    "it'll": ["it", "will"],
+    "we'll": ["we", "will"],
+    "they'll": ["they", "will"],
+    "i'd": ["i", "would"],
+    "you'd": ["you", "would"],
+    "he'd": ["he", "would"],
+    "she'd": ["she", "would"],
+    "it'd": ["it", "would"],
+    "we'd": ["we", "would"],
+    "they'd": ["they", "would"],
+    "can't": ["can", "not"],
+    "cannot": ["can", "not"],
+    "won't": ["will", "not"],
+    "don't": ["do", "not"],
+    "doesn't": ["does", "not"],
+    "didn't": ["did", "not"],
+    "isn't": ["is", "not"],
+    "aren't": ["are", "not"],
+    "wasn't": ["was", "not"],
+    "weren't": ["were", "not"],
+}
+
 
 def find_font_file() -> Path | None:
     """Return a common font path for Windows, macOS, or Linux."""
@@ -542,6 +580,15 @@ def highlight_ass_text(text: str, *, highlight_text: str | None = None) -> str:
     return "".join(parts)
 
 
+def phrase_has_highlight_match(text: str | None, highlight_text: str | None) -> bool:
+    """Return True when text contains the searched phrase or a supported equivalent."""
+
+    query = " ".join((highlight_text or "").split()).strip()
+    if not text or not query:
+        return False
+    return bool(highlight_spans(text, query))
+
+
 def protect_highlight_spaces(text: str, *, highlight_text: str | None = None) -> str:
     """Protect spaces inside the highlighted phrase so wrapping keeps it together."""
 
@@ -571,7 +618,12 @@ def highlight_spans(text: str, query: str) -> list[tuple[int, int]]:
     if not text_tokens or not query_tokens:
         return []
 
-    spans = phrase_highlight_spans(text_tokens, query_tokens)
+    expanded_text_tokens = expand_token_spans(text_tokens)
+    expanded_query_tokens = [
+        token for token, _start, _end in expand_token_spans(token_spans(query))
+    ]
+
+    spans = phrase_highlight_spans(expanded_text_tokens, expanded_query_tokens)
     spans.extend(semantic_highlight_spans(text_tokens, query_tokens))
     return merge_spans(spans)
 
@@ -703,6 +755,19 @@ def token_spans(text: str) -> list[tuple[str, int, int]]:
         (normalize_match_token(match.group(0)), match.start(), match.end())
         for match in re.finditer(r"[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)?", text)
     ]
+
+
+def expand_token_spans(tokens: list[tuple[str, int, int]]) -> list[tuple[str, int, int]]:
+    """Expand common contractions while preserving original character spans."""
+
+    expanded: list[tuple[str, int, int]] = []
+    for token, start, end in tokens:
+        parts = CONTRACTION_EXPANSIONS.get(token)
+        if parts:
+            expanded.extend((part, start, end) for part in parts)
+        else:
+            expanded.append((token, start, end))
+    return expanded
 
 
 def subtitle_tokens_match(query_token: str, caption_token: str) -> bool:

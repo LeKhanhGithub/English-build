@@ -2,7 +2,7 @@
 
 Create English learning videos from one English phrase.
 
-The app searches PlayPhrase first, then optionally appends public clips from comb.io, downloads exposed MP4 media, saves English subtitle sidecars, burns subtitles into each clip, adds an optional intro title card, and exports one final MP4.
+The app searches PlayPhrase first, then optionally appends public clips from comb.io and Clip.Cafe, downloads exposed MP4 media, saves English subtitle sidecars, burns subtitles into each clip, adds an optional intro title card, and exports one final MP4.
 
 > Use this only for content you have the right to download, edit, and upload. PlayPhrase clips may contain copyrighted material. This tool does not bypass paywalls, DRM, authentication, or browser security controls; it only uses media URLs exposed to the browser.
 
@@ -17,7 +17,9 @@ The app searches PlayPhrase first, then optionally appends public clips from com
 - Automatic normalization when codecs, dimensions, or audio streams differ.
 - PlayPhrase English karaoke subtitle overlay on every clip when word timings are available.
 - Comb.io line-level subtitles are extracted from the selected timeline; searched text is highlighted, and long subtitle lines are wrapped.
-- Optional comb.io fallback source appended after PlayPhrase clips.
+- Clip.Cafe fallback clips are added when PlayPhrase + comb.io do not reach the target clip count or target duration; VTT captions are burned with searched text highlighted.
+- Optional comb.io fallback source appended after PlayPhrase clips, but only when the comb.io subtitle/title actually matches the searched phrase or a supported equivalent.
+- Strict fallback filtering so loose matches like `fall for that` are not added for `I'm falling for you`.
 - Optional 2-second intro and optional outro.
 - Per-run log files in `logs/`.
 - Works on Windows, macOS, and Linux.
@@ -37,6 +39,8 @@ playphrase-video-builder/
     config.py
     browser.py
     search.py
+    comb.py
+    clipcafe.py
     downloader.py
     merger.py
     subtitle.py
@@ -179,9 +183,15 @@ RETRIES=3
 RETRY_BACKOFF=1.5
 SEARCH_MAX_ROUNDS=30
 MAX_CLIPS=10
+TARGET_TOTAL_CLIPS=10
+MAX_TOTAL_CLIPS=12
+MIN_TOTAL_DURATION_SECONDS=45
 COMB_ENABLED=true
 COMB_MAX_CLIPS=5
 COMB_URL=https://comb.io
+CLIPCAFE_ENABLED=true
+CLIPCAFE_MAX_CLIPS=5
+CLIPCAFE_URL=https://clip.cafe
 PLAYPHRASE_URL=https://www.playphrase.me
 ```
 
@@ -190,8 +200,15 @@ Useful settings:
 - `HEADLESS=false` opens a visible browser, which is useful when PlayPhrase changes its UI or asks for manual interaction.
 - `MAX_PARALLEL=4` controls simultaneous downloads.
 - `MAX_CLIPS=10` downloads up to 10 free clips. The project enforces a hard cap of 10 even if this is set higher.
+- `TARGET_TOTAL_CLIPS=10` asks fallback sources to fill the final search result up to 10 clips when possible.
+- `MAX_TOTAL_CLIPS=12` allows a few extra fallback clips if the estimated total duration is still below `MIN_TOTAL_DURATION_SECONDS`.
+- `MIN_TOTAL_DURATION_SECONDS=45` triggers extra fallback search when the collected clips are too short.
 - `COMB_ENABLED=true` appends comb.io clips after PlayPhrase clips.
 - `COMB_MAX_CLIPS=5` adds up to five comb.io clips. Set up to `10` if you want more.
+- Comb.io clips are filtered strictly. If comb.io only returns loose matches, for example `fall for that` for `I'm falling for you`, those clips are skipped and the final video may contain fewer clips.
+- `CLIPCAFE_ENABLED=true` appends Clip.Cafe clips after comb.io when more clips are needed.
+- `CLIPCAFE_MAX_CLIPS=5` adds up to five Clip.Cafe clips. Set up to `10` if you want more.
+- Clip.Cafe clips are also filtered strictly, and their VTT subtitles are used when available.
 - `SEARCH_MAX_ROUNDS=30` controls scrolling and next/load-more collection rounds.
 
 ## Usage

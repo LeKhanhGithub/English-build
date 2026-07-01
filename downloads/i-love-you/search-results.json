@@ -2,18 +2,21 @@
   "phrase": "I love you",
   "slug": "i-love-you",
   "source_url": "https://www.playphrase.me/#/search?language=en&q=I+love+you",
-  "created_at": "2026-06-30T10:45:53.835800+00:00",
+  "created_at": "2026-07-01T06:55:45.284500+00:00",
   "clips": [
     {
       "index": 1,
+      "source": "playphrase",
       "title": "I love you, not your money or your car or your house or your skills in bed.",
       "movie_name": "Love Isn't Blind, It's Retarded (2006) [00:19:48]",
       "playphrase_id": "66715fbbab721a61aba0e6be",
+      "source_page_url": "https://www.playphrase.me",
       "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65fc5c114ba55c70ba23fc9e/66715fbbab721a61aba0e6be.mp4",
       "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65fc5c114ba55c70ba23fc9e/66715fbbab721a61aba0e6be.mp4",
       "duration": 4.485,
       "thumbnail": null,
       "subtitle_text": "I love you, not your money or your car or your house or your skills in bed.",
+      "subtitle_cues": [],
       "words": [
         {
           "text": "I",
@@ -141,14 +144,17 @@
     },
     {
       "index": 2,
+      "source": "playphrase",
       "title": "I love you too.",
       "movie_name": "The Italian Job (2003) [00:04:06]",
       "playphrase_id": "6729fd3b9b06950576f7c1d3",
+      "source_page_url": "https://www.playphrase.me",
       "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183e7b8079eb4cd4a60bd7/6729fd3b9b06950576f7c1d3.mp4",
       "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183e7b8079eb4cd4a60bd7/6729fd3b9b06950576f7c1d3.mp4",
       "duration": 1.581,
       "thumbnail": null,
       "subtitle_text": "I love you too.",
+      "subtitle_cues": [],
       "words": [
         {
           "text": "I",
@@ -185,14 +191,17 @@
     },
     {
       "index": 3,
+      "source": "playphrase",
       "title": "You love me, I love you.",
       "movie_name": "That Pistol-Packin' Hermaphrodite (2006) [00:20:10]",
       "playphrase_id": "667168acab721a61aba0f01f",
+      "source_page_url": "https://www.playphrase.me",
       "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65fc5c284ba55c70ba23fca8/667168acab721a61aba0f01f.mp4",
       "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/65fc5c284ba55c70ba23fca8/667168acab721a61aba0f01f.mp4",
       "duration": 1.544,
       "thumbnail": null,
       "subtitle_text": "You love me, I love you.",
+      "subtitle_cues": [],
       "words": [
         {
           "text": "You",
@@ -243,14 +252,17 @@
     },
     {
       "index": 4,
+      "source": "playphrase",
       "title": "Look, honey, I love you, but the next time you force yourself on me, I'll take the balls with me.",
       "movie_name": "Big Bad Wolf (2006) [00:21:16]",
       "playphrase_id": "6721b4d993939d77ede98478",
+      "source_page_url": "https://www.playphrase.me",
       "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1e0cc47f26f21ffb504f9/6721b4d993939d77ede98478.mp4",
       "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1e0cc47f26f21ffb504f9/6721b4d993939d77ede98478.mp4",
       "duration": 5.706,
       "thumbnail": null,
       "subtitle_text": "Look, honey, I love you, but the next time you force yourself on me, I'll take the balls with me.",
+      "subtitle_cues": [],
       "words": [
         {
           "text": "Look,",
@@ -399,14 +411,17 @@
     },
     {
       "index": 5,
+      "source": "playphrase",
       "title": "Listen, I love you.",
       "movie_name": "Pay It Forward (2000) [00:47:30]",
       "playphrase_id": "67213d258bdb3513f30e388c",
+      "source_page_url": "https://www.playphrase.me",
       "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1832a28079eb4cd4a4a453/67213d258bdb3513f30e388c.mp4",
       "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1832a28079eb4cd4a4a453/67213d258bdb3513f30e388c.mp4",
       "duration": 1.762,
       "thumbnail": null,
       "subtitle_text": "Listen, I love you.",
+      "subtitle_cues": [],
       "words": [
         {
           "text": "Listen,",
@@ -440,6 +455,234 @@
       "sources": [
         "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1832a28079eb4cd4a4a453/67213d258bdb3513f30e388c.mp4"
       ]
+    },
+    {
+      "index": 6,
+      "source": "comb",
+      "title": "I love you, I love you, I love you.",
+      "movie_name": "S14E2: How I Spent My Strummer Vacation",
+      "playphrase_id": null,
+      "source_page_url": "https://comb.io/StcdlT",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/LxbyXUbQ/StcdlT.mp4?1552747408974",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/LxbyXUbQ/StcdlT.mp4?1552747408974",
+      "duration": 1.627,
+      "thumbnail": "https://tn.comb.io/LxbyXUbQ/3a84.jpg",
+      "subtitle_text": "I love you, I love you, I love you.",
+      "subtitle_cues": [
+        {
+          "text": "I love you, I love you, I love you.",
+          "start": 0,
+          "end": 1627
+        }
+      ],
+      "words": [],
+      "sources": [
+        "https://s3.amazonaws.com/v.comb.io/LxbyXUbQ/StcdlT.mp4?1552747408974"
+      ]
+    },
+    {
+      "index": 7,
+      "source": "comb",
+      "title": "I love you, Jerry. I love you.",
+      "movie_name": "S1E10: Close Rick-Counters of the Rick Kind",
+      "playphrase_id": null,
+      "source_page_url": "https://comb.io/Oi57F2",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/uem8UBX3/Oi57F2.mp4?1527633503999",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/uem8UBX3/Oi57F2.mp4?1527633503999",
+      "duration": 2.025,
+      "thumbnail": "https://tn.comb.io/uem8UBX3/67fe.jpg",
+      "subtitle_text": "I love you, Jerry. I love you.",
+      "subtitle_cues": [
+        {
+          "text": "I love you, Jerry. I love you.",
+          "start": 0,
+          "end": 2025
+        }
+      ],
+      "words": [],
+      "sources": [
+        "https://s3.amazonaws.com/v.comb.io/uem8UBX3/Oi57F2.mp4?1527633503999"
+      ]
+    },
+    {
+      "index": 8,
+      "source": "comb",
+      "title": "I love you, I love gay marriage,",
+      "movie_name": "S16E10: There's Something About Marrying",
+      "playphrase_id": null,
+      "source_page_url": "https://comb.io/wIQGyv",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/v2cprrdd/wIQGyv.mp4?1561581019902",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/v2cprrdd/wIQGyv.mp4?1561581019902",
+      "duration": 16.883,
+      "thumbnail": "https://tn.comb.io/v2cprrdd/46e3.jpg",
+      "subtitle_text": "What will be, will be You could see it from space, Marge. This isn't a problem for you, is it?\nOh, no. No, no. Why would it be? (LAUGHS NERVOUSLY)\nI love you, I love gay marriage,\nso I'd be a super-hypocrite if I didn't love your gay marriage, right?",
+      "subtitle_cues": [
+        {
+          "text": "What will be, will be You could see it from space, Marge. This isn't a problem for you, is it?",
+          "start": 0,
+          "end": 7190
+        },
+        {
+          "text": "Oh, no. No, no. Why would it be? (LAUGHS NERVOUSLY)",
+          "start": 7257,
+          "end": 9843
+        },
+        {
+          "text": "I love you, I love gay marriage,",
+          "start": 9977,
+          "end": 12361
+        },
+        {
+          "text": "so I'd be a super-hypocrite if I didn't love your gay marriage, right?",
+          "start": 12429,
+          "end": 16883
+        }
+      ],
+      "words": [],
+      "sources": [
+        "https://s3.amazonaws.com/v.comb.io/v2cprrdd/wIQGyv.mp4?1561581019902"
+      ]
+    },
+    {
+      "index": 9,
+      "source": "comb",
+      "title": "I love you, man.",
+      "movie_name": "S3E1: Stark Raving Dad",
+      "playphrase_id": null,
+      "source_page_url": "https://comb.io/RVKE2a",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/RcCgqPXw/RVKE2a.mp4?1583269447180",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/RcCgqPXw/RVKE2a.mp4?1583269447180",
+      "duration": 16.165,
+      "thumbnail": "https://tn.comb.io/RcCgqPXw/3d31.jpg",
+      "subtitle_text": "Uh-huh.\nNew Bedlam Asylum.\nLoves us.\nNeeds us.\nFears he may never see us again.\nMichael jackson, Whoo-hoo!\nI love you, man.\nHey, Mom...\nDad's in a mental institution.\nOh, my God.\nMother was right.",
+      "subtitle_cues": [
+        {
+          "text": "Uh-huh.",
+          "start": 0,
+          "end": 1350
+        },
+        {
+          "text": "New Bedlam Asylum.",
+          "start": 1417,
+          "end": 2417
+        },
+        {
+          "text": "Loves us.",
+          "start": 2519,
+          "end": 3403
+        },
+        {
+          "text": "Needs us.",
+          "start": 3470,
+          "end": 4453
+        },
+        {
+          "text": "Fears he may never see us again.",
+          "start": 4520,
+          "end": 6905
+        },
+        {
+          "text": "Michael jackson, Whoo-hoo!",
+          "start": 6973,
+          "end": 8624
+        },
+        {
+          "text": "I love you, man.",
+          "start": 8692,
+          "end": 9926
+        },
+        {
+          "text": "Hey, Mom...",
+          "start": 9993,
+          "end": 11427
+        },
+        {
+          "text": "Dad's in a mental institution.",
+          "start": 11495,
+          "end": 13612
+        },
+        {
+          "text": "Oh, my God.",
+          "start": 13680,
+          "end": 14813
+        },
+        {
+          "text": "Mother was right.",
+          "start": 14881,
+          "end": 16165
+        }
+      ],
+      "words": [],
+      "sources": [
+        "https://s3.amazonaws.com/v.comb.io/RcCgqPXw/RVKE2a.mp4?1583269447180"
+      ]
+    },
+    {
+      "index": 10,
+      "source": "comb",
+      "title": "I love you, Dad!",
+      "movie_name": "S3E8: Lisa's Pony",
+      "playphrase_id": null,
+      "source_page_url": "https://comb.io/3gsSsu",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/qal0ha2k/3gsSsu.mp4?1575016430132",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/qal0ha2k/3gsSsu.mp4?1575016430132",
+      "duration": 19.569,
+      "thumbnail": "https://tn.comb.io/qal0ha2k/44fc.jpg",
+      "subtitle_text": "I love you, Dad!\nMmmmm.\nI am very upset with you.\nSounds like someone's angling for a pony of her own.\nHow come Lisa gets a pony?\nShe stopped loving me.\nSo get me a moped.",
+      "subtitle_cues": [
+        {
+          "text": "I love you, Dad!",
+          "start": 0,
+          "end": 2903
+        },
+        {
+          "text": "Mmmmm.",
+          "start": 3754,
+          "end": 6056
+        },
+        {
+          "text": "I am very upset with you.",
+          "start": 6123,
+          "end": 8108
+        },
+        {
+          "text": "Sounds like someone's angling for a pony of her own.",
+          "start": 8175,
+          "end": 11945
+        },
+        {
+          "text": "How come Lisa gets a pony?",
+          "start": 13864,
+          "end": 16266
+        },
+        {
+          "text": "She stopped loving me.",
+          "start": 16334,
+          "end": 17401
+        },
+        {
+          "text": "So get me a moped.",
+          "start": 17468,
+          "end": 19569
+        }
+      ],
+      "words": [],
+      "sources": [
+        "https://s3.amazonaws.com/v.comb.io/qal0ha2k/3gsSsu.mp4?1575016430132"
+      ]
     }
-  ]
+  ],
+  "source_status": {
+    "comb": {
+      "enabled": true,
+      "strict_phrase_match": true,
+      "clips": 5
+    },
+    "clipcafe": {
+      "enabled": true,
+      "strict_phrase_match": true,
+      "clips": 0,
+      "skipped": true
+    }
+  }
 }

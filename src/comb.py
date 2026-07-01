@@ -9,6 +9,7 @@ from urllib.parse import quote_plus
 from src.browser import BrowserSession, PlaywrightError, PlaywrightTimeoutError
 from src.config import Settings
 from src.search import ClipInfo, SubtitleCue
+from src.subtitle import phrase_has_highlight_match
 from src.utils import normalize_whitespace
 
 logger = logging.getLogger(__name__)
@@ -39,6 +40,7 @@ class CombSearchService:
                     clip = await self._create_clip_from_result(
                         page,
                         result,
+                        phrase=phrase,
                         index=start_index + len(clips),
                     )
                     if clip:
@@ -79,6 +81,29 @@ class CombSearchService:
     async def _collect_result_links(page: Any) -> list[dict[str, str]]:
         """Collect timeline result links from comb.io search results."""
 
+        rows: list[dict[str, str]] = []
+        seen: set[str] = set()
+
+        for _round in range(4):
+            for row in await CombSearchService._collect_visible_result_links(page):
+                href = row.get("href")
+                if not href or href in seen:
+                    continue
+                seen.add(href)
+                rows.append(row)
+
+            try:
+                await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                await page.wait_for_timeout(900)
+            except PlaywrightError:
+                break
+
+        return rows
+
+    @staticmethod
+    async def _collect_visible_result_links(page: Any) -> list[dict[str, str]]:
+        """Collect currently visible timeline result links from comb.io."""
+
         rows = await page.evaluate(
             """
             () => {
@@ -112,6 +137,7 @@ class CombSearchService:
         page: Any,
         result: dict[str, str],
         *,
+        phrase: str,
         index: int,
     ) -> ClipInfo | None:
         """Open a timeline row, submit Create Clip, and extract the generated MP4."""
@@ -123,6 +149,14 @@ class CombSearchService:
             await page.goto(href, wait_until="domcontentloaded", timeout=self.settings.playwright_timeout)
             await page.wait_for_timeout(1500)
             cues = await self._extract_selected_cues(page)
+            subtitle_text = "\n".join(cue.text for cue in cues) or title
+            if not self._matches_requested_phrase(phrase, title, subtitle_text):
+                logger.info(
+                    "Skipping comb.io clip without requested phrase match: %s",
+                    title,
+                )
+                return None
+
             button = page.locator("button[type='submit'], input[type='submit']").first
             if not await button.count():
                 return None
@@ -138,7 +172,6 @@ class CombSearchService:
         if not video_url:
             return None
 
-        subtitle_text = "\n".join(cue.text for cue in cues) or title
         duration = round(max((cue.end for cue in cues), default=0) / 1000, 3) or None
 
         return ClipInfo(
@@ -156,6 +189,15 @@ class CombSearchService:
             words=[],
             sources=[video_url],
         )
+
+    @staticmethod
+    def _matches_requested_phrase(phrase: str, title: str | None, subtitle_text: str | None) -> bool:
+        """Return True when comb.io text contains the requested phrase/equivalent."""
+
+        searchable_text = "\n".join(
+            item for item in (title, subtitle_text) if item and item.strip()
+        )
+        return phrase_has_highlight_match(searchable_text, phrase)
 
     @staticmethod
     async def _extract_selected_cues(page: Any) -> list[SubtitleCue]:

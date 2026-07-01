@@ -75,6 +75,7 @@ class SearchResult(BaseModel):
     source_url: str
     created_at: str
     clips: list[ClipInfo] = Field(default_factory=list)
+    source_status: dict[str, Any] = Field(default_factory=dict)
 
     @property
     def phrase_download_dir(self) -> Path:
@@ -156,11 +157,47 @@ class SearchService:
         if self.settings.comb_enabled:
             from src.comb import CombSearchService
 
+            comb_start_index = len(result.clips) + 1
             comb_clips = await CombSearchService(self.settings).search(
                 normalized_phrase,
-                start_index=len(result.clips) + 1,
+                start_index=comb_start_index,
             )
             result.clips.extend(comb_clips)
+            result.source_status["comb"] = {
+                "enabled": True,
+                "strict_phrase_match": True,
+                "clips": len(comb_clips),
+            }
+        else:
+            result.source_status["comb"] = {
+                "enabled": False,
+                "strict_phrase_match": True,
+                "clips": 0,
+            }
+
+        if self._should_query_clipcafe(result):
+            from src.clipcafe import ClipCafeSearchService
+
+            remaining_slots = self._clipcafe_remaining_slots(result)
+            clipcafe_clips = await ClipCafeSearchService(self.settings).search(
+                normalized_phrase,
+                start_index=len(result.clips) + 1,
+                max_clips=remaining_slots,
+            )
+            result.clips.extend(clipcafe_clips)
+            result.source_status["clipcafe"] = {
+                "enabled": True,
+                "strict_phrase_match": True,
+                "clips": len(clipcafe_clips),
+            }
+        else:
+            result.source_status["clipcafe"] = {
+                "enabled": self.settings.clipcafe_enabled,
+                "strict_phrase_match": True,
+                "clips": 0,
+                "skipped": True,
+            }
+
         self.save_result(result)
         return result
 
@@ -415,16 +452,64 @@ class SearchService:
     def _cached_result_is_usable(self, result: SearchResult) -> bool:
         """Return True if a cached result has current subtitle metadata."""
 
-        has_expected_sources = (
-            not self.settings.comb_enabled
-            or any(clip.source == "comb" for clip in result.clips)
-        )
-        return bool(result.clips) and has_expected_sources and all(
+        if self.settings.comb_enabled:
+            comb_status = result.source_status.get("comb", {})
+            if comb_status.get("strict_phrase_match") is not True:
+                return False
+        if self.settings.clipcafe_enabled:
+            clipcafe_status = result.source_status.get("clipcafe", {})
+            if clipcafe_status.get("strict_phrase_match") is not True:
+                return False
+
+        return bool(result.clips) and all(
             clip.subtitle_text
             and (clip.source != "playphrase" or clip.words)
             and (clip.source != "comb" or clip.subtitle_cues)
+            and (clip.source != "clipcafe" or clip.subtitle_cues)
+            and (clip.source != "comb" or self._clip_matches_requested_phrase(result.phrase, clip))
+            and (clip.source != "clipcafe" or self._clip_matches_requested_phrase(result.phrase, clip))
             for clip in result.clips
         )
+
+    @staticmethod
+    def _clip_matches_requested_phrase(phrase: str, clip: ClipInfo) -> bool:
+        """Return True when an external clip still matches the requested phrase."""
+
+        from src.subtitle import phrase_has_highlight_match
+
+        searchable_text = "\n".join(
+            value
+            for value in (clip.title, clip.subtitle_text)
+            if value and value.strip()
+        )
+        return phrase_has_highlight_match(searchable_text, phrase)
+
+    def _should_query_clipcafe(self, result: SearchResult) -> bool:
+        """Return True when Clip.Cafe should try to fill count or duration gaps."""
+
+        if not self.settings.clipcafe_enabled or self.settings.clipcafe_max_clips <= 0:
+            return False
+        if len(result.clips) < self.settings.target_total_clips:
+            return True
+        return (
+            len(result.clips) < self.settings.max_total_clips
+            and self._estimated_duration(result) < self.settings.min_total_duration_seconds
+        )
+
+    def _clipcafe_remaining_slots(self, result: SearchResult) -> int:
+        """Return how many Clip.Cafe clips can still be added."""
+
+        if len(result.clips) < self.settings.target_total_clips:
+            return max(0, self.settings.target_total_clips - len(result.clips))
+        if self._estimated_duration(result) < self.settings.min_total_duration_seconds:
+            return max(0, self.settings.max_total_clips - len(result.clips))
+        return 0
+
+    @staticmethod
+    def _estimated_duration(result: SearchResult) -> float:
+        """Estimate final content duration from clip metadata."""
+
+        return sum(float(clip.duration or 0) for clip in result.clips)
 
     async def _quiet_network_idle(self, page: Any) -> None:
         """Wait for the page to settle without failing on chatty pages."""

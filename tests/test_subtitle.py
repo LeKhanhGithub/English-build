@@ -6,6 +6,7 @@ from src.subtitle import (
     escape_drawtext_text,
     highlight_ass_text,
     normalize_cue_items,
+    phrase_has_highlight_match,
     title_card_filter,
     video_base_filter,
     wrap_subtitle_text,
@@ -101,6 +102,23 @@ def test_highlight_ass_text_matches_close_inflections() -> None:
     assert "Oh, " in text
     assert "{\\c&H0031D1FD&}I missed you so much" in text
     assert "{\\c&H00FFFFFF&}, boy." in text
+
+
+def test_phrase_match_accepts_requested_phrase_but_rejects_loose_comb_results() -> None:
+    assert phrase_has_highlight_match("I think I'm falling for you.", "I'm falling for you")
+    assert phrase_has_highlight_match("I think I am falling for you.", "I'm falling for you")
+    assert not phrase_has_highlight_match(
+        "I think I'm falling in love with you.",
+        "I'm falling for you",
+    )
+    assert not phrase_has_highlight_match(
+        "I think Calculon's falling for you.",
+        "I'm falling for you",
+    )
+    assert not phrase_has_highlight_match(
+        "You think I'm dumb enough to fall for that?",
+        "I'm falling for you",
+    )
 
 
 def test_highlight_ass_text_matches_mean_world_idiom_variants() -> None:

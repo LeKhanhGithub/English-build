@@ -6,6 +6,7 @@ import json
 import logging
 import re
 import shutil
+import sys
 import unicodedata
 from contextlib import suppress
 from datetime import UTC, datetime
@@ -15,7 +16,20 @@ from typing import Any
 from rich.console import Console
 from rich.logging import RichHandler
 
-console = Console()
+
+def configure_console_encoding() -> None:
+    """Make CLI output tolerant of Unicode titles on Windows terminals."""
+
+    for stream_name in ("stdout", "stderr"):
+        stream = getattr(sys, stream_name, None)
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            with suppress(Exception):
+                reconfigure(encoding="utf-8", errors="replace")
+
+
+configure_console_encoding()
+console = Console(legacy_windows=False)
 
 
 class AppError(RuntimeError):
@@ -178,4 +192,3 @@ def is_media_url(value: str | None) -> bool:
         return False
     lower = value.lower()
     return any(ext in lower for ext in (".mp4", ".m4v", ".mov", ".webm", ".m3u8"))
-

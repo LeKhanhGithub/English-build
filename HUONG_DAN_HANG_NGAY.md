@@ -74,14 +74,17 @@ outputs/nice-to-meet-you.mp4
 Mac dinh hien tai:
 
 - Lay nhieu clip free nhat ma PlayPhrase tra ve, toi da 10 clip PlayPhrase.
-- Neu `COMB_ENABLED=true`, lay them clip public tu `comb.io` sau PlayPhrase.
-- Mac dinh `COMB_MAX_CLIPS=5`, nen thuong se co 5 PlayPhrase + 5 Comb neu ca hai nguon co ket qua.
+- Neu `COMB_ENABLED=true`, thu lay them clip public tu `comb.io` sau PlayPhrase.
+- Neu PlayPhrase + Comb chua du `TARGET_TOTAL_CLIPS` hoac tong video qua ngan, chuong trinh se thu them `Clip.Cafe`.
+- Mac dinh muc tieu la 10 clip tong: thuong la 5 PlayPhrase + toi da 5 Clip.Cafe neu Comb khong co clip khop.
+- Clip Comb/Clip.Cafe chi duoc them neu subtitle/title khop phrase da search hoac mot rule tuong duong da ho tro. Neu nguon phu khong co clip khop, video se ngan hon thay vi ghep clip sai cau.
 - Khong them outro / man ket thuc.
 - Moi clip co subtitle rieng trong `downloads/<phrase>/subtitles/`.
 - Video final se burn subtitle karaoke tieng Anh theo tung tu neu PlayPhrase co timing.
 - Clip Comb co subtitle tieng Anh theo tung dong loi thoai that trong timeline.
-- Comb khong expose timing tung tu nhu PlayPhrase, nen Comb khong dung karaoke gia.
-- Trong clip Comb, text trung voi phrase da search se duoc highlight mau vang; text khac mau trang binh thuong.
+- Clip.Cafe co subtitle VTT theo tung dong neu website cung cap.
+- Comb/Clip.Cafe khong expose timing tung tu nhu PlayPhrase, nen cac nguon nay khong dung karaoke gia.
+- Trong clip Comb/Clip.Cafe, text trung voi phrase da search se duoc highlight mau vang; text khac mau trang binh thuong.
 - Subtitle dai se duoc xuong dong de tranh tran video.
 
 ## 5. Vi sao nen dung `--force-search`?
@@ -102,6 +105,9 @@ Code hien tai cung da duoc sua de:
 - Lay clip tu API search cua PlayPhrase truoc, nen co du title, movie, video URL va word timing.
 - Gioi han toi da 10 clip free moi phrase.
 - Them source phu `comb.io` sau PlayPhrase vi GetYarn hien bi Cloudflare Turnstile.
+- Source phu Comb duoc loc strict theo phrase; khong lay cac ket qua lien quan long leo nhu `fall for that` cho phrase `I'm falling for you`.
+- Them source phu thu 3 `Clip.Cafe` sau Comb de bu them clip khi Comb khong co ket qua dung cau.
+- Source phu Clip.Cafe cung duoc loc strict theo phrase va co subtitle VTT neu website cung cap.
 - Khong them outro mac dinh.
 
 ## 6. Cac lenh rieng le khi can debug
@@ -130,26 +136,47 @@ Full pipeline:
 ./.venv/Scripts/python.exe main.py build "nice to meet you" --force-search
 ```
 
-## 7. Tuy chinh source phu Comb
+## 7. Tuy chinh so luong va source phu
 
 Trong file `.env`:
 
 ```env
+TARGET_TOTAL_CLIPS=10
+MAX_TOTAL_CLIPS=12
+MIN_TOTAL_DURATION_SECONDS=45
 COMB_ENABLED=true
 COMB_MAX_CLIPS=5
 COMB_URL=https://comb.io
+CLIPCAFE_ENABLED=true
+CLIPCAFE_MAX_CLIPS=5
+CLIPCAFE_URL=https://clip.cafe
 ```
+
+Y nghia:
+
+- `TARGET_TOTAL_CLIPS=10`: muc tieu tong so clip sau khi gom nhieu nguon.
+- `MAX_TOTAL_CLIPS=12`: gioi han cung neu tong thoi luong van qua ngan.
+- `MIN_TOTAL_DURATION_SECONDS=45`: neu video uoc tinh ngan hon muc nay, co the lay them toi `MAX_TOTAL_CLIPS`.
+- `COMB_MAX_CLIPS=5`: toi da 5 clip tu Comb.
+- `CLIPCAFE_MAX_CLIPS=5`: toi da 5 clip tu Clip.Cafe.
 
 Neu chi muon dung PlayPhrase:
 
 ```env
 COMB_ENABLED=false
+CLIPCAFE_ENABLED=false
 ```
 
 Neu muon lay nhieu clip Comb hon, tang toi da 10:
 
 ```env
 COMB_MAX_CLIPS=10
+```
+
+Neu muon lay nhieu clip Clip.Cafe hon, tang toi da 10:
+
+```env
+CLIPCAFE_MAX_CLIPS=10
 ```
 
 ## 8. Noi xem file ket qua

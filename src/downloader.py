@@ -86,6 +86,7 @@ class DownloadManager:
 
         downloaded: list[DownloadedClip] = []
         failed: list[str] = []
+        required_failed: list[str] = []
         previous_sources = self._load_previous_sources(result)
 
         async with httpx.AsyncClient(
@@ -94,17 +95,20 @@ class DownloadManager:
             headers=self._default_headers(),
         ) as client:
             with progress:
+                clips_to_download = list(result.clips)
                 tasks = [
                     self._download_clip(client, progress, result, clip, previous_sources)
-                    for clip in result.clips
+                    for clip in clips_to_download
                 ]
                 outcomes = await asyncio.gather(*tasks, return_exceptions=True)
 
-        for outcome in outcomes:
+        for clip, outcome in zip(clips_to_download, outcomes):
             if isinstance(outcome, DownloadedClip):
                 downloaded.append(outcome)
             else:
                 failed.append(str(outcome))
+                if clip.source == "playphrase":
+                    required_failed.append(str(outcome))
                 logger.error("Download failed: %s", outcome)
 
         report = DownloadReport(
@@ -118,10 +122,16 @@ class DownloadManager:
             report.model_dump(mode="json"),
         )
 
-        if failed:
+        if required_failed or (failed and not downloaded):
             raise DownloadError(
                 f"Downloaded {len(downloaded)} clips, but {len(failed)} failed. "
                 "See logs and download-report.json for details."
+            )
+        if failed:
+            logger.warning(
+                "Skipped %s optional source clips after download failures; continuing with %s clips.",
+                len(failed),
+                len(downloaded),
             )
 
         self._remove_stale_clip_files(result)
@@ -167,13 +177,28 @@ class DownloadManager:
             last_error: Exception | None = None
             for attempt in range(1, self.settings.retries + 1):
                 try:
+                    headers = self._headers_for_clip(clip)
                     if is_hls_url(url):
-                        await self._download_hls(progress, clip.index, url, output_path)
+                        await self._download_hls(progress, clip.index, url, output_path, headers=headers)
                     elif self._is_mp4_like_url(url):
-                        await self._download_http(client, progress, clip.index, url, output_path)
+                        await self._download_http(
+                            client,
+                            progress,
+                            clip.index,
+                            url,
+                            output_path,
+                            headers=headers,
+                        )
                     else:
                         source_path = self._source_path_for(output_path, url)
-                        await self._download_http(client, progress, clip.index, url, source_path)
+                        await self._download_http(
+                            client,
+                            progress,
+                            clip.index,
+                            url,
+                            source_path,
+                            headers=headers,
+                        )
                         await self._convert_to_mp4(progress, clip.index, source_path, output_path)
                         remove_file(source_path)
 
@@ -206,19 +231,20 @@ class DownloadManager:
         index: int,
         url: str,
         output_path: Path,
+        headers: dict[str, str] | None = None,
     ) -> None:
         """Download a direct media URL with HTTP range resume."""
 
         part_path = output_path.with_suffix(output_path.suffix + ".part")
         resume_at = part_path.stat().st_size if part_path.exists() else 0
-        headers = self._default_headers()
+        request_headers = dict(headers or self._default_headers())
         if resume_at:
-            headers["Range"] = f"bytes={resume_at}-"
+            request_headers["Range"] = f"bytes={resume_at}-"
 
         task_id = progress.add_task(f"{index:03d}.mp4", total=None)
         mode = "ab" if resume_at else "wb"
 
-        async with client.stream("GET", url, headers=headers) as response:
+        async with client.stream("GET", url, headers=request_headers) as response:
             if response.status_code == 416 and resume_at:
                 part_path.replace(output_path)
                 progress.update(task_id, completed=1, total=1)
@@ -255,6 +281,7 @@ class DownloadManager:
         index: int,
         url: str,
         output_path: Path,
+        headers: dict[str, str] | None = None,
     ) -> None:
         """Download an HLS stream to MP4 through FFmpeg."""
 
@@ -262,6 +289,12 @@ class DownloadManager:
         task_id = progress.add_task(f"{index:03d}.mp4 hls", total=None)
         temp_path = output_path.with_suffix(".hls.part.mp4")
         remove_file(temp_path)
+        request_headers = headers or self._default_headers()
+        ffmpeg_headers = "".join(
+            f"{key}: {value}\r\n"
+            for key, value in request_headers.items()
+            if key.lower() in {"referer", "user-agent", "accept"}
+        )
 
         command = [
             "ffmpeg",
@@ -272,7 +305,7 @@ class DownloadManager:
             "-protocol_whitelist",
             "file,http,https,tcp,tls,crypto",
             "-headers",
-            "Referer: https://www.playphrase.me/\r\nUser-Agent: Mozilla/5.0\r\n",
+            ffmpeg_headers,
             "-i",
             url,
             "-c",
@@ -385,6 +418,20 @@ class DownloadManager:
             "Accept": "*/*",
             "Referer": "https://www.playphrase.me/",
         }
+
+    def _headers_for_clip(self, clip: ClipInfo) -> dict[str, str]:
+        """Return browser-like headers with a source-appropriate Referer."""
+
+        headers = self._default_headers()
+        if clip.source == "clipcafe":
+            headers["Referer"] = clip.source_page_url or f"{self.settings.clipcafe_url}/"
+            headers["Origin"] = self.settings.clipcafe_url
+        elif clip.source == "comb":
+            headers["Referer"] = clip.source_page_url or f"{self.settings.comb_url}/"
+            headers["Origin"] = self.settings.comb_url
+        elif clip.source_page_url:
+            headers["Referer"] = clip.source_page_url
+        return headers
 
     def _load_previous_sources(self, result: SearchResult) -> dict[int, str]:
         """Load source URLs from the previous download report for safe skip checks."""

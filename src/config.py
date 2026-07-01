@@ -37,9 +37,20 @@ class Settings(BaseSettings):
     retry_backoff: PositiveFloat = Field(default=1.5, validation_alias="RETRY_BACKOFF")
     search_max_rounds: PositiveInt = Field(default=30, validation_alias="SEARCH_MAX_ROUNDS")
     max_clips: int = Field(default=10, ge=0, validation_alias="MAX_CLIPS")
+    target_total_clips: int = Field(default=10, ge=1, le=20, validation_alias="TARGET_TOTAL_CLIPS")
+    max_total_clips: int = Field(default=12, ge=1, le=20, validation_alias="MAX_TOTAL_CLIPS")
+    min_total_duration_seconds: int = Field(
+        default=45,
+        ge=0,
+        le=600,
+        validation_alias="MIN_TOTAL_DURATION_SECONDS",
+    )
     comb_enabled: bool = Field(default=True, validation_alias="COMB_ENABLED")
     comb_max_clips: int = Field(default=5, ge=0, le=10, validation_alias="COMB_MAX_CLIPS")
     comb_url: str = Field(default="https://comb.io", validation_alias="COMB_URL")
+    clipcafe_enabled: bool = Field(default=True, validation_alias="CLIPCAFE_ENABLED")
+    clipcafe_max_clips: int = Field(default=5, ge=0, le=10, validation_alias="CLIPCAFE_MAX_CLIPS")
+    clipcafe_url: str = Field(default="https://clip.cafe", validation_alias="CLIPCAFE_URL")
     playphrase_url: str = Field(
         default="https://www.playphrase.me",
         validation_alias="PLAYPHRASE_URL",
@@ -62,6 +73,11 @@ class Settings(BaseSettings):
             setattr(self, field_name, value.resolve())
         self.playphrase_url = self.playphrase_url.rstrip("/")
         self.comb_url = self.comb_url.rstrip("/")
+        self.clipcafe_url = self.clipcafe_url.rstrip("/")
+        if self.target_total_clips < self.max_clips:
+            self.target_total_clips = min(20, max(self.max_clips, 1))
+        if self.max_total_clips < self.target_total_clips:
+            self.max_total_clips = self.target_total_clips
         return self
 
     def ensure_folders(self) -> None:
