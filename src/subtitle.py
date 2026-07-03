@@ -40,6 +40,7 @@ TRANSLATION_FLAG_KEYS = {
     "🇰🇷": "ko",
     "🇪🇸": "es",
     "🇮🇳": "hi",
+    "🇸🇦": "ar",
 }
 
 
@@ -78,6 +79,13 @@ def find_font_file(
             Path("C:/Windows/Fonts/NirmalaB.ttf"),
             Path("C:/Windows/Fonts/mangal.ttf"),
         ]
+        arabic_candidates = [
+            Path("C:/Windows/Fonts/arial.ttf"),
+            Path("C:/Windows/Fonts/tahoma.ttf"),
+            Path("C:/Windows/Fonts/arabtype.ttf"),
+            Path("C:/Windows/Fonts/majalla.ttf"),
+            Path("C:/Windows/Fonts/trado.ttf"),
+        ]
         emoji_candidates = [
             Path("C:/Windows/Fonts/seguiemj.ttf"),
             Path("C:/Windows/Fonts/seguisym.ttf"),
@@ -101,6 +109,11 @@ def find_font_file(
             Path("/System/Library/Fonts/Devanagari Sangam MN.ttc"),
             Path("/System/Library/Fonts/Supplemental/Devanagari Sangam MN.ttc"),
             Path("/System/Library/Fonts/Kohinoor.ttc"),
+        ]
+        arabic_candidates = [
+            Path("/System/Library/Fonts/GeezaPro.ttc"),
+            Path("/System/Library/Fonts/Supplemental/Geeza Pro.ttf"),
+            Path("/System/Library/Fonts/Supplemental/Arial Unicode.ttf"),
         ]
         emoji_candidates = [
             Path("/System/Library/Fonts/Apple Color Emoji.ttc"),
@@ -129,6 +142,11 @@ def find_font_file(
             Path("/usr/share/fonts/truetype/noto/NotoSansDevanagari-Bold.ttf"),
             Path("/usr/share/fonts/truetype/lohit-devanagari/Lohit-Devanagari.ttf"),
         ]
+        arabic_candidates = [
+            Path("/usr/share/fonts/truetype/noto/NotoNaskhArabic-Regular.ttf"),
+            Path("/usr/share/fonts/truetype/noto/NotoSansArabic-Regular.ttf"),
+            Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"),
+        ]
         emoji_candidates = [
             Path("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf"),
             Path("/usr/share/fonts/opentype/noto/NotoColorEmoji.ttf"),
@@ -136,6 +154,8 @@ def find_font_file(
 
     if script == "devanagari":
         candidates = [*devanagari_candidates, *base_candidates, *multilingual_candidates]
+    elif script == "arabic":
+        candidates = [*arabic_candidates, *base_candidates, *multilingual_candidates]
     elif script == "korean":
         candidates = [*korean_candidates, *multilingual_candidates, *base_candidates]
     elif script == "cjk":
@@ -208,14 +228,14 @@ def subtitle_max_chars(width: int, height: int) -> int:
 def title_lines_and_font_size(text: str, width: int, height: int) -> tuple[list[str], int]:
     """Choose wrapped title-card lines and a font size that fit the frame."""
 
-    max_font_size = adaptive_font_size(width, height, title=True)
+    max_font_size = min(168, int(adaptive_font_size(width, height, title=True) * 1.16))
     min_font_size = max(34, min(width, height) // 18)
 
     for font_size in range(max_font_size, min_font_size - 1, -2):
         max_chars = max_chars_for_font(
             width,
             font_size,
-            max_width_ratio=0.72,
+            max_width_ratio=0.78,
             average_char_ratio=0.62,
             minimum=8,
             maximum=28,
@@ -334,7 +354,7 @@ def title_card_filter(
     line_spacing = max(8, font_size // 6)
     block_height = (len(lines) * font_size) + max(0, len(lines) - 1) * line_spacing
     line_step = font_size + line_spacing
-    translation_lines = [line for line in (translation_lines or []) if line.strip()][:6]
+    translation_lines = [line for line in (translation_lines or []) if line.strip()][:7]
     translation_rows = [translation_line_parts(line) for line in translation_lines]
 
     filters = [
@@ -367,7 +387,8 @@ def title_card_filter(
         )
     )
 
-    title_top = max(height // 3 - block_height // 2, height // 5)
+    has_dense_translations = len(translation_rows) > 4 and width >= 960
+    title_top = max(height // 3 - block_height // 2, height // 7 if has_dense_translations else height // 5)
     for index, line in enumerate(lines):
         y_expr = str(title_top + index * line_step)
         text_file = None
@@ -391,10 +412,12 @@ def title_card_filter(
         )
 
     if translation_lines:
-        translation_font = max(20, min(34 if len(translation_rows) > 3 else 38, height // 28))
+        translation_columns = 2 if len(translation_rows) > 4 and width >= 960 else 1
+        rows_per_column = (len(translation_rows) + translation_columns - 1) // translation_columns
+        translation_font = max(20, min(32 if len(translation_rows) > 4 else 38, height // 28))
         row_gap = max(16 if len(translation_rows) > 3 else 12, height // 45)
         translation_gap = translation_font + row_gap
-        translation_block = len(translation_rows) * translation_font + (len(translation_rows) - 1) * row_gap
+        translation_block = rows_per_column * translation_font + max(0, rows_per_column - 1) * row_gap
         translation_top = min(
             height - max(80, height // 10) - translation_block,
             title_top + block_height + max(34, height // 18),
@@ -416,13 +439,21 @@ def title_card_filter(
                 translation_top=translation_top,
                 translation_gap=translation_gap,
                 translation_font=translation_font,
+                translation_columns=translation_columns,
                 text_dir=text_dir,
                 file_prefix=file_prefix,
                 flag_dir=flag_dir,
                 output_label=output_label or "v",
             )
 
+        flag_w = max(34, min(58, width // 22))
+        flag_x = max(52, width // 12)
+        content_width = width - (flag_x * 2)
+        column_width = content_width // translation_columns
         for index, (flag_key, flag_text, translation_text) in enumerate(translation_rows):
+            column = index // rows_per_column
+            row = index % rows_per_column
+            row_flag_x = flag_x + column * column_width
             text_file = None
             flag_file = None
             if text_dir:
@@ -430,9 +461,7 @@ def title_card_filter(
                 text_file.write_text(translation_text, encoding="utf-8")
                 flag_file = text_dir / f"{file_prefix}-flag-{index}.txt"
                 flag_file.write_text(flag_text, encoding="utf-8")
-            row_y = translation_top + index * translation_gap
-            flag_w = max(34, min(58, width // 22))
-            flag_x = max(52, width // 12)
+            row_y = translation_top + row * translation_gap
             filters.append(
                 drawtext_filter(
                     flag_text,
@@ -444,7 +473,7 @@ def title_card_filter(
                     y_expr=str(row_y - 3),
                     text_file=flag_file,
                     color="white",
-                    x_expr=str(flag_x),
+                    x_expr=str(row_flag_x),
                     emoji=True,
                 )
             )
@@ -460,7 +489,7 @@ def title_card_filter(
                     text_file=text_file,
                     color="0xEAF2FF",
                     script=font_script_for_language(flag_key),
-                    x_expr=str(flag_x + flag_w + max(14, width // 90)),
+                    x_expr=str(row_flag_x + flag_w + max(14, width // 90)),
                 )
             )
     return ",".join(filters)
@@ -475,6 +504,7 @@ def title_card_complex_filter(
     translation_top: int,
     translation_gap: int,
     translation_font: int,
+    translation_columns: int,
     text_dir: Path | None,
     file_prefix: str,
     flag_dir: Path,
@@ -488,6 +518,9 @@ def title_card_complex_filter(
     flag_w = max(34, min(58, width // 22))
     flag_h = max(22, round(flag_w * 2 / 3))
     flag_x = max(52, width // 12)
+    rows_per_column = (len(translation_rows) + translation_columns - 1) // translation_columns
+    content_width = width - (flag_x * 2)
+    column_width = content_width // translation_columns
 
     def add_filter(filter_body: str) -> None:
         nonlocal current_label, step
@@ -497,6 +530,9 @@ def title_card_complex_filter(
         current_label = next_label
 
     for index, (flag_key, flag_text, translation_text) in enumerate(translation_rows):
+        column = index // rows_per_column
+        row = index % rows_per_column
+        row_flag_x = flag_x + column * column_width
         text_file = None
         if text_dir:
             text_file = text_dir / f"{file_prefix}-translation-{index}.txt"
@@ -504,7 +540,7 @@ def title_card_complex_filter(
             flag_record = text_dir / f"{file_prefix}-flag-{index}.txt"
             flag_record.write_text(flag_asset_path(flag_dir, flag_key).name, encoding="utf-8")
 
-        row_y = translation_top + index * translation_gap
+        row_y = translation_top + row * translation_gap
         flag_path = flag_asset_path(flag_dir, flag_key)
         if flag_path.is_file():
             flag_label = f"titleflag{index}"
@@ -517,7 +553,7 @@ def title_card_complex_filter(
             flag_y = max(0, row_y - max(0, (flag_h - translation_font) // 2) - 2)
             chains.append(
                 f"[{current_label}][{flag_label}]"
-                f"overlay={flag_x}:{flag_y}:format=auto[{next_label}]"
+                f"overlay={row_flag_x}:{flag_y}:format=auto[{next_label}]"
             )
             current_label = next_label
         else:
@@ -536,7 +572,7 @@ def title_card_complex_filter(
                     y_expr=str(row_y - 3),
                     text_file=flag_file,
                     color="white",
-                    x_expr=str(flag_x),
+                    x_expr=str(row_flag_x),
                     emoji=True,
                 )
             )
@@ -553,7 +589,7 @@ def title_card_complex_filter(
                 text_file=text_file,
                 color="0xEAF2FF",
                 script=font_script_for_language(flag_key),
-                x_expr=str(flag_x + flag_w + max(14, width // 90)),
+                x_expr=str(row_flag_x + flag_w + max(14, width // 90)),
             )
         )
 
@@ -586,6 +622,8 @@ def font_script_for_language(language_key: str) -> str | None:
         return "korean"
     if language_key == "hi":
         return "devanagari"
+    if language_key == "ar":
+        return "arabic"
     return None
 
 

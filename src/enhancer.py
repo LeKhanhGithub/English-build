@@ -26,6 +26,13 @@ logger = logging.getLogger(__name__)
 REEL_WIDTH = 1080
 REEL_HEIGHT = 1920
 REEL_FPS = 30
+REEL_SKIP_INTRO_SECONDS = 2.0
+REEL_EYEBROW_Y = 118
+REEL_PHRASE_START_Y = 174
+REEL_FOOTER_Y = 1660
+REEL_MAIN_FRONT_WIDTH = 1160
+REEL_BROLL_FRONT_WIDTH = 1140
+REEL_BROLL_FRONT_MAX_HEIGHT = 1320
 BROLL_QUERY_GROUPS = {
     "romantic": [
         "couple walking",
@@ -162,7 +169,7 @@ class VideoEnhancer:
                 "eq=brightness=-0.12:saturation=0.85[bg]"
             ),
             (
-                "[front]scale=1000:-2:force_original_aspect_ratio=decrease,"
+                f"[front]scale={REEL_MAIN_FRONT_WIDTH}:-2:force_original_aspect_ratio=decrease,"
                 "setsar=1[fg]"
             ),
             (
@@ -184,6 +191,8 @@ class VideoEnhancer:
             "-loglevel",
             "warning",
             "-y",
+            "-ss",
+            f"{REEL_SKIP_INTRO_SECONDS:.3f}",
             "-i",
             str(input_path),
             "-filter_complex",
@@ -238,7 +247,8 @@ class VideoEnhancer:
                 "eq=brightness=-0.18:saturation=0.82[bg]"
             ),
             (
-                "[front]scale=1000:1180:force_original_aspect_ratio=decrease,"
+                f"[front]scale={REEL_BROLL_FRONT_WIDTH}:{REEL_BROLL_FRONT_MAX_HEIGHT}:"
+                "force_original_aspect_ratio=decrease,"
                 f"fps={REEL_FPS},setsar=1[fg]"
             ),
             (
@@ -314,7 +324,7 @@ class VideoEnhancer:
             self._drawtext(
                 "LISTEN FOR",
                 temp_dir / f"{prefix}-eyebrow.txt",
-                y="74",
+                y=str(REEL_EYEBROW_Y),
                 font_size=34,
                 color="0xFDD131",
                 border=2,
@@ -323,7 +333,7 @@ class VideoEnhancer:
 
         lines = wrap_subtitle_text(phrase, max_chars=20)[:3]
         line_height = 70
-        start_y = 128
+        start_y = REEL_PHRASE_START_Y
         for index, line in enumerate(lines):
             filters.append(
                 self._drawtext(
@@ -340,7 +350,7 @@ class VideoEnhancer:
             self._drawtext(
                 "Listen -> Notice -> Repeat",
                 temp_dir / f"{prefix}-footer.txt",
-                y="1754",
+                y=str(REEL_FOOTER_Y),
                 font_size=34,
                 color="white",
                 border=2,
@@ -360,7 +370,7 @@ class VideoEnhancer:
     ) -> tuple[list[str], str]:
         """Return drawtext filters for the b-roll opener."""
 
-        translation_lines = [line for line in (translation_lines or []) if line.strip()][:6]
+        translation_lines = [line for line in (translation_lines or []) if line.strip()][:7]
         panel_y = 260
         lines = wrap_subtitle_text(phrase, max_chars=16)[:3]
         start_y = 430

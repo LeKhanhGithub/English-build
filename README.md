@@ -160,7 +160,7 @@ Ghi chu:
 - `COMMONS_BROLL_ENABLED`: bat b-roll Wikimedia cho lenh `enhance`.
 - `COMMONS_MIN_SHORT_EDGE=1080` va `COMMONS_MIN_LONG_EDGE=1920`: chi nhan b-roll toi thieu 1080p. Tang len neu ban chi muon file rat net, giam xuong neu query qua it ket qua.
 - `COMMONS_VERIFY_SSL`: de `true` neu may binh thuong. Tren may nay dang de `false` vi chain SSL Wikimedia bi loi trong Windows.
-- `TRANSLATIONS_ENABLED=true`: hien nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi tren intro va b-roll opener.
+- `TRANSLATIONS_ENABLED=true`: hien nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi/A Rap tren intro va b-roll opener.
 - `TRANSLATION_PROVIDER=gemini`: dung Gemini API de dich tu nhien hon nhu nguoi ban ngu, roi cache vao `downloads/<phrase-slug>/translations.json`. Neu chua co `GEMINI_API_KEY`, tool tu fallback ve phrasebook/MyMemory.
 - `GEMINI_API_KEY`: API key Google AI Studio/Gemini. De trong neu tam thoi muon dung fallback.
 - `GEMINI_MODEL`: mac dinh `gemini-3.5-flash`.
@@ -227,7 +227,7 @@ python main.py enhance "I'm falling for you" --broll-query "couple walking" --fo
 Mac dinh b-roll se xoay nhieu query doi thuong nhu walking, street, park, station,
 cafe... va tranh cac clip meeting/office neu ban khong yeu cau ro. Neu mot cum da
 co b-roll cache cu, them `--force-broll` de doi clip mo dau moi.
-Intro va b-roll opener se hien them nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi kem icon co that neu dich duoc; thoi luong
+Intro va b-roll opener se hien them nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi/A Rap kem icon co that neu dich duoc; thoi luong
 intro va opener khong doi.
 
 Khong dung b-roll:

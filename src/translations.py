@@ -25,12 +25,13 @@ TARGET_LANGUAGES = {
     "ko": ("ko", "🇰🇷", "Korean"),
     "es": ("es", "🇪🇸", "Spanish"),
     "hi": ("hi", "🇮🇳", "Hindi"),
+    "ar": ("ar", "🇸🇦", "Arabic"),
 }
 PHRASEBOOK = {
-    "hello": ("你好", "こんにちは", "Xin chào", "안녕하세요", "Hola", "नमस्ते"),
-    "hi": ("你好", "こんにちは", "Xin chào", "안녕하세요", "Hola", "नमस्ते"),
-    "thank you": ("谢谢", "ありがとう", "Cảm ơn", "감사합니다", "Gracias", "धन्यवाद"),
-    "sorry": ("对不起", "ごめんなさい", "Xin lỗi", "미안해요", "Lo siento", "माफ़ कीजिए"),
+    "hello": ("你好", "こんにちは", "Xin chào", "안녕하세요", "Hola", "नमस्ते", "مرحبًا"),
+    "hi": ("你好", "こんにちは", "Xin chào", "안녕하세요", "Hola", "नमस्ते", "أهلًا"),
+    "thank you": ("谢谢", "ありがとう", "Cảm ơn", "감사합니다", "Gracias", "धन्यवाद", "شكرًا"),
+    "sorry": ("对不起", "ごめんなさい", "Xin lỗi", "미안해요", "Lo siento", "माफ़ कीजिए", "آسف"),
     "nice to meet you": (
         "很高兴认识你",
         "はじめまして",
@@ -38,6 +39,7 @@ PHRASEBOOK = {
         "만나서 반가워요",
         "Mucho gusto",
         "आपसे मिलकर खुशी हुई",
+        "سعيد بلقائك",
     ),
     "good to see you": (
         "很高兴见到你",
@@ -46,6 +48,7 @@ PHRASEBOOK = {
         "만나서 반가워요",
         "Me alegra verte",
         "आपसे मिलकर अच्छा लगा",
+        "سعيد برؤيتك",
     ),
     "how are you": (
         "你好吗",
@@ -54,6 +57,7 @@ PHRASEBOOK = {
         "어떻게 지내요?",
         "¿Cómo estás?",
         "आप कैसे हैं?",
+        "كيف حالك؟",
     ),
     "how have you been": (
         "你最近怎么样",
@@ -62,6 +66,7 @@ PHRASEBOOK = {
         "요즘 어떻게 지냈어요?",
         "¿Cómo has estado?",
         "आप कैसे रहे हैं?",
+        "كيف كانت أحوالك؟",
     ),
     "how've you been": (
         "你最近怎么样",
@@ -70,6 +75,7 @@ PHRASEBOOK = {
         "요즘 어떻게 지냈어요?",
         "¿Cómo has estado?",
         "आप कैसे रहे हैं?",
+        "كيف كانت أحوالك؟",
     ),
     "what is going on": (
         "怎么回事",
@@ -78,6 +84,7 @@ PHRASEBOOK = {
         "무슨 일이야?",
         "¿Qué está pasando?",
         "क्या हो रहा है?",
+        "ما الذي يحدث؟",
     ),
     "what's going on": (
         "怎么回事",
@@ -86,9 +93,26 @@ PHRASEBOOK = {
         "무슨 일이야?",
         "¿Qué está pasando?",
         "क्या हो रहा है?",
+        "ما الذي يحدث؟",
     ),
-    "see you soon": ("一会儿见", "また近いうちに", "Hẹn gặp lại sớm", "곧 봐요", "Nos vemos pronto", "जल्द मिलते हैं"),
-    "see you around": ("回头见", "またどこかで", "Hẹn gặp lại", "또 봐요", "Nos vemos", "फिर मिलते हैं"),
+    "see you soon": (
+        "一会儿见",
+        "また近いうちに",
+        "Hẹn gặp lại sớm",
+        "곧 봐요",
+        "Nos vemos pronto",
+        "जल्द मिलते हैं",
+        "أراك قريبًا",
+    ),
+    "see you around": (
+        "回头见",
+        "またどこかで",
+        "Hẹn gặp lại",
+        "또 봐요",
+        "Nos vemos",
+        "फिर मिलते हैं",
+        "أراك لاحقًا",
+    ),
     "i love you": (
         "我爱你",
         "愛してる",
@@ -96,6 +120,7 @@ PHRASEBOOK = {
         "사랑해요",
         "Te quiero",
         "मैं तुमसे प्यार करता/करती हूँ",
+        "أحبك",
     ),
     "i miss you": (
         "我想你",
@@ -104,6 +129,7 @@ PHRASEBOOK = {
         "보고 싶어요",
         "Te extraño",
         "मुझे तुम्हारी याद आती है",
+        "اشتقت إليك",
     ),
     "i am falling for you": (
         "我喜欢上你了",
@@ -112,6 +138,7 @@ PHRASEBOOK = {
         "너에게 마음이 가고 있어",
         "Me estoy enamorando de ti",
         "मैं तुम्हें पसंद करने लगा/लगी हूँ",
+        "بدأت أقع في حبك",
     ),
     "i'm falling for you": (
         "我喜欢上你了",
@@ -120,6 +147,7 @@ PHRASEBOOK = {
         "너에게 마음이 가고 있어",
         "Me estoy enamorando de ti",
         "मैं तुम्हें पसंद करने लगा/लगी हूँ",
+        "بدأت أقع في حبك",
     ),
 }
 
@@ -134,6 +162,7 @@ class PhraseTranslations(BaseModel):
     ko: str | None = None
     es: str | None = None
     hi: str | None = None
+    ar: str | None = None
     source: str = "unknown"
 
     @property
@@ -225,9 +254,10 @@ class TranslationService:
         prompt = (
             "Translate this English phrase naturally, like a native speaker would say it. "
             "Preserve the meaning and tone, not word-for-word literalness. "
-            "Return ONLY compact JSON with exactly these keys: zh, ja, vi, ko, es, hi. "
+            "Return ONLY compact JSON with exactly these keys: zh, ja, vi, ko, es, hi, ar. "
             "Use Simplified Chinese for zh, natural Japanese for ja, natural Vietnamese for vi, "
-            "natural Korean for ko, natural Spanish for es, and natural Hindi in Devanagari for hi. "
+            "natural Korean for ko, natural Spanish for es, natural Hindi in Devanagari for hi, "
+            "and natural Modern Standard Arabic for ar. "
             f"English phrase: {phrase!r}"
         )
         payload = {

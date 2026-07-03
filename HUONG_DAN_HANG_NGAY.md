@@ -116,7 +116,7 @@ python main.py enhance "I'm falling for you" --broll-query "couple walking" --fo
 
 B-roll mac dinh se xoay nhieu canh doi thuong hon va ne cac clip meeting/office.
 Neu mot cum da co b-roll cu, dung `--force-broll` de tai lai clip mo dau moi.
-Intro va b-roll opener se hien them nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi kem icon co that neu dich duoc; thoi luong
+Intro va b-roll opener se hien them nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi/A Rap kem icon co that neu dich duoc; thoi luong
 intro va opener van giu nhu cu.
 
 Neu chi muon layout doc, khong can b-roll:
@@ -202,7 +202,7 @@ Y nghia nhanh:
 - `MIN_TOTAL_DURATION_SECONDS=45`: neu tong clip ngan hon muc nay, chuong trinh co the tim them.
 - `COMMONS_MIN_SHORT_EDGE=1080` va `COMMONS_MIN_LONG_EDGE=1920`: chi lay b-roll toi thieu 1080p de tranh bi mo.
 - `COMMONS_VERIFY_SSL=false`: may nay dang can false vi Wikimedia bi loi chain SSL tren Windows. May khac co the dat true.
-- `TRANSLATIONS_ENABLED=true`: hien nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi tren intro va b-roll opener.
+- `TRANSLATIONS_ENABLED=true`: hien nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi/A Rap tren intro va b-roll opener.
 - `TRANSLATION_PROVIDER=gemini`: dich tu nhien hon bang Gemini API va cache vao `downloads/<phrase-slug>/translations.json`. Neu chua co `GEMINI_API_KEY`, tool tu fallback ve phrasebook/MyMemory.
 - `GEMINI_API_KEY`: API key Google AI Studio/Gemini. De trong neu tam thoi muon dung fallback.
 - `GEMINI_MODEL`: mac dinh `gemini-3.5-flash`.

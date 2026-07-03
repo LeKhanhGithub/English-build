@@ -34,6 +34,7 @@ def test_translation_service_uses_phrasebook_and_cache(tmp_path: Path) -> None:
     assert translations.ko == "만나서 반가워요"
     assert translations.es == "Mucho gusto"
     assert translations.hi == "आपसे मिलकर खुशी हुई"
+    assert translations.ar == "سعيد بلقائك"
     assert translations.display_lines() == [
         "🇨🇳 很高兴认识你",
         "🇯🇵 はじめまして",
@@ -41,6 +42,7 @@ def test_translation_service_uses_phrasebook_and_cache(tmp_path: Path) -> None:
         "🇰🇷 만나서 반가워요",
         "🇪🇸 Mucho gusto",
         "🇮🇳 आपसे मिलकर खुशी हुई",
+        "🇸🇦 سعيد بلقائك",
     ]
     assert (tmp_path / "downloads" / "nice-to-meet-you" / "translations.json").is_file()
 
@@ -62,7 +64,8 @@ def test_gemini_translation_json_helpers_accept_compact_payloads() -> None:
                         "text": (
                                     '```json\n{"zh":"你最近怎么样","ja":"最近どうしてた？",'
                                     '"vi":"Dạo này bạn thế nào?","ko":"요즘 어떻게 지냈어?",'
-                                    '"es":"¿Cómo has estado?","hi":"तुम कैसे रहे?"}\n```'
+                                    '"es":"¿Cómo has estado?","hi":"तुम कैसे रहे?",'
+                                    '"ar":"كيف حالك مؤخرًا؟"}\n```'
                                 )
                             }
                         ]
@@ -79,4 +82,5 @@ def test_gemini_translation_json_helpers_accept_compact_payloads() -> None:
         "ko": "요즘 어떻게 지냈어?",
         "es": "¿Cómo has estado?",
         "hi": "तुम कैसे रहे?",
+        "ar": "كيف حالك مؤخرًا؟",
     }

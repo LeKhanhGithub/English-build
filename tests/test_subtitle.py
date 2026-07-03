@@ -191,6 +191,7 @@ def test_title_card_filter_writes_translation_lines(tmp_path) -> None:
             "🇰🇷 만나서 반가워요",
             "🇪🇸 Mucho gusto",
             "🇮🇳 आपसे मिलकर खुशी हुई",
+            "🇸🇦 سعيد بلقائك",
         ],
         flag_dir=flag_dir,
         output_label="v",
@@ -211,6 +212,8 @@ def test_title_card_filter_writes_translation_lines(tmp_path) -> None:
     assert "Tiếng Việt" not in vietnamese_line
     assert (tmp_path / "intro-flag-5.txt").read_text(encoding="utf-8") == "in.png"
     assert (tmp_path / "intro-translation-5.txt").read_text(encoding="utf-8") == "आपसे मिलकर खुशी हुई"
+    assert (tmp_path / "intro-flag-6.txt").read_text(encoding="utf-8") == "sa.png"
+    assert (tmp_path / "intro-translation-6.txt").read_text(encoding="utf-8") == "سعيد بلقائك"
 
 
 def test_normalize_cue_items() -> None:

@@ -14,6 +14,7 @@ FLAG_FILES = {
     "ko": "kr.png",
     "es": "es.png",
     "hi": "in.png",
+    "ar": "sa.png",
 }
 FLAG_WIDTH = 144
 FLAG_HEIGHT = 96
@@ -113,10 +114,17 @@ def ensure_flag_assets(assets_folder: Path, *, force: bool = False) -> Path:
         "ko": draw_south_korea,
         "es": draw_spain,
         "hi": draw_india,
+        "ar": draw_saudi_arabia,
     }
     for key, maker in makers.items():
         path = flag_asset_path(flag_dir, key)
-        if force or not path.is_file() or path.stat().st_size == 0:
+        bundled_path = bundled_flag_asset_path(key)
+        should_write = force or not path.is_file() or path.stat().st_size == 0
+        if should_write and bundled_path and bundled_path.is_file():
+            if path.resolve() != bundled_path.resolve():
+                path.write_bytes(bundled_path.read_bytes())
+            continue
+        if should_write:
             write_png(path, maker())
     return flag_dir
 
@@ -125,6 +133,18 @@ def flag_asset_path(flag_dir: Path, language_key: str) -> Path:
     """Return the expected flag asset path for a translation language key."""
 
     return flag_dir / FLAG_FILES.get(language_key, f"{language_key}.png")
+
+
+def bundled_flag_asset_path(language_key: str) -> Path | None:
+    """Return a checked-in real flag asset when one is available."""
+
+    filename = FLAG_FILES.get(language_key)
+    if not filename:
+        return None
+    path = Path(__file__).resolve().parent.parent / "assets" / "flags" / filename
+    if path.is_file() and path.stat().st_size > 0:
+        return path
+    return None
 
 
 def write_png(path: Path, canvas: Canvas) -> None:
@@ -321,4 +341,29 @@ def draw_india() -> Canvas:
     for index in range(24):
         angle = 2 * math.pi * index / 24
         canvas.line(72, 48, 72 + math.cos(angle) * 12, 48 + math.sin(angle) * 12, 1.0, navy)
+    return canvas
+
+
+def draw_saudi_arabia() -> Canvas:
+    canvas = Canvas()
+    green = (0, 108, 53, 255)
+    white = (255, 255, 255, 255)
+    canvas.fill(green)
+
+    # Low-resolution Saudi flag icon: stylized shahada lines plus sword.
+    canvas.line(24, 34, 40, 34, 2.4, white)
+    canvas.line(45, 34, 69, 34, 2.4, white)
+    canvas.line(74, 34, 105, 34, 2.4, white)
+    canvas.line(109, 34, 121, 34, 2.4, white)
+    canvas.line(29, 43, 59, 43, 2.4, white)
+    canvas.line(64, 43, 92, 43, 2.4, white)
+    canvas.line(97, 43, 117, 43, 2.4, white)
+    for x in (38, 57, 78, 99):
+        canvas.line(x, 28, x + 3, 47, 1.8, white)
+    for x in (48, 70, 90, 111):
+        canvas.circle(x, 48, 1.5, white)
+
+    canvas.line(32, 65, 106, 65, 3.3, white)
+    canvas.polygon([(108, 65), (119, 61), (114, 66), (119, 70)], white)
+    canvas.line(27, 68, 36, 62, 2.4, white)
     return canvas
