@@ -1,454 +1,438 @@
 {
-  "phrase": "Come on in",
-  "slug": "come-on-in",
-  "source_url": "https://www.playphrase.me/#/search?language=en&q=Come+on+in",
-  "created_at": "2026-07-01T08:34:28.061634+00:00",
+  "phrase": "How've you been",
+  "slug": "how-ve-you-been",
+  "source_url": "https://www.playphrase.me/#/search?language=en&q=How%27ve+you+been",
+  "created_at": "2026-07-03T04:39:04.666024+00:00",
   "clips": [
     {
       "index": 1,
       "source": "playphrase",
-      "title": "Well, come on in.",
-      "movie_name": "They're Playing with Fire (1984) [00:07:32]",
-      "playphrase_id": "672a9dc79b06950576fb6787",
+      "title": "How've you been?",
+      "movie_name": "Desperado (1995) [01:04:28]",
+      "playphrase_id": "6709d3123b21f421b104014f",
       "source_page_url": "https://www.playphrase.me",
-      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1745847f26f21ffb4c14e/672a9dc79b06950576fb6787.mp4",
-      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1745847f26f21ffb4c14e/672a9dc79b06950576fb6787.mp4",
-      "duration": 1.672,
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183a028079eb4cd4a583e5/6709d3123b21f421b104014f.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183a028079eb4cd4a583e5/6709d3123b21f421b104014f.mp4",
+      "duration": 1.281,
       "thumbnail": null,
-      "subtitle_text": "Well, come on in.",
+      "subtitle_text": "How've you been?",
       "subtitle_cues": [],
       "words": [
         {
-          "text": "Well,",
+          "text": "How've",
           "start": 0,
-          "end": 941,
+          "end": 120,
           "index": 0,
-          "searched": false
+          "searched": true
         },
         {
-          "text": "come",
-          "start": 1181,
-          "end": 1321,
+          "text": "you",
+          "start": 161,
+          "end": 241,
           "index": 1,
           "searched": true
         },
         {
-          "text": "on",
-          "start": 1421,
-          "end": 1501,
+          "text": "been?",
+          "start": 281,
+          "end": 1281,
           "index": 2,
-          "searched": true
-        },
-        {
-          "text": "in.",
-          "start": 1582,
-          "end": 2582,
-          "index": 3,
           "searched": true
         }
       ],
       "sources": [
-        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c1745847f26f21ffb4c14e/672a9dc79b06950576fb6787.mp4"
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b183a028079eb4cd4a583e5/6709d3123b21f421b104014f.mp4"
       ]
     },
     {
       "index": 2,
       "source": "playphrase",
-      "title": "Well, come on in.",
-      "movie_name": "Emmanuelle in Space (1994) [01:20:17]",
-      "playphrase_id": "674e82b8dcc84d61dcc79c6d",
+      "title": "How've you been getting along?",
+      "movie_name": "The Roaring Twenties (1939) [01:29:01]",
+      "playphrase_id": "6751d618443d220d38ace539",
       "source_page_url": "https://www.playphrase.me",
-      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b4aa83a35cb7b9f3b4f46/674e82b8dcc84d61dcc79c6d.mp4",
-      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b4aa83a35cb7b9f3b4f46/674e82b8dcc84d61dcc79c6d.mp4",
-      "duration": 1.402,
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c175c947f26f21ffb4c232/6751d618443d220d38ace539.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c175c947f26f21ffb4c232/6751d618443d220d38ace539.mp4",
+      "duration": 1.022,
       "thumbnail": null,
-      "subtitle_text": "Well, come on in.",
+      "subtitle_text": "How've you been getting along?",
       "subtitle_cues": [],
       "words": [
         {
-          "text": "Well,",
+          "text": "How've",
           "start": 0,
           "end": 160,
           "index": 0,
-          "searched": false
+          "searched": true
         },
         {
-          "text": "come",
+          "text": "you",
           "start": 180,
-          "end": 320,
+          "end": 260,
           "index": 1,
           "searched": true
         },
         {
-          "text": "on",
-          "start": 400,
-          "end": 480,
+          "text": "been",
+          "start": 280,
+          "end": 421,
           "index": 2,
           "searched": true
         },
         {
-          "text": "in.",
-          "start": 721,
-          "end": 861,
+          "text": "getting",
+          "start": 461,
+          "end": 661,
           "index": 3,
-          "searched": true
+          "searched": false
+        },
+        {
+          "text": "along?",
+          "start": 701,
+          "end": 1002,
+          "index": 4,
+          "searched": false
         }
       ],
       "sources": [
-        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/670b4aa83a35cb7b9f3b4f46/674e82b8dcc84d61dcc79c6d.mp4"
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c175c947f26f21ffb4c232/6751d618443d220d38ace539.mp4"
       ]
     },
     {
       "index": 3,
       "source": "playphrase",
-      "title": "Well then, come on in.",
-      "movie_name": "Lethal Love Letter (2021) [00:36:16]",
-      "playphrase_id": "6766e6da43cc673af1e6fd36",
+      "title": "How've you been?",
+      "movie_name": "Another Thin Man (1939) [00:07:38]",
+      "playphrase_id": "6748dec8b083c03d0e9b9074",
       "source_page_url": "https://www.playphrase.me",
-      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64bf2c3d2f7a765b387a368c/6766e6da43cc673af1e6fd36.mp4",
-      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64bf2c3d2f7a765b387a368c/6766e6da43cc673af1e6fd36.mp4",
-      "duration": 2.341,
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64bf76482f7a765b387a64d5/6748dec8b083c03d0e9b9074.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64bf76482f7a765b387a64d5/6748dec8b083c03d0e9b9074.mp4",
+      "duration": 1.002,
       "thumbnail": null,
-      "subtitle_text": "Well then, come on in.",
+      "subtitle_text": "How've you been?",
       "subtitle_cues": [],
       "words": [
         {
-          "text": "Well",
-          "start": 0,
-          "end": 120,
-          "index": 0,
-          "searched": false
-        },
-        {
-          "text": "then,",
-          "start": 140,
-          "end": 320,
-          "index": 1,
-          "searched": false
-        },
-        {
-          "text": "come",
-          "start": 981,
-          "end": 1121,
-          "index": 2,
-          "searched": true
-        },
-        {
-          "text": "on",
-          "start": 1181,
-          "end": 1261,
-          "index": 3,
-          "searched": true
-        },
-        {
-          "text": "in.",
-          "start": 1341,
-          "end": 1441,
-          "index": 4,
-          "searched": true
-        }
-      ],
-      "sources": [
-        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64bf2c3d2f7a765b387a368c/6766e6da43cc673af1e6fd36.mp4"
-      ]
-    },
-    {
-      "index": 4,
-      "source": "playphrase",
-      "title": "Come on in.",
-      "movie_name": "Swipe Right, Run Left (2019) [00:38:38]",
-      "playphrase_id": "67080cf30ea8974796b3723b",
-      "source_page_url": "https://www.playphrase.me",
-      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c19e0a47f26f21ffb4db17/67080cf30ea8974796b3723b.mp4",
-      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c19e0a47f26f21ffb4db17/67080cf30ea8974796b3723b.mp4",
-      "duration": 1.336,
-      "thumbnail": null,
-      "subtitle_text": "Come on in.",
-      "subtitle_cues": [],
-      "words": [
-        {
-          "text": "Come",
+          "text": "How've",
           "start": 0,
           "end": 201,
           "index": 0,
           "searched": true
         },
         {
-          "text": "on",
-          "start": 281,
-          "end": 382,
+          "text": "you",
+          "start": 221,
+          "end": 321,
           "index": 1,
           "searched": true
         },
         {
-          "text": "in.",
-          "start": 542,
-          "end": 1542,
+          "text": "been?",
+          "start": 361,
+          "end": 561,
           "index": 2,
           "searched": true
         }
       ],
       "sources": [
-        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64c19e0a47f26f21ffb4db17/67080cf30ea8974796b3723b.mp4"
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64bf76482f7a765b387a64d5/6748dec8b083c03d0e9b9074.mp4"
+      ]
+    },
+    {
+      "index": 4,
+      "source": "playphrase",
+      "title": "How've you been?",
+      "movie_name": "The Haunting in Connecticut (2009) [01:04:28]",
+      "playphrase_id": "6729c9bd401180476233a42f",
+      "source_page_url": "https://www.playphrase.me",
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1833af8079eb4cd4a4c10b/6729c9bd401180476233a42f.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1833af8079eb4cd4a4c10b/6729c9bd401180476233a42f.mp4",
+      "duration": 1.281,
+      "thumbnail": null,
+      "subtitle_text": "How've you been?",
+      "subtitle_cues": [],
+      "words": [
+        {
+          "text": "How've",
+          "start": 0,
+          "end": 120,
+          "index": 0,
+          "searched": true
+        },
+        {
+          "text": "you",
+          "start": 161,
+          "end": 241,
+          "index": 1,
+          "searched": true
+        },
+        {
+          "text": "been?",
+          "start": 281,
+          "end": 1281,
+          "index": 2,
+          "searched": true
+        }
+      ],
+      "sources": [
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1833af8079eb4cd4a4c10b/6729c9bd401180476233a42f.mp4"
       ]
     },
     {
       "index": 5,
       "source": "playphrase",
-      "title": "Come on in.",
-      "movie_name": "Veronica Mars (2014) [01:27:03]",
-      "playphrase_id": "6729ef424011804762351d0a",
+      "title": "How've you been?",
+      "movie_name": "Halloween Ends (2022) [00:01:44]",
+      "playphrase_id": "6717d60c4f3dca269d5de5f5",
       "source_page_url": "https://www.playphrase.me",
-      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1838b78079eb4cd4a55c21/6729ef424011804762351d0a.mp4",
-      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1838b78079eb4cd4a55c21/6729ef424011804762351d0a.mp4",
-      "duration": 0.872,
+      "video_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64bf1f002f7a765b387a2e09/6717d60c4f3dca269d5de5f5.mp4",
+      "download_url": "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64bf1f002f7a765b387a2e09/6717d60c4f3dca269d5de5f5.mp4",
+      "duration": 0.971,
       "thumbnail": null,
-      "subtitle_text": "Come on in.",
+      "subtitle_text": "How've you been?",
       "subtitle_cues": [],
       "words": [
         {
-          "text": "Come",
+          "text": "How've",
           "start": 0,
-          "end": 321,
+          "end": 220,
           "index": 0,
           "searched": true
         },
         {
-          "text": "on",
-          "start": 381,
-          "end": 501,
+          "text": "you",
+          "start": 260,
+          "end": 360,
           "index": 1,
           "searched": true
         },
         {
-          "text": "in.",
-          "start": 802,
-          "end": 1802,
+          "text": "been?",
+          "start": 400,
+          "end": 1400,
           "index": 2,
           "searched": true
         }
       ],
       "sources": [
-        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/5b1838b78079eb4cd4a55c21/6729ef424011804762351d0a.mp4"
+        "https://s3.ap-northeast-1.wasabisys.com/video-tokio.playphrase.me/english-storage/64bf1f002f7a765b387a2e09/6717d60c4f3dca269d5de5f5.mp4"
       ]
     },
     {
       "index": 6,
-      "source": "comb",
-      "title": "Come on in, Bart.",
-      "movie_name": "S8E5: Bart After Dark",
+      "source": "clipcafe",
+      "title": "So... how've you been?",
+      "movie_name": "And Just Like That…",
       "playphrase_id": null,
-      "source_page_url": "https://comb.io/IPdHj7",
-      "video_url": "https://s3.amazonaws.com/v.comb.io/27St5KE0/IPdHj7.mp4?1538439394256",
-      "download_url": "https://s3.amazonaws.com/v.comb.io/27St5KE0/IPdHj7.mp4?1538439394256",
-      "duration": 16.282,
-      "thumbnail": "https://tn.comb.io/27St5KE0/2d9a.jpg",
-      "subtitle_text": "It's called \"responsibility.\"\nCome on in, Bart.",
+      "source_page_url": "https://clip.cafe/and-just-like-that-hellip-2021/so-howve-been/",
+      "video_url": "https://clip.cafe/videos/so-howve-been.mp4",
+      "download_url": "https://clip.cafe/videos/so-howve-been.mp4",
+      "duration": 5.017,
+      "thumbnail": "https://clip.cafe/clipimg/so-howve-been.jpg",
+      "subtitle_text": "So... how've you been?",
       "subtitle_cues": [
         {
-          "text": "It's called \"responsibility.\"",
-          "start": 0,
-          "end": 2134
-        },
-        {
-          "text": "Come on in, Bart.",
-          "start": 13613,
-          "end": 16282
+          "text": "So... how've you been?",
+          "start": 1005,
+          "end": 5017
         }
       ],
       "words": [],
       "sources": [
-        "https://s3.amazonaws.com/v.comb.io/27St5KE0/IPdHj7.mp4?1538439394256"
+        "https://clip.cafe/videos/so-howve-been.mp4"
       ]
     },
     {
       "index": 7,
-      "source": "comb",
-      "title": "Okay, come on in...",
-      "movie_name": "S9E4: Treehouse of Horror VIII",
+      "source": "clipcafe",
+      "title": "How've you been?\" #MrP",
+      "movie_name": "Hasan Minhaj: Homecoming King",
       "playphrase_id": null,
-      "source_page_url": "https://comb.io/GN8mHZ",
-      "video_url": "https://s3.amazonaws.com/v.comb.io/Sd5cnWLe/GN8mHZ.mp4?1565472890231",
-      "download_url": "https://s3.amazonaws.com/v.comb.io/Sd5cnWLe/GN8mHZ.mp4?1565472890231",
-      "duration": 13.615,
-      "thumbnail": "https://tn.comb.io/Sd5cnWLe/71c1.jpg",
-      "subtitle_text": "Who is it? Witches!\nUm, what do ya want?\nWe're here to eat your kids.\nOkay, come on in...\nand look at this!\nOh, please.",
+      "source_page_url": "https://clip.cafe/hasan-minhaj-homecoming-king-2017/howve-been-s3/",
+      "video_url": "https://clip.cafe/videos/howve-been-s3.mp4",
+      "download_url": "https://clip.cafe/videos/howve-been-s3.mp4",
+      "duration": 5.067,
+      "thumbnail": "https://clip.cafe/clipimg/howve-been-s3.jpg",
+      "subtitle_text": "How've you been?\"\n#MrP.",
       "subtitle_cues": [
         {
-          "text": "Who is it? Witches!",
-          "start": 870,
-          "end": 2804
+          "text": "How've you been?\"",
+          "start": 1005,
+          "end": 3043
         },
         {
-          "text": "Um, what do ya want?",
-          "start": 2872,
-          "end": 4806
-        },
-        {
-          "text": "We're here to eat your kids.",
-          "start": 4873,
-          "end": 7142
-        },
-        {
-          "text": "Okay, come on in...",
-          "start": 7210,
-          "end": 9543
-        },
-        {
-          "text": "and look at this!",
-          "start": 9611,
-          "end": 11729
-        },
-        {
-          "text": "Oh, please.",
-          "start": 11797,
-          "end": 13615
+          "text": "#MrP.",
+          "start": 3793,
+          "end": 5067
         }
       ],
       "words": [],
       "sources": [
-        "https://s3.amazonaws.com/v.comb.io/Sd5cnWLe/GN8mHZ.mp4?1565472890231"
+        "https://clip.cafe/videos/howve-been-s3.mp4"
       ]
     },
     {
       "index": 8,
-      "source": "comb",
-      "title": "Come on in.",
-      "movie_name": "S2E17: Old Money",
+      "source": "clipcafe",
+      "title": "Hi! - How've you been keeping?- Terrible",
+      "movie_name": "Fat City",
       "playphrase_id": null,
-      "source_page_url": "https://comb.io/KGpwdd",
-      "video_url": "https://s3.amazonaws.com/v.comb.io/ezxwTsr6/KGpwdd.mp4?1540771366810",
-      "download_url": "https://s3.amazonaws.com/v.comb.io/ezxwTsr6/KGpwdd.mp4?1540771366810",
-      "duration": 16.597,
-      "thumbnail": "https://tn.comb.io/ezxwTsr6/7fa9.jpg",
-      "subtitle_text": "Come on in.\nDignity's on me, friends.",
+      "source_page_url": "https://clip.cafe/fat-city-1972/hi-s1034/",
+      "video_url": "https://clip.cafe/videos/hi-s1034.mp4",
+      "download_url": "https://clip.cafe/videos/hi-s1034.mp4",
+      "duration": 9.103,
+      "thumbnail": "https://clip.cafe/clipimg/hi-s1034.jpg",
+      "subtitle_text": "Hi!\n- How've you been keeping? - Terrible.",
       "subtitle_cues": [
         {
-          "text": "Come on in.",
-          "start": 11580,
-          "end": 13844
+          "text": "Hi!",
+          "start": 1005,
+          "end": 2899
         },
         {
-          "text": "Dignity's on me, friends.",
-          "start": 13911,
-          "end": 16597
+          "text": "- How've you been keeping? - Terrible.",
+          "start": 5838,
+          "end": 9103
         }
       ],
       "words": [],
       "sources": [
-        "https://s3.amazonaws.com/v.comb.io/ezxwTsr6/KGpwdd.mp4?1540771366810"
+        "https://clip.cafe/videos/hi-s1034.mp4"
       ]
     },
     {
       "index": 9,
-      "source": "comb",
-      "title": "Come on in.",
-      "movie_name": "S10E12: Sunday, Cruddy Sunday",
+      "source": "clipcafe",
+      "title": "We're good, Tess.How've you been?",
+      "movie_name": "Fear the Night",
       "playphrase_id": null,
-      "source_page_url": "https://comb.io/q6Eo7y",
-      "video_url": "https://s3.amazonaws.com/v.comb.io/svIrQhrH/q6Eo7y.mp4?1566845608880",
-      "download_url": "https://s3.amazonaws.com/v.comb.io/svIrQhrH/q6Eo7y.mp4?1566845608880",
-      "duration": 7.04,
-      "thumbnail": "https://tn.comb.io/svIrQhrH/4cbc.jpg",
-      "subtitle_text": "742 Evergreen Terrace.\nSpringfield-- \"Oh, hiya,\" Maude.\nCome on in.",
+      "source_page_url": "https://clip.cafe/fear-the-night-2023/were-good-tess-howve-been/",
+      "video_url": "https://clip.cafe/videos/were-good-tess-howve-been.mp4",
+      "download_url": "https://clip.cafe/videos/were-good-tess-howve-been.mp4",
+      "duration": 5.638,
+      "thumbnail": "https://clip.cafe/clipimg/were-good-tess-howve-been.jpg",
+      "subtitle_text": "-We're good, Tess. How've you been?",
       "subtitle_cues": [
         {
-          "text": "742 Evergreen Terrace.",
-          "start": 0,
-          "end": 2902
-        },
-        {
-          "text": "Springfield-- \"Oh, hiya,\" Maude.",
-          "start": 2969,
-          "end": 5238
-        },
-        {
-          "text": "Come on in.",
-          "start": 5306,
-          "end": 7040
+          "text": "-We're good, Tess. How've you been?",
+          "start": 1005,
+          "end": 5638
         }
       ],
       "words": [],
       "sources": [
-        "https://s3.amazonaws.com/v.comb.io/svIrQhrH/q6Eo7y.mp4?1566845608880"
+        "https://clip.cafe/videos/were-good-tess-howve-been.mp4"
       ]
     },
     {
       "index": 10,
-      "source": "comb",
-      "title": "Come on in, roomie.",
-      "movie_name": "S2E2: Mars University",
+      "source": "clipcafe",
+      "title": "Hi. Hi. How've you been? Missing you",
+      "movie_name": "Last Christmas",
       "playphrase_id": null,
-      "source_page_url": "https://comb.io/SLutoB",
-      "video_url": "https://s3.amazonaws.com/v.comb.io/fg2RddOT/SLutoB.mp4?1694684264224",
-      "download_url": "https://s3.amazonaws.com/v.comb.io/fg2RddOT/SLutoB.mp4?1694684264224",
-      "duration": 18.317,
-      "thumbnail": "https://tn.comb.io/fg2RddOT/22df.jpg",
-      "subtitle_text": "Hey, huh?\nPretty nice for a single.\nTwo desks, two chairs, a couple of beds\na woodpecker.\nI think that's probably your roommate.\nOh, right, cool.\nCome on in, roomie.\nWhat the--\nI call top bunk.",
+      "source_page_url": "https://clip.cafe/last-christmas-2019/hi-s841/",
+      "video_url": "https://clip.cafe/videos/hi-s841.mp4",
+      "download_url": "https://clip.cafe/videos/hi-s841.mp4",
+      "duration": 11.577,
+      "thumbnail": "https://clip.cafe/clipimg/hi-s841.jpg",
+      "subtitle_text": "Hi.\nHi.\nHow've you been?\nMissing you.",
       "subtitle_cues": [
         {
-          "text": "Hey, huh?",
-          "start": 0,
-          "end": 1567
+          "text": "Hi.",
+          "start": 1005,
+          "end": 3335
         },
         {
-          "text": "Pretty nice for a single.",
-          "start": 1635,
-          "end": 2667
+          "text": "Hi.",
+          "start": 4736,
+          "end": 6503
         },
         {
-          "text": "Two desks, two chairs, a couple of beds",
-          "start": 2735,
-          "end": 5037
+          "text": "How've you been?",
+          "start": 6505,
+          "end": 8574
         },
         {
-          "text": "a woodpecker.",
-          "start": 6306,
-          "end": 7139
-        },
-        {
-          "text": "I think that's probably your roommate.",
-          "start": 7207,
-          "end": 9341
-        },
-        {
-          "text": "Oh, right, cool.",
-          "start": 9409,
-          "end": 11009
-        },
-        {
-          "text": "Come on in, roomie.",
-          "start": 11078,
-          "end": 13995
-        },
-        {
-          "text": "What the--",
-          "start": 15465,
-          "end": 16081
-        },
-        {
-          "text": "I call top bunk.",
-          "start": 16149,
-          "end": 18317
+          "text": "Missing you.",
+          "start": 9908,
+          "end": 11577
         }
       ],
       "words": [],
       "sources": [
-        "https://s3.amazonaws.com/v.comb.io/fg2RddOT/SLutoB.mp4?1694684264224"
+        "https://clip.cafe/videos/hi-s841.mp4"
+      ]
+    },
+    {
+      "index": 11,
+      "source": "comb",
+      "title": "How have you been?",
+      "movie_name": "S7E15: Fry and Leela's Big Fling",
+      "playphrase_id": null,
+      "source_page_url": "https://comb.io/7ah9Wg",
+      "video_url": "https://s3.amazonaws.com/v.comb.io/4cVGVcJ9/7ah9Wg.mp4?1628111194331",
+      "download_url": "https://s3.amazonaws.com/v.comb.io/4cVGVcJ9/7ah9Wg.mp4?1628111194331",
+      "duration": 18.451,
+      "thumbnail": "https://tn.comb.io/4cVGVcJ9/3b92.jpg",
+      "subtitle_text": "Oh, my gosh. Amy? Amy Wong?\nGuenter? From Mars University?\nHow have you been?\nPretty good.\nWorking in financial services,\nyou really get to help rich people realize their expensive dreams.\nNice disguise, by the way. I won't say anything.",
+      "subtitle_cues": [
+        {
+          "text": "Oh, my gosh. Amy? Amy Wong?",
+          "start": 0,
+          "end": 2752
+        },
+        {
+          "text": "Guenter? From Mars University?",
+          "start": 2820,
+          "end": 5688
+        },
+        {
+          "text": "How have you been?",
+          "start": 5756,
+          "end": 7090
+        },
+        {
+          "text": "Pretty good.",
+          "start": 7158,
+          "end": 8024
+        },
+        {
+          "text": "Working in financial services,",
+          "start": 8092,
+          "end": 9742
+        },
+        {
+          "text": "you really get to help rich people realize their expensive dreams.",
+          "start": 9810,
+          "end": 13663
+        },
+        {
+          "text": "Nice disguise, by the way. I won't say anything.",
+          "start": 14948,
+          "end": 18451
+        }
+      ],
+      "words": [],
+      "sources": [
+        "https://s3.amazonaws.com/v.comb.io/4cVGVcJ9/7ah9Wg.mp4?1628111194331"
       ]
     }
   ],
   "source_status": {
-    "comb": {
+    "source_priority": [
+      "playphrase",
+      "clipcafe",
+      "comb"
+    ],
+    "clipcafe": {
       "enabled": true,
       "strict_phrase_match": true,
       "clips": 5
     },
-    "clipcafe": {
+    "comb": {
       "enabled": true,
       "strict_phrase_match": true,
-      "clips": 0,
-      "skipped": true
+      "clips": 1
     }
   }
 }

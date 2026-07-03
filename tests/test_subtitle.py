@@ -1,3 +1,4 @@
+from src.flags import ensure_flag_assets
 from src.subtitle import (
     adaptive_font_size,
     build_even_karaoke_dialogue,
@@ -121,6 +122,15 @@ def test_phrase_match_accepts_requested_phrase_but_rejects_loose_comb_results() 
     )
 
 
+def test_phrase_match_accepts_contracted_and_expanded_variants_case_insensitively() -> None:
+    assert phrase_has_highlight_match("HOW HAVE YOU BEEN?", "how've you been")
+    assert phrase_has_highlight_match("How've you been?", "how have you been")
+    assert phrase_has_highlight_match("He's been here before.", "he has been here")
+    assert phrase_has_highlight_match("He is ready.", "he's ready")
+    assert phrase_has_highlight_match("I do not know.", "I don't know")
+    assert phrase_has_highlight_match("I don't know.", "i do not know")
+
+
 def test_highlight_ass_text_matches_mean_world_idiom_variants() -> None:
     direct = highlight_ass_text(
         "That woman means the world to me.",
@@ -164,6 +174,43 @@ def test_title_card_filter_wraps_long_intro_text(tmp_path) -> None:
     assert "textfile=" in filters
     assert "It's" not in filters
     assert (tmp_path / "intro-00.txt").read_text(encoding="utf-8")
+
+
+def test_title_card_filter_writes_translation_lines(tmp_path) -> None:
+    flag_dir = ensure_flag_assets(tmp_path / "assets", force=True)
+    filters = title_card_filter(
+        "Nice To Meet You",
+        1280,
+        720,
+        text_dir=tmp_path,
+        file_prefix="intro",
+        translation_lines=[
+            "🇨🇳 很高兴认识你",
+            "🇯🇵 はじめまして",
+            "🇻🇳 Rất vui được gặp bạn",
+            "🇰🇷 만나서 반가워요",
+            "🇪🇸 Mucho gusto",
+            "🇮🇳 आपसे मिलकर खुशी हुई",
+        ],
+        flag_dir=flag_dir,
+        output_label="v",
+    )
+
+    assert "drawbox=" in filters
+    assert "textfile=" in filters
+    assert "movie=" in filters
+    assert "overlay=" in filters
+    assert "fontcolor=0xFDD131" in filters
+    assert "fontcolor=0xEAF2FF" in filters
+    assert "很高兴认识你" not in filters
+    assert (tmp_path / "intro-flag-0.txt").read_text(encoding="utf-8") == "cn.png"
+    assert (tmp_path / "intro-translation-0.txt").read_text(encoding="utf-8") == "很高兴认识你"
+    assert (tmp_path / "intro-flag-2.txt").read_text(encoding="utf-8") == "vn.png"
+    vietnamese_line = (tmp_path / "intro-translation-2.txt").read_text(encoding="utf-8")
+    assert vietnamese_line == "Rất vui được gặp bạn"
+    assert "Tiếng Việt" not in vietnamese_line
+    assert (tmp_path / "intro-flag-5.txt").read_text(encoding="utf-8") == "in.png"
+    assert (tmp_path / "intro-translation-5.txt").read_text(encoding="utf-8") == "आपसे मिलकर खुशी हुई"
 
 
 def test_normalize_cue_items() -> None:

@@ -14,8 +14,10 @@ from tempfile import TemporaryDirectory
 from rich.progress import Progress, TextColumn
 
 from src.config import Settings
+from src.flags import ensure_flag_assets
 from src.search import SearchResult, SearchService
 from src.subtitle import clip_filter, title_card_filter
+from src.translations import TranslationService
 from src.utils import (
     AppError,
     console,
@@ -65,7 +67,7 @@ class VideoMerger:
                 "Run `python main.py download` first."
             )
 
-        destination = output_path or self.settings.output_folder / f"{result.slug}.mp4"
+        destination = output_path or self.settings.video_output_folder / f"{result.slug}.mp4"
         subtitle_paths = self.discover_subtitle_paths(result)
         return self.merge_files(
             clip_paths=clip_paths,
@@ -112,7 +114,6 @@ class VideoMerger:
         """Merge explicit clip paths into an MP4 output."""
 
         require_executable("ffmpeg")
-        require_executable("ffprobe")
         ensure_directories(output_path.parent, self.settings.temp_folder)
 
         clip_paths = [path.resolve() for path in clip_paths if path.exists() and path.stat().st_size > 0]
@@ -172,9 +173,16 @@ class VideoMerger:
         )
         with progress:
             if add_intro:
+                translations = TranslationService(self.settings).get(phrase)
+                translation_lines = translations.display_lines() if translations else []
                 intro_path = temp_dir / "000-intro.mp4"
                 task_id = progress.add_task("Rendering intro", total=None)
-                self._generate_title_card(title, target, intro_path)
+                self._generate_title_card(
+                    title,
+                    target,
+                    intro_path,
+                    translation_lines=translation_lines,
+                )
                 progress.update(task_id, completed=1, total=1)
                 rendered.append(intro_path)
 
@@ -273,9 +281,17 @@ class VideoMerger:
         )
         self._run(command)
 
-    def _generate_title_card(self, text: str, target: VideoSpec, output_path: Path) -> None:
+    def _generate_title_card(
+        self,
+        text: str,
+        target: VideoSpec,
+        output_path: Path,
+        *,
+        translation_lines: list[str] | None = None,
+    ) -> None:
         """Generate a two-second intro or outro screen."""
 
+        flag_dir = ensure_flag_assets(self.settings.assets_folder) if translation_lines else None
         command = [
             "ffmpeg",
             "-hide_banner",
@@ -290,41 +306,71 @@ class VideoMerger:
             "lavfi",
             "-i",
             "anullsrc=channel_layout=stereo:sample_rate=48000",
-            "-map",
-            "0:v:0",
-            "-map",
-            "1:a:0",
-            "-vf",
-            title_card_filter(
-                text,
-                target.width,
-                target.height,
-                text_dir=output_path.parent,
-                file_prefix=output_path.stem,
-            ),
-            "-t",
-            "2",
-            "-c:v",
-            "libx264",
-            "-preset",
-            "veryfast",
-            "-crf",
-            "18",
-            "-pix_fmt",
-            "yuv420p",
-            "-c:a",
-            "aac",
-            "-b:a",
-            "160k",
-            "-ar",
-            "48000",
-            "-ac",
-            "2",
-            "-shortest",
-            "-movflags",
-            "+faststart",
-            str(output_path),
         ]
+        if flag_dir:
+            command.extend(
+                [
+                    "-filter_complex",
+                    title_card_filter(
+                        text,
+                        target.width,
+                        target.height,
+                        text_dir=output_path.parent,
+                        file_prefix=output_path.stem,
+                        translation_lines=translation_lines,
+                        flag_dir=flag_dir,
+                        output_label="v",
+                    ),
+                    "-map",
+                    "[v]",
+                    "-map",
+                    "1:a:0",
+                ]
+            )
+        else:
+            command.extend(
+                [
+                    "-map",
+                    "0:v:0",
+                    "-map",
+                    "1:a:0",
+                    "-vf",
+                    title_card_filter(
+                        text,
+                        target.width,
+                        target.height,
+                        text_dir=output_path.parent,
+                        file_prefix=output_path.stem,
+                        translation_lines=translation_lines,
+                    ),
+                ]
+            )
+        command.extend(
+            [
+                "-t",
+                "2",
+                "-c:v",
+                "libx264",
+                "-preset",
+                "veryfast",
+                "-crf",
+                "18",
+                "-pix_fmt",
+                "yuv420p",
+                "-c:a",
+                "aac",
+                "-b:a",
+                "160k",
+                "-ar",
+                "48000",
+                "-ac",
+                "2",
+                "-shortest",
+                "-movflags",
+                "+faststart",
+                str(output_path),
+            ]
+        )
         self._run(command)
 
     def _try_concat_copy(self, clip_paths: list[Path], output_path: Path, temp_dir: Path) -> bool:
@@ -386,7 +432,22 @@ class VideoMerger:
             "json",
             str(path),
         ]
-        completed = subprocess.run(command, capture_output=True, text=True, check=False)
+        try:
+            completed = subprocess.run(command, capture_output=True, text=True, check=False)
+        except OSError as exc:
+            logger.warning(
+                "Could not start ffprobe for %s; using fallback video metadata: %s",
+                path,
+                exc,
+            )
+            return VideoSpec(
+                width=1920,
+                height=1080,
+                fps=30.0,
+                duration=None,
+                has_audio=True,
+                video_codec="h264",
+            )
         if completed.returncode != 0:
             raise AppError(f"Could not probe {path}: {completed.stderr.strip()}")
 

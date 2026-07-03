@@ -1,97 +1,73 @@
 # playphrase-video-builder
 
-Create English learning videos from one English phrase.
+Tool tao video hoc tieng Anh tu mot cau/phrase.
 
-The app searches PlayPhrase first, then optionally appends public clips from comb.io and Clip.Cafe, downloads exposed MP4 media, saves English subtitle sidecars, burns subtitles into each clip, adds an optional intro title card, and exports one final MP4.
+Ban nhap:
 
-> Use this only for content you have the right to download, edit, and upload. PlayPhrase clips may contain copyrighted material. This tool does not bypass paywalls, DRM, authentication, or browser security controls; it only uses media URLs exposed to the browser.
+```bash
+python main.py build "nice to meet you" --force-search
+```
 
-## Features
+Project se:
 
-- Playwright browser automation for PlayPhrase search.
-- Search result JSON cache.
-- Parallel downloads with retries, progress bars, resume support, and skip-existing behavior.
-- HLS playlist download support through FFmpeg.
-- FFmpeg merge pipeline.
-- Fast concat without re-encoding when possible.
-- Automatic normalization when codecs, dimensions, or audio streams differ.
-- PlayPhrase English karaoke subtitle overlay on every clip when word timings are available.
-- Comb.io line-level subtitles are extracted from the selected timeline; searched text is highlighted, and long subtitle lines are wrapped.
-- Clip.Cafe fallback clips are added when PlayPhrase + comb.io do not reach the target clip count or target duration; VTT captions are burned with searched text highlighted.
-- Optional comb.io fallback source appended after PlayPhrase clips, but only when the comb.io subtitle/title actually matches the searched phrase or a supported equivalent.
-- Strict fallback filtering so loose matches like `fall for that` are not added for `I'm falling for you`.
-- Optional 2-second intro and optional outro.
-- Per-run log files in `logs/`.
-- Works on Windows, macOS, and Linux.
+1. Search PlayPhrase.
+2. Lay clip free phu hop.
+3. Lay them clip tu Comb.io va Clip.Cafe neu can.
+4. Tai clip ve may.
+5. Tao subtitle tieng Anh.
+6. Ghep thanh video ngang.
+7. Co the tao them ban doc Reel/Shorts voi b-roll Wikimedia Commons.
 
-## Project Structure
+> Chi upload video khi ban co quyen su dung noi dung nguon. Tool nay khong bypass paywall, DRM, login, hay browser security. No chi dung cac media URL public ma browser/API tra ve.
+
+## Ket qua output
+
+Video ngang:
 
 ```text
-playphrase-video-builder/
-  README.md
-  pyproject.toml
-  requirements.txt
-  .env.example
-  main.py
-  src/
-    __init__.py
-    main.py
-    config.py
-    browser.py
-    search.py
-    comb.py
-    clipcafe.py
-    downloader.py
-    merger.py
-    subtitle.py
-    utils.py
-  assets/
-  downloads/
-  outputs/
-  logs/
-  tests/
+outputs/videos/<phrase-slug>.mp4
 ```
 
-## Requirements
+Video doc Reel/Shorts:
+
+```text
+outputs/reels/<phrase-slug>-reel.mp4
+```
+
+Vi du:
+
+```text
+outputs/videos/nice-to-meet-you.mp4
+outputs/reels/nice-to-meet-you-reel.mp4
+```
+
+## Cai dat
+
+Yeu cau:
 
 - Python 3.12+
-- FFmpeg and FFprobe on `PATH`
-- Chromium browser installed by Playwright
+- FFmpeg tren PATH
+- Chromium cua Playwright
 
-## Installation With uv
-
-```bash
-cd playphrase-video-builder
-uv venv
-```
-
-Windows:
-
-```powershell
-.venv\Scripts\activate
-uv pip install -r requirements.txt
-python -m playwright install chromium
-```
-
-macOS/Linux:
-
-```bash
-source .venv/bin/activate
-uv pip install -r requirements.txt
-python -m playwright install chromium
-```
-
-## Installation With pip
+Tao venv va cai dependency:
 
 ```bash
 cd playphrase-video-builder
 python -m venv .venv
 ```
 
-Windows:
+Windows PowerShell:
 
 ```powershell
 .venv\Scripts\activate
+pip install -r requirements.txt
+python -m playwright install chromium
+```
+
+Git Bash:
+
+```bash
+source .venv/Scripts/activate
 pip install -r requirements.txt
 python -m playwright install chromium
 ```
@@ -104,59 +80,23 @@ pip install -r requirements.txt
 python -m playwright install chromium
 ```
 
-## Installation With Poetry
-
-```bash
-cd playphrase-video-builder
-poetry install
-poetry run python -m playwright install chromium
-```
-
-## FFmpeg Installation
-
-### Windows
-
-Using winget:
+FFmpeg tren Windows:
 
 ```powershell
 winget install Gyan.FFmpeg
 ```
 
-Close and reopen the terminal, then verify:
-
-```powershell
-ffmpeg -version
-ffprobe -version
-```
-
-### macOS
+Dong terminal va mo lai, kiem tra:
 
 ```bash
-brew install ffmpeg
 ffmpeg -version
-ffprobe -version
 ```
 
-### Linux
+`ffprobe` duoc khuyen nghi, nhung code co fallback neu Windows Application Control chan `ffprobe.exe`.
 
-Ubuntu/Debian:
+## Cau hinh `.env`
 
-```bash
-sudo apt update
-sudo apt install ffmpeg
-ffmpeg -version
-ffprobe -version
-```
-
-Fedora:
-
-```bash
-sudo dnf install ffmpeg
-```
-
-## Setup
-
-Copy the example environment file:
+Copy file mau:
 
 ```bash
 cp .env.example .env
@@ -168,7 +108,7 @@ Windows PowerShell:
 Copy-Item .env.example .env
 ```
 
-Default `.env` values:
+Gia tri quan trong:
 
 ```env
 HEADLESS=true
@@ -177,279 +117,260 @@ OUTPUT_FOLDER=outputs
 LOGS_FOLDER=logs
 ASSETS_FOLDER=assets
 TEMP_FOLDER=.tmp
+
 PLAYWRIGHT_TIMEOUT=45000
 MAX_PARALLEL=4
 RETRIES=3
 RETRY_BACKOFF=1.5
-SEARCH_MAX_ROUNDS=30
+
 MAX_CLIPS=10
+SOURCE_PRIORITY=playphrase,clipcafe,comb
 TARGET_TOTAL_CLIPS=10
 MAX_TOTAL_CLIPS=12
 MIN_TOTAL_DURATION_SECONDS=45
+
 COMB_ENABLED=true
 COMB_MAX_CLIPS=5
-COMB_URL=https://comb.io
+
 CLIPCAFE_ENABLED=true
 CLIPCAFE_MAX_CLIPS=5
-CLIPCAFE_URL=https://clip.cafe
-PLAYPHRASE_URL=https://www.playphrase.me
+
+COMMONS_BROLL_ENABLED=true
+COMMONS_MAX_BYTES=80000000
+COMMONS_MIN_SHORT_EDGE=1080
+COMMONS_MIN_LONG_EDGE=1920
+COMMONS_VERIFY_SSL=true
+
+TRANSLATIONS_ENABLED=true
+TRANSLATION_PROVIDER=gemini
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-3.5-flash
+TRANSLATION_CONTACT_EMAIL=
 ```
 
-Useful settings:
+Ghi chu:
 
-- `HEADLESS=false` opens a visible browser, which is useful when PlayPhrase changes its UI or asks for manual interaction.
-- `MAX_PARALLEL=4` controls simultaneous downloads.
-- `MAX_CLIPS=10` downloads up to 10 free clips. The project enforces a hard cap of 10 even if this is set higher.
-- `TARGET_TOTAL_CLIPS=10` asks fallback sources to fill the final search result up to 10 clips when possible.
-- `MAX_TOTAL_CLIPS=12` allows a few extra fallback clips if the estimated total duration is still below `MIN_TOTAL_DURATION_SECONDS`.
-- `MIN_TOTAL_DURATION_SECONDS=45` triggers extra fallback search when the collected clips are too short.
-- `COMB_ENABLED=true` appends comb.io clips after PlayPhrase clips.
-- `COMB_MAX_CLIPS=5` adds up to five comb.io clips. Set up to `10` if you want more.
-- Comb.io clips are filtered strictly. If comb.io only returns loose matches, for example `fall for that` for `I'm falling for you`, those clips are skipped and the final video may contain fewer clips.
-- `CLIPCAFE_ENABLED=true` appends Clip.Cafe clips after comb.io when more clips are needed.
-- `CLIPCAFE_MAX_CLIPS=5` adds up to five Clip.Cafe clips. Set up to `10` if you want more.
-- Clip.Cafe clips are also filtered strictly, and their VTT subtitles are used when available.
-- `SEARCH_MAX_ROUNDS=30` controls scrolling and next/load-more collection rounds.
+- `MAX_CLIPS`: so clip PlayPhrase toi da.
+- `SOURCE_PRIORITY`: thu tu uu tien khi xep clip vao video cuoi. Vi du `playphrase,clipcafe,comb` nghia la PlayPhrase truoc, Clip.Cafe thu hai, Comb.io cuoi.
+- `TARGET_TOTAL_CLIPS`: muc tieu tong so clip sau khi them nguon phu.
+- `MAX_TOTAL_CLIPS`: gioi han cao nhat neu tong video qua ngan.
+- `MIN_TOTAL_DURATION_SECONDS`: neu tong clip ngan hon muc nay, tool co the tim them.
+- `COMB_MAX_CLIPS`: toi da clip tu Comb.io.
+- `CLIPCAFE_MAX_CLIPS`: toi da clip tu Clip.Cafe.
+- `COMMONS_BROLL_ENABLED`: bat b-roll Wikimedia cho lenh `enhance`.
+- `COMMONS_MIN_SHORT_EDGE=1080` va `COMMONS_MIN_LONG_EDGE=1920`: chi nhan b-roll toi thieu 1080p. Tang len neu ban chi muon file rat net, giam xuong neu query qua it ket qua.
+- `COMMONS_VERIFY_SSL`: de `true` neu may binh thuong. Tren may nay dang de `false` vi chain SSL Wikimedia bi loi trong Windows.
+- `TRANSLATIONS_ENABLED=true`: hien nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi tren intro va b-roll opener.
+- `TRANSLATION_PROVIDER=gemini`: dung Gemini API de dich tu nhien hon nhu nguoi ban ngu, roi cache vao `downloads/<phrase-slug>/translations.json`. Neu chua co `GEMINI_API_KEY`, tool tu fallback ve phrasebook/MyMemory.
+- `GEMINI_API_KEY`: API key Google AI Studio/Gemini. De trong neu tam thoi muon dung fallback.
+- `GEMINI_MODEL`: mac dinh `gemini-3.5-flash`.
+- `TRANSLATION_PROVIDER=phrasebook`: dung che do offline nhanh nhat, it tu hon.
+- `TRANSLATION_CONTACT_EMAIL`: email tuy chon MyMemory khuyen nghi cho luu luong cao khi fallback qua MyMemory.
 
-## Usage
-
-Search a phrase and save JSON:
+Neu doi `SOURCE_PRIORITY`, nen chay lai:
 
 ```bash
-python main.py search "nice to meet you"
+python main.py build "your phrase" --force-search
 ```
 
-Download clips from the latest search:
+## Lenh su dung
+
+Search:
+
+```bash
+python main.py search "nice to meet you" --force
+```
+
+Download:
 
 ```bash
 python main.py download
 ```
 
-Merge the latest downloaded clips:
+Merge video ngang:
 
 ```bash
 python main.py merge
 ```
 
-Build everything automatically:
+Build tu dau den cuoi:
 
 ```bash
-python main.py build "nice to meet you"
+python main.py build "nice to meet you" --force-search
 ```
 
-The final video is saved as:
-
-```text
-outputs/nice-to-meet-you.mp4
-```
-
-You can also use the installed command:
+Tao ban Reel/Shorts:
 
 ```bash
-playphrase-video-builder build "how are you"
+python main.py enhance "nice to meet you"
 ```
 
-## Common Options
-
-Force a fresh PlayPhrase search instead of using cached JSON:
+Xu ly nhieu cum trong mot lenh, toi da 5 cum, tool se chay lan luot theo dung thu tu:
 
 ```bash
-python main.py search "hello" --force
-python main.py build "hello" --force-search
+python main.py build "nice to meet you" "how are you" "see you soon" --force-search
+python main.py enhance "nice to meet you" "how are you" "see you soon"
 ```
 
-Disable intro, or explicitly enable outro:
+Neu muon paste thanh mot danh sach trong cung mot cap ngoac kep, ngan cach bang dau `;`:
 
 ```bash
-python main.py build "how are you" --no-intro
-python main.py build "how are you" --outro
+python main.py build "nice to meet you; how are you; see you soon" --force-search
 ```
 
-Disable subtitle overlay:
+Chon b-roll query rieng:
 
 ```bash
-python main.py build "how are you" --no-subtitles
+python main.py enhance "I'm falling for you" --broll-query "couple walking" --force-broll
 ```
 
-Choose a custom output path:
+Mac dinh b-roll se xoay nhieu query doi thuong nhu walking, street, park, station,
+cafe... va tranh cac clip meeting/office neu ban khong yeu cau ro. Neu mot cum da
+co b-roll cache cu, them `--force-broll` de doi clip mo dau moi.
+Intro va b-roll opener se hien them nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi kem icon co that neu dich duoc; thoi luong
+intro va opener khong doi.
+
+Khong dung b-roll:
 
 ```bash
-python main.py build "nice to meet you" --output outputs/custom.mp4
+python main.py enhance "nice to meet you" --no-broll
 ```
 
-Open a visible browser:
+Chi dinh output rieng:
 
 ```bash
-HEADLESS=false python main.py build "hello"
+python main.py build "hello" --output outputs/videos/my-video.mp4
+python main.py enhance "hello" --output outputs/reels/my-reel.mp4
 ```
 
-Windows PowerShell:
+Luu y: `--output` va `--input` chi dung cho mot cum. Khi nhap nhieu cum, tool tu dat
+file theo slug rieng cua tung cum trong `outputs/videos/` hoac `outputs/reels/`.
 
-```powershell
-$env:HEADLESS="false"
-python main.py build "hello"
-```
-
-## Output Files
-
-For phrase `nice to meet you`:
+## Folder du lieu
 
 ```text
 downloads/
   latest-search.json
   search-cache/
-    nice-to-meet-you.json
-  nice-to-meet-you/
+  <phrase-slug>/
     search-results.json
     download-report.json
     clips/
       001.mp4
       002.mp4
-      003.mp4
+    subtitles/
+      001.ass
+      001.txt
+      001.json
+    broll/
+      commons-broll.json
 
 outputs/
-  nice-to-meet-you.mp4
+  videos/
+    <phrase-slug>.mp4
+  reels/
+    <phrase-slug>-reel.mp4
 
 logs/
   run-YYYYMMDD-HHMMSS.log
 ```
 
-## Screenshots
+## Cac nguon video
 
-Search command:
+### PlayPhrase
+
+Nguon chinh. Clip PlayPhrase co word timing nen subtitle co karaoke tung tu khi API cung cap timing.
+
+### Clip.Cafe
+
+Nguon phu uu tien thu hai theo cau hinh mac dinh. Dung de bu clip khi PlayPhrase chua du so luong hoac video qua ngan. Neu co VTT caption, tool dung caption do de burn subtitle va highlight phrase.
+
+### Comb.io
+
+Nguon phu. Tool chi lay clip neu subtitle/title khop phrase da search. Cac ket qua long leo nhu `fall for that` se bi bo qua khi search `I'm falling for you`.
+
+### Wikimedia Commons
+
+Dung cho b-roll hook cua `enhance`. Tool chi lay b-roll dat nguong chat luong theo `COMMONS_MIN_SHORT_EDGE` va `COMMONS_MIN_LONG_EDGE`. Video b-roll goc duoc dat net o giua khung doc; nen blur chi la nen phu de lap day 9:16, khong phai video chinh.
+
+Metadata va credit nam trong:
 
 ```text
-[screenshot placeholder: rich search results table]
+downloads/<phrase-slug>/broll/commons-broll.json
 ```
 
-Download command:
+### Nguon thu 4 dang nghien cuu
+
+Da test Frinkiac/Morbotron: API search subtitle hoat dong, nhung endpoint GIF/MP4 public khong on dinh va nguon bi gioi han vao mot vai show. GetYarn hien van bi Cloudflare 403. Vi vay code chua bat nguon thu 4 mac dinh de tranh chen clip kem on dinh vao video.
+
+## Subtitle
+
+- PlayPhrase: karaoke tung tu neu co word timing.
+- Comb.io/Clip.Cafe: subtitle theo dong, highlight mau vang doan trung voi phrase.
+- Subtitle dai se duoc wrap xuong dong de tranh tran video.
+
+## Cach dung hang ngay
+
+```bash
+python main.py build "your phrase here" --force-search
+python main.py enhance "your phrase here"
+```
+
+Xem ket qua:
 
 ```text
-[screenshot placeholder: parallel download progress bars]
+outputs/videos/
+outputs/reels/
 ```
-
-Final video:
-
-```text
-[screenshot placeholder: phrase subtitle over video clip]
-```
-
-## How It Works
-
-1. Playwright opens PlayPhrase in Chromium.
-2. The scraper submits the phrase using visible search controls or URL fallbacks.
-3. It collects media from video tags, source tags, download links, data attributes, and network responses.
-4. Results are saved as JSON and cached by phrase.
-5. The downloader saves clips as `001.mp4`, `002.mp4`, `003.mp4`, and so on.
-6. Subtitle sidecars are saved as `.ass`, `.txt`, and `.json` for every clip.
-7. FFmpeg first tries to merge without re-encoding when subtitles, intro, and outro are disabled.
-8. When rendering is required, FFmpeg normalizes all clips to a shared MP4 profile and burns PlayPhrase karaoke subtitles into each clip.
-8. Temporary render files are removed automatically.
-
-## Testing
-
-```bash
-pytest
-```
-
-Optional linting:
-
-```bash
-ruff check .
-```
-
-## Troubleshooting
-
-### Playwright says the browser is missing
-
-Run:
-
-```bash
-python -m playwright install chromium
-```
-
-### FFmpeg missing
-
-Install FFmpeg and verify both commands work:
-
-```bash
-ffmpeg -version
-ffprobe -version
-```
-
-### No clips found
-
-Try:
-
-```bash
-HEADLESS=false python main.py search "your phrase" --force
-```
-
-If the visible browser shows no PlayPhrase results, use a different phrase. If results appear but the app finds none, PlayPhrase likely changed its page structure. Keep `HEADLESS=false`, rerun with `--verbose`, and inspect the latest log in `logs/`.
-
-### Download fails halfway
-
-Rerun the same command. Partial `.part` files are resumed when the server supports HTTP range requests. Existing complete files are skipped.
-
-### Merge fails because codecs differ
-
-Run the default merge command. The default path normalizes clips automatically:
-
-```bash
-python main.py merge
-```
-
-Fast stream-copy concat is only used when you disable intro, outro, and subtitles:
-
-```bash
-python main.py merge --no-intro --no-outro --no-subtitles
-```
-
-### Text is too large or too small
-
-Subtitle and title-card font sizes are adaptive based on output resolution. The output resolution follows the first downloaded clip.
 
 ## FAQ
 
-### Can I type only one phrase per day?
+### Loi `No module named 'pydantic'`
 
-Yes. The normal workflow is:
+Ban chua activate `.venv`.
+
+Sua:
 
 ```bash
-python main.py build "nice to meet you"
+source .venv/Scripts/activate
+python main.py build "hello" --force-search
 ```
 
-### Where is the search JSON?
+Hoac:
 
-The latest result is stored at:
-
-```text
-downloads/latest-search.json
+```bash
+./.venv/Scripts/python.exe main.py build "hello" --force-search
 ```
 
-Each phrase also gets:
+### Muon mo browser PlayPhrase de debug?
 
-```text
-downloads/search-cache/<phrase-slug>.json
-downloads/<phrase-slug>/search-results.json
+Trong Git Bash:
+
+```bash
+export HEADLESS=false
+python main.py build "hello" --force-search
 ```
 
-### Does it download the highest quality?
+Hoac sua `.env`:
 
-The scraper ranks discovered media sources and prefers HLS playlists first, then MP4/M4V sources with higher resolution or bitrate hints in the URL. If PlayPhrase exposes only one source, that source is used.
+```env
+HEADLESS=false
+```
 
-### Does it bypass DRM or private downloads?
+### `ffprobe.exe` bi Windows chan?
 
-No. It only uses media URLs visible to the browser during normal page loading.
-
-### Can I run it on Windows?
-
-Yes. Use PowerShell, install FFmpeg, install Python 3.12, install dependencies, then run:
+Code da co fallback metadata. Neu FFmpeg cung bi chan, cai lai FFmpeg bang winget:
 
 ```powershell
-python main.py build "hello"
+winget install Gyan.FFmpeg
 ```
 
-### Can I upload the final MP4?
+### Co the upload video khong?
 
-Only upload videos when you have the required rights or permission for the source clips and your use case.
+Chi upload khi ban co quyen su dung clip nguon va b-roll. Kiem tra license trong metadata, dac biet voi Wikimedia Commons.
+
+## Test
+
+```bash
+python -m pytest
+```

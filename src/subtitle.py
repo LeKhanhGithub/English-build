@@ -7,69 +7,145 @@ import re
 from pathlib import Path
 from typing import Any
 
+from src.flags import flag_asset_path
+
 CONTRACTION_EXPANSIONS = {
-    "i'm": ["i", "am"],
-    "you're": ["you", "are"],
-    "he's": ["he", "is"],
-    "she's": ["she", "is"],
-    "it's": ["it", "is"],
-    "we're": ["we", "are"],
-    "they're": ["they", "are"],
-    "i've": ["i", "have"],
-    "you've": ["you", "have"],
-    "we've": ["we", "have"],
-    "they've": ["they", "have"],
-    "i'll": ["i", "will"],
-    "you'll": ["you", "will"],
-    "he'll": ["he", "will"],
-    "she'll": ["she", "will"],
-    "it'll": ["it", "will"],
-    "we'll": ["we", "will"],
-    "they'll": ["they", "will"],
-    "i'd": ["i", "would"],
-    "you'd": ["you", "would"],
-    "he'd": ["he", "would"],
-    "she'd": ["she", "would"],
-    "it'd": ["it", "would"],
-    "we'd": ["we", "would"],
-    "they'd": ["they", "would"],
     "can't": ["can", "not"],
     "cannot": ["can", "not"],
     "won't": ["will", "not"],
-    "don't": ["do", "not"],
-    "doesn't": ["does", "not"],
-    "didn't": ["did", "not"],
-    "isn't": ["is", "not"],
-    "aren't": ["are", "not"],
-    "wasn't": ["was", "not"],
-    "weren't": ["were", "not"],
+    "shan't": ["shall", "not"],
+    "let's": ["let", "us"],
+    "y'all": ["you", "all"],
+}
+
+CONTRACTION_SUFFIX_EXPANSIONS = {
+    "'m": [["am"]],
+    "'re": [["are"]],
+    "'ve": [["have"]],
+    "'ll": [["will"]],
+    "'d": [["would"], ["had"], ["did"]],
+    "'s": [["is"], ["has"]],
+}
+NEGATIVE_CONTRACTION_BASES = {
+    "ain": ["is"],
+    "ca": ["can"],
+    "wo": ["will"],
+    "sha": ["shall"],
+}
+MAX_QUERY_EXPANSION_VARIANTS = 32
+TRANSLATION_FLAG_KEYS = {
+    "🇨🇳": "zh",
+    "🇯🇵": "ja",
+    "🇻🇳": "vi",
+    "🇰🇷": "ko",
+    "🇪🇸": "es",
+    "🇮🇳": "hi",
 }
 
 
-def find_font_file() -> Path | None:
+def find_font_file(
+    *,
+    multilingual: bool = False,
+    emoji: bool = False,
+    script: str | None = None,
+) -> Path | None:
     """Return a common font path for Windows, macOS, or Linux."""
 
     candidates: list[Path]
     system = platform.system().lower()
 
     if system == "windows":
-        candidates = [
+        base_candidates = [
             Path("C:/Windows/Fonts/arial.ttf"),
             Path("C:/Windows/Fonts/segoeui.ttf"),
             Path("C:/Windows/Fonts/calibri.ttf"),
         ]
+        multilingual_candidates = [
+            Path("C:/Windows/Fonts/msyh.ttc"),
+            Path("C:/Windows/Fonts/meiryo.ttc"),
+            Path("C:/Windows/Fonts/YuGothM.ttc"),
+            Path("C:/Windows/Fonts/msgothic.ttc"),
+            Path("C:/Windows/Fonts/simsun.ttc"),
+        ]
+        korean_candidates = [
+            Path("C:/Windows/Fonts/malgun.ttf"),
+            Path("C:/Windows/Fonts/malgunbd.ttf"),
+            Path("C:/Windows/Fonts/malgunsl.ttf"),
+        ]
+        devanagari_candidates = [
+            Path("C:/Windows/Fonts/Nirmala.ttc"),
+            Path("C:/Windows/Fonts/Nirmala.ttf"),
+            Path("C:/Windows/Fonts/NirmalaB.ttf"),
+            Path("C:/Windows/Fonts/mangal.ttf"),
+        ]
+        emoji_candidates = [
+            Path("C:/Windows/Fonts/seguiemj.ttf"),
+            Path("C:/Windows/Fonts/seguisym.ttf"),
+        ]
     elif system == "darwin":
-        candidates = [
+        base_candidates = [
             Path("/System/Library/Fonts/Supplemental/Arial.ttf"),
             Path("/System/Library/Fonts/Supplemental/Helvetica.ttf"),
             Path("/Library/Fonts/Arial.ttf"),
         ]
+        multilingual_candidates = [
+            Path("/System/Library/Fonts/PingFang.ttc"),
+            Path("/System/Library/Fonts/ヒラギノ角ゴシック W3.ttc"),
+            Path("/System/Library/Fonts/Supplemental/Arial Unicode.ttf"),
+        ]
+        korean_candidates = [
+            Path("/System/Library/Fonts/AppleSDGothicNeo.ttc"),
+            Path("/System/Library/Fonts/Supplemental/AppleGothic.ttf"),
+        ]
+        devanagari_candidates = [
+            Path("/System/Library/Fonts/Devanagari Sangam MN.ttc"),
+            Path("/System/Library/Fonts/Supplemental/Devanagari Sangam MN.ttc"),
+            Path("/System/Library/Fonts/Kohinoor.ttc"),
+        ]
+        emoji_candidates = [
+            Path("/System/Library/Fonts/Apple Color Emoji.ttc"),
+            Path("/System/Library/Fonts/Supplemental/Apple Color Emoji.ttc"),
+        ]
     else:
-        candidates = [
+        base_candidates = [
             Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
             Path("/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf"),
             Path("/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"),
         ]
+        multilingual_candidates = [
+            Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"),
+            Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"),
+            Path("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc"),
+            Path("/usr/share/fonts/truetype/arphic/uming.ttc"),
+        ]
+        korean_candidates = [
+            Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"),
+            Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"),
+            Path("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc"),
+            Path("/usr/share/fonts/truetype/nanum/NanumGothic.ttf"),
+        ]
+        devanagari_candidates = [
+            Path("/usr/share/fonts/truetype/noto/NotoSansDevanagari-Regular.ttf"),
+            Path("/usr/share/fonts/truetype/noto/NotoSansDevanagari-Bold.ttf"),
+            Path("/usr/share/fonts/truetype/lohit-devanagari/Lohit-Devanagari.ttf"),
+        ]
+        emoji_candidates = [
+            Path("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf"),
+            Path("/usr/share/fonts/opentype/noto/NotoColorEmoji.ttf"),
+        ]
+
+    if script == "devanagari":
+        candidates = [*devanagari_candidates, *base_candidates, *multilingual_candidates]
+    elif script == "korean":
+        candidates = [*korean_candidates, *multilingual_candidates, *base_candidates]
+    elif script == "cjk":
+        candidates = [*multilingual_candidates, *base_candidates]
+    elif emoji:
+        candidates = [*emoji_candidates, *base_candidates, *multilingual_candidates]
+    elif multilingual:
+        candidates = [*multilingual_candidates, *base_candidates]
+    else:
+        candidates = [*base_candidates, *multilingual_candidates]
 
     for path in candidates:
         if path.exists():
@@ -173,13 +249,18 @@ def drawtext_filter(
     y_expr: str | None = None,
     line_spacing: int = 8,
     text_file: Path | None = None,
+    color: str = "white",
+    multilingual: bool = False,
+    x_expr: str | None = None,
+    emoji: bool = False,
+    script: str | None = None,
 ) -> str:
     """Build an FFmpeg drawtext filter for centered or bottom-centered text."""
 
     escaped_text = escape_drawtext_text(text)
     resolved_font_size = font_size or adaptive_font_size(width, height, title=title)
     border = max(2, resolved_font_size // 14)
-    font = find_font_file()
+    font = find_font_file(multilingual=multilingual, emoji=emoji, script=script)
     font_part = f"fontfile='{escape_font_path(font)}':" if font else ""
     text_part = (
         f"textfile='{escape_font_path(text_file)}':"
@@ -193,15 +274,16 @@ def drawtext_filter(
         resolved_y_expr = "(h-text_h)/2"
     else:
         resolved_y_expr = f"h-text_h-{max(32, height // 14)}"
+    resolved_x_expr = x_expr or "(w-text_w)/2"
 
     return (
         "drawtext="
         f"{font_part}"
         f"{text_part}"
-        "x=(w-text_w)/2:"
+        f"x={resolved_x_expr}:"
         f"y={resolved_y_expr}:"
         f"fontsize={resolved_font_size}:"
-        "fontcolor=white:"
+        f"fontcolor={color}:"
         "bordercolor=black:"
         f"borderw={border}:"
         f"line_spacing={line_spacing}"
@@ -242,6 +324,9 @@ def title_card_filter(
     *,
     text_dir: Path | None = None,
     file_prefix: str = "title",
+    translation_lines: list[str] | None = None,
+    flag_dir: Path | None = None,
+    output_label: str | None = None,
 ) -> str:
     """Build the video filter for an intro or outro title card."""
 
@@ -249,10 +334,42 @@ def title_card_filter(
     line_spacing = max(8, font_size // 6)
     block_height = (len(lines) * font_size) + max(0, len(lines) - 1) * line_spacing
     line_step = font_size + line_spacing
+    translation_lines = [line for line in (translation_lines or []) if line.strip()][:6]
+    translation_rows = [translation_line_parts(line) for line in translation_lines]
 
-    filters = ["format=yuv420p"]
+    filters = [
+        "format=yuv420p",
+        f"drawbox=x=0:y=0:w={width}:h={height}:color=0x101820@1:t=fill",
+        f"drawbox=x=0:y=0:w={width}:h={max(90, height // 5)}:color=0x1F2A44@0.72:t=fill",
+        f"drawbox=x=0:y={height - max(110, height // 5)}:w={width}:h={max(110, height // 5)}:color=0x0B1320@0.82:t=fill",
+        (
+            f"drawbox=x={max(36, width // 18)}:y={max(36, height // 18)}:"
+            f"w={max(140, width // 5)}:h={max(5, height // 160)}:"
+            "color=0xFDD131@0.95:t=fill"
+        ),
+    ]
+
+    brand_file = None
+    if text_dir:
+        brand_file = text_dir / f"{file_prefix}-brand.txt"
+        brand_file.write_text("Daily English", encoding="utf-8")
+    filters.append(
+        drawtext_filter(
+            "Daily English",
+            width,
+            height,
+            position="center",
+            title=False,
+            font_size=max(24, min(42, height // 22)),
+            y_expr=str(max(48, height // 13)),
+            text_file=brand_file,
+            color="0xFDD131",
+        )
+    )
+
+    title_top = max(height // 3 - block_height // 2, height // 5)
     for index, line in enumerate(lines):
-        y_expr = f"(h-{block_height})/2+{index * line_step}"
+        y_expr = str(title_top + index * line_step)
         text_file = None
         if text_dir:
             text_file = text_dir / f"{file_prefix}-{index:02d}.txt"
@@ -268,9 +385,208 @@ def title_card_filter(
                 y_expr=y_expr,
                 line_spacing=line_spacing,
                 text_file=text_file,
+                multilingual=False,
+                color="0xFDD131",
             )
         )
+
+    if translation_lines:
+        translation_font = max(20, min(34 if len(translation_rows) > 3 else 38, height // 28))
+        row_gap = max(16 if len(translation_rows) > 3 else 12, height // 45)
+        translation_gap = translation_font + row_gap
+        translation_block = len(translation_rows) * translation_font + (len(translation_rows) - 1) * row_gap
+        translation_top = min(
+            height - max(80, height // 10) - translation_block,
+            title_top + block_height + max(34, height // 18),
+        )
+        panel_y = max(0, translation_top - max(20, height // 45))
+        panel_h = min(height - panel_y, translation_block + max(48, height // 14))
+        filters.append(
+            f"drawbox=x={max(32, width // 20)}:y={panel_y}:"
+            f"w={width - max(64, width // 10)}:h={panel_h}:"
+            "color=0xFFFFFF@0.09:t=fill"
+        )
+
+        if flag_dir:
+            return title_card_complex_filter(
+                filters,
+                translation_rows=translation_rows,
+                width=width,
+                height=height,
+                translation_top=translation_top,
+                translation_gap=translation_gap,
+                translation_font=translation_font,
+                text_dir=text_dir,
+                file_prefix=file_prefix,
+                flag_dir=flag_dir,
+                output_label=output_label or "v",
+            )
+
+        for index, (flag_key, flag_text, translation_text) in enumerate(translation_rows):
+            text_file = None
+            flag_file = None
+            if text_dir:
+                text_file = text_dir / f"{file_prefix}-translation-{index}.txt"
+                text_file.write_text(translation_text, encoding="utf-8")
+                flag_file = text_dir / f"{file_prefix}-flag-{index}.txt"
+                flag_file.write_text(flag_text, encoding="utf-8")
+            row_y = translation_top + index * translation_gap
+            flag_w = max(34, min(58, width // 22))
+            flag_x = max(52, width // 12)
+            filters.append(
+                drawtext_filter(
+                    flag_text,
+                    width,
+                    height,
+                    position="center",
+                    title=False,
+                    font_size=max(translation_font + 3, 26),
+                    y_expr=str(row_y - 3),
+                    text_file=flag_file,
+                    color="white",
+                    x_expr=str(flag_x),
+                    emoji=True,
+                )
+            )
+            filters.append(
+                drawtext_filter(
+                    translation_text,
+                    width,
+                    height,
+                    position="center",
+                    title=False,
+                    font_size=translation_font,
+                    y_expr=str(row_y),
+                    text_file=text_file,
+                    color="0xEAF2FF",
+                    script=font_script_for_language(flag_key),
+                    x_expr=str(flag_x + flag_w + max(14, width // 90)),
+                )
+            )
     return ",".join(filters)
+
+
+def title_card_complex_filter(
+    base_filters: list[str],
+    *,
+    translation_rows: list[tuple[str, str, str]],
+    width: int,
+    height: int,
+    translation_top: int,
+    translation_gap: int,
+    translation_font: int,
+    text_dir: Path | None,
+    file_prefix: str,
+    flag_dir: Path,
+    output_label: str,
+) -> str:
+    """Build a labelled filter graph for title cards that overlay PNG flag assets."""
+
+    chains: list[str] = [f"[0:v]{','.join(base_filters)}[titlebase0]"]
+    current_label = "titlebase0"
+    step = 1
+    flag_w = max(34, min(58, width // 22))
+    flag_h = max(22, round(flag_w * 2 / 3))
+    flag_x = max(52, width // 12)
+
+    def add_filter(filter_body: str) -> None:
+        nonlocal current_label, step
+        next_label = f"titlebase{step}"
+        step += 1
+        chains.append(f"[{current_label}]{filter_body}[{next_label}]")
+        current_label = next_label
+
+    for index, (flag_key, flag_text, translation_text) in enumerate(translation_rows):
+        text_file = None
+        if text_dir:
+            text_file = text_dir / f"{file_prefix}-translation-{index}.txt"
+            text_file.write_text(translation_text, encoding="utf-8")
+            flag_record = text_dir / f"{file_prefix}-flag-{index}.txt"
+            flag_record.write_text(flag_asset_path(flag_dir, flag_key).name, encoding="utf-8")
+
+        row_y = translation_top + index * translation_gap
+        flag_path = flag_asset_path(flag_dir, flag_key)
+        if flag_path.is_file():
+            flag_label = f"titleflag{index}"
+            chains.append(
+                f"movie='{escape_font_path(flag_path)}',"
+                f"scale={flag_w}:{flag_h}:flags=lanczos[{flag_label}]"
+            )
+            next_label = f"titlebase{step}"
+            step += 1
+            flag_y = max(0, row_y - max(0, (flag_h - translation_font) // 2) - 2)
+            chains.append(
+                f"[{current_label}][{flag_label}]"
+                f"overlay={flag_x}:{flag_y}:format=auto[{next_label}]"
+            )
+            current_label = next_label
+        else:
+            flag_file = None
+            if text_dir:
+                flag_file = text_dir / f"{file_prefix}-flag-{index}.txt"
+                flag_file.write_text(flag_text, encoding="utf-8")
+            add_filter(
+                drawtext_filter(
+                    flag_text,
+                    width,
+                    height,
+                    position="center",
+                    title=False,
+                    font_size=max(translation_font + 3, 26),
+                    y_expr=str(row_y - 3),
+                    text_file=flag_file,
+                    color="white",
+                    x_expr=str(flag_x),
+                    emoji=True,
+                )
+            )
+
+        add_filter(
+            drawtext_filter(
+                translation_text,
+                width,
+                height,
+                position="center",
+                title=False,
+                font_size=translation_font,
+                y_expr=str(row_y),
+                text_file=text_file,
+                color="0xEAF2FF",
+                script=font_script_for_language(flag_key),
+                x_expr=str(flag_x + flag_w + max(14, width // 90)),
+            )
+        )
+
+    chains.append(f"[{current_label}]format=yuv420p[{output_label}]")
+    return ";".join(chains)
+
+
+def translation_line_parts(line: str) -> tuple[str, str, str]:
+    """Return flag key, flag emoji, and translation text for a display line."""
+
+    stripped = line.strip()
+    for flag, key in TRANSLATION_FLAG_KEYS.items():
+        if stripped.startswith(flag):
+            return key, flag, stripped.removeprefix(flag).strip()
+    return "generic", "🏳️", stripped
+
+
+def translation_flag_key(line: str) -> str:
+    """Return the flag style key for a display line."""
+
+    return translation_line_parts(line)[0]
+
+
+def font_script_for_language(language_key: str) -> str | None:
+    """Return the preferred font script group for a translation language key."""
+
+    if language_key in {"zh", "ja"}:
+        return "cjk"
+    if language_key == "ko":
+        return "korean"
+    if language_key == "hi":
+        return "devanagari"
+    return None
 
 
 def ass_subtitle_filter(path: Path) -> str:
@@ -618,14 +934,30 @@ def highlight_spans(text: str, query: str) -> list[tuple[int, int]]:
     if not text_tokens or not query_tokens:
         return []
 
-    expanded_text_tokens = expand_token_spans(text_tokens)
-    expanded_query_tokens = [
-        token for token, _start, _end in expand_token_spans(token_spans(query))
-    ]
-
-    spans = phrase_highlight_spans(expanded_text_tokens, expanded_query_tokens)
+    spans: list[tuple[int, int]] = []
+    for query_sequence in expanded_token_sequences(query_tokens):
+        spans.extend(phrase_highlight_spans(text_tokens, query_sequence))
     spans.extend(semantic_highlight_spans(text_tokens, query_tokens))
     return merge_spans(spans)
+
+
+def expanded_token_sequences(tokens: list[str]) -> list[list[str]]:
+    """Return possible token sequences after expanding contractions."""
+
+    sequences: list[list[str]] = [[]]
+    for token in tokens:
+        next_sequences: list[list[str]] = []
+        for sequence in sequences:
+            for variant in token_expansion_variants(token):
+                candidate = [*sequence, *variant]
+                if candidate not in next_sequences:
+                    next_sequences.append(candidate)
+                if len(next_sequences) >= MAX_QUERY_EXPANSION_VARIANTS:
+                    break
+            if len(next_sequences) >= MAX_QUERY_EXPANSION_VARIANTS:
+                break
+        sequences = next_sequences
+    return sequences
 
 
 def phrase_highlight_spans(
@@ -635,21 +967,51 @@ def phrase_highlight_spans(
     """Return spans for direct phrase matches with small inflection tolerance."""
 
     spans: list[tuple[int, int]] = []
-    query_length = len(query_tokens)
     index = 0
 
-    while index <= len(text_tokens) - query_length:
-        candidate = text_tokens[index : index + query_length]
-        if all(
-            subtitle_tokens_match(query_token, candidate_token)
-            for query_token, (candidate_token, _start, _end) in zip(query_tokens, candidate)
-        ):
-            spans.append((candidate[0][1], candidate[-1][2]))
-            index += query_length
+    while index < len(text_tokens):
+        end_index = expanded_match_end_index(text_tokens, index, query_tokens)
+        if end_index is not None:
+            spans.append((text_tokens[index][1], text_tokens[end_index - 1][2]))
+            index = end_index
             continue
         index += 1
 
     return spans
+
+
+def expanded_match_end_index(
+    text_tokens: list[tuple[str, int, int]],
+    start_index: int,
+    query_tokens: list[str],
+) -> int | None:
+    """Return the exclusive text-token end index when a phrase variant matches."""
+
+    def match_from(text_index: int, query_index: int) -> int | None:
+        if query_index == len(query_tokens):
+            return text_index
+        if text_index >= len(text_tokens):
+            return None
+
+        text_token = text_tokens[text_index][0]
+        for variant in token_expansion_variants(text_token):
+            end_query_index = query_index + len(variant)
+            if end_query_index > len(query_tokens):
+                continue
+            if not all(
+                subtitle_tokens_match(query_token, text_variant_token)
+                for query_token, text_variant_token in zip(
+                    query_tokens[query_index:end_query_index],
+                    variant,
+                )
+            ):
+                continue
+            end_text_index = match_from(text_index + 1, end_query_index)
+            if end_text_index is not None:
+                return end_text_index
+        return None
+
+    return match_from(start_index, 0)
 
 
 def semantic_highlight_spans(
@@ -762,12 +1124,49 @@ def expand_token_spans(tokens: list[tuple[str, int, int]]) -> list[tuple[str, in
 
     expanded: list[tuple[str, int, int]] = []
     for token, start, end in tokens:
-        parts = CONTRACTION_EXPANSIONS.get(token)
-        if parts:
-            expanded.extend((part, start, end) for part in parts)
-        else:
-            expanded.append((token, start, end))
+        variants = token_expansion_variants(token)
+        parts = next((variant for variant in variants if variant != [token]), [token])
+        expanded.extend((part, start, end) for part in parts)
     return expanded
+
+
+def token_expansion_variants(token: str) -> list[list[str]]:
+    """Return exact and expanded variants for a normalized token."""
+
+    normalized = normalize_match_token(token)
+    variants = [[normalized]]
+    explicit = CONTRACTION_EXPANSIONS.get(normalized)
+    if explicit:
+        variants.append(explicit)
+    variants.extend(inferred_contraction_expansions(normalized))
+    return unique_token_sequences(variants)
+
+
+def inferred_contraction_expansions(token: str) -> list[list[str]]:
+    """Infer common contraction expansions from normalized token suffixes."""
+
+    if token.endswith("n't") and len(token) > 3:
+        base = token[:-3]
+        base_tokens = NEGATIVE_CONTRACTION_BASES.get(base, [base])
+        return [[base_token, "not"] for base_token in base_tokens]
+
+    for suffix, suffix_variants in CONTRACTION_SUFFIX_EXPANSIONS.items():
+        if not token.endswith(suffix) or len(token) <= len(suffix):
+            continue
+        base = token[: -len(suffix)]
+        return [[base, *variant] for variant in suffix_variants]
+
+    return []
+
+
+def unique_token_sequences(sequences: list[list[str]]) -> list[list[str]]:
+    """Return token sequences without duplicates while preserving order."""
+
+    unique: list[list[str]] = []
+    for sequence in sequences:
+        if sequence and sequence not in unique:
+            unique.append(sequence)
+    return unique
 
 
 def subtitle_tokens_match(query_token: str, caption_token: str) -> bool:

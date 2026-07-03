@@ -13,3 +13,5 @@ outputs/*
 
 logs/*
 !logs/.gitkeep
+
+.tmp/

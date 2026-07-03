@@ -21,10 +21,20 @@ class CombSearchService:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
 
-    async def search(self, phrase: str, *, start_index: int) -> list[ClipInfo]:
+    async def search(
+        self,
+        phrase: str,
+        *,
+        start_index: int,
+        max_clips: int | None = None,
+    ) -> list[ClipInfo]:
         """Return up to COMB_MAX_CLIPS public comb.io clips."""
 
         if not self.settings.comb_enabled or self.settings.comb_max_clips <= 0:
+            return []
+
+        limit = max(0, min(max_clips or self.settings.comb_max_clips, self.settings.comb_max_clips))
+        if limit <= 0:
             return []
 
         clips: list[ClipInfo] = []
@@ -35,7 +45,7 @@ class CombSearchService:
                 logger.info("Comb.io returned %s timeline candidates", len(results))
 
                 for result in results:
-                    if len(clips) >= self.settings.comb_max_clips:
+                    if len(clips) >= limit:
                         break
                     clip = await self._create_clip_from_result(
                         page,

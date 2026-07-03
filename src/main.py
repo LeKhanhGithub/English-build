@@ -5,16 +5,19 @@ from __future__ import annotations
 import asyncio
 import logging
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Callable
 
 import typer
 from rich.table import Table
 
+from src.commons import CommonsBrollService
 from src.config import Settings, get_settings
 from src.downloader import DownloadManager
+from src.enhancer import VideoEnhancer, default_broll_queries
 from src.merger import VideoMerger
 from src.search import SearchResult, SearchService
-from src.utils import AppError, console, setup_logging
+from src.translations import TranslationService
+from src.utils import AppError, console, normalize_whitespace, setup_logging
 
 app = typer.Typer(
     name="playphrase-video-builder",
@@ -24,6 +27,7 @@ app = typer.Typer(
 )
 
 logger = logging.getLogger(__name__)
+MAX_BATCH_PHRASES = 5
 
 
 def cli() -> None:
@@ -55,14 +59,49 @@ def _fail(exc: Exception) -> None:
     raise typer.Exit(1) from exc
 
 
-def _resolve_output(settings: Settings, output: Path | None, result: SearchResult) -> Path:
-    """Resolve an optional output path."""
+def _resolve_path(settings: Settings, path: Path) -> Path:
+    """Resolve a possibly relative user-provided path."""
+
+    if path.is_absolute():
+        return path
+    return (settings.project_root / path).resolve()
+
+
+def _resolve_video_output(settings: Settings, output: Path | None, result: SearchResult) -> Path:
+    """Resolve the normal horizontal video output path."""
 
     if output is None:
-        return settings.output_folder / f"{result.slug}.mp4"
-    if output.is_absolute():
-        return output
-    return (settings.project_root / output).resolve()
+        return settings.video_output_folder / f"{result.slug}.mp4"
+    return _resolve_path(settings, output)
+
+
+def _resolve_reel_output(settings: Settings, output: Path | None, result: SearchResult) -> Path:
+    """Resolve the vertical Reel/Shorts output path."""
+
+    if output is None:
+        return settings.reel_output_folder / f"{result.slug}-reel.mp4"
+    return _resolve_path(settings, output)
+
+
+def _resolve_enhance_input(
+    settings: Settings,
+    input_path: Path | None,
+    result: SearchResult,
+) -> Path:
+    """Resolve the source video for enhance, with compatibility for old outputs."""
+
+    if input_path is not None:
+        return _resolve_path(settings, input_path)
+
+    default_path = settings.video_output_folder / f"{result.slug}.mp4"
+    if default_path.is_file():
+        return default_path
+
+    legacy_path = settings.output_folder / f"{result.slug}.mp4"
+    if legacy_path.is_file():
+        return legacy_path
+
+    return default_path
 
 
 def _load_result(service: SearchService, phrase: str | None) -> SearchResult:
@@ -74,6 +113,158 @@ def _load_result(service: SearchService, phrase: str | None) -> SearchResult:
             return cached
         raise AppError(f"No cached search found for {phrase!r}. Run `python main.py search` first.")
     return service.load_latest()
+
+
+def _normalize_phrase_arguments(
+    phrases: list[str] | None,
+    *,
+    allow_empty: bool = False,
+) -> list[str]:
+    """Normalize one or more CLI phrase arguments and enforce the batch limit."""
+
+    if phrases is None or len(phrases) == 0:
+        if allow_empty:
+            return []
+        raise AppError("Please provide at least one English phrase.")
+
+    normalized: list[str] = []
+    for phrase in phrases:
+        for line in phrase.splitlines():
+            for part in line.split(";"):
+                text = normalize_whitespace(part)
+                if text:
+                    normalized.append(text)
+
+    if not normalized:
+        raise AppError("Please provide at least one non-empty English phrase.")
+
+    if len(normalized) > MAX_BATCH_PHRASES:
+        raise AppError(
+            f"Please provide at most {MAX_BATCH_PHRASES} phrases per command. "
+            f"Received {len(normalized)}."
+        )
+
+    return normalized
+
+
+def _run_phrase_batch(
+    phrases: list[str],
+    *,
+    action_name: str,
+    worker: Callable[[str], Path],
+) -> list[Path]:
+    """Run a worker for each phrase in order, continuing through batch failures."""
+
+    paths: list[Path] = []
+    failures: list[tuple[str, str]] = []
+    total = len(phrases)
+
+    for index, phrase in enumerate(phrases, start=1):
+        if total > 1:
+            console.print(f"\n[bold cyan]{action_name} {index}/{total}:[/bold cyan] {phrase}")
+        try:
+            paths.append(worker(phrase))
+        except KeyboardInterrupt:
+            raise
+        except Exception as exc:  # noqa: BLE001 - batch boundary reports and continues
+            logger.exception("%s failed for phrase %r", action_name, phrase)
+            message = str(exc) or exc.__class__.__name__
+            failures.append((phrase, message))
+            console.print(f"[bold red]Failed:[/bold red] {phrase} - {message}")
+            if total == 1:
+                raise
+
+    if failures:
+        summary = "; ".join(f"{phrase}: {message}" for phrase, message in failures)
+        raise AppError(f"{len(failures)} of {total} phrases failed. {summary}")
+
+    return paths
+
+
+def _build_video(
+    settings: Settings,
+    service: SearchService,
+    phrase: str,
+    *,
+    force_search: bool,
+    output: Path | None,
+    intro: bool,
+    outro: bool,
+    subtitles: bool,
+) -> Path:
+    """Search, download, and merge one horizontal video."""
+
+    console.print(f"[bold]Searching:[/bold] {phrase}")
+    result = asyncio.run(service.search(phrase, force=force_search))
+    _print_search_summary(result, service.result_path_for(result))
+
+    console.print("[bold]Downloading clips[/bold]")
+    report = asyncio.run(DownloadManager(settings).download_all(result))
+    console.print(f"[green]Downloaded:[/green] {len(report.clips)} clips")
+
+    console.print("[bold]Merging final video[/bold]")
+    destination = _resolve_video_output(settings, output, result)
+    final_path = VideoMerger(settings).merge_result(
+        result,
+        output_path=destination,
+        add_intro=intro,
+        add_outro=outro,
+        subtitles=subtitles,
+    )
+
+    console.print(f"[bold green]Done:[/bold green] {final_path}")
+    return final_path
+
+
+def _create_reel(
+    settings: Settings,
+    service: SearchService,
+    phrase: str | None,
+    *,
+    input_path: Path | None,
+    output: Path | None,
+    broll: bool,
+    broll_query: str | None,
+    force_broll: bool,
+) -> Path:
+    """Create one vertical Reel/Shorts video from a built horizontal video."""
+
+    result = _load_result(service, phrase)
+    source_path = _resolve_enhance_input(settings, input_path, result)
+    destination = _resolve_reel_output(settings, output, result)
+
+    broll_path: Path | None = None
+    broll_credit: str | None = None
+    if broll and settings.commons_broll_enabled:
+        queries = [broll_query] if broll_query else default_broll_queries(result.phrase)
+        console.print(f"[bold]Finding b-roll:[/bold] {' / '.join(queries[:4])}")
+        try:
+            asset = asyncio.run(
+                CommonsBrollService(settings).download_best(
+                    queries,
+                    slug=result.slug,
+                    force=force_broll,
+                )
+            )
+        except Exception as exc:  # noqa: BLE001 - b-roll is optional enhancement
+            logger.warning("Wikimedia Commons b-roll failed; continuing without it: %s", exc)
+            asset = None
+        if asset and asset.local_path:
+            broll_path = Path(asset.local_path)
+            broll_credit = asset.credit
+            console.print(f"[green]B-roll:[/green] {asset.title}")
+
+    console.print("[bold]Rendering enhanced reel[/bold]")
+    final_path = VideoEnhancer(settings).create_reel(
+        input_path=source_path,
+        phrase=result.phrase,
+        output_path=destination,
+        broll_path=broll_path,
+        broll_credit=broll_credit,
+        translations=TranslationService(settings).get(result.phrase) if broll_path else None,
+    )
+    console.print(f"[bold green]Enhanced video:[/bold green] {final_path}")
+    return final_path
 
 
 def _print_search_summary(result: SearchResult, path: Path) -> None:
@@ -180,7 +371,7 @@ def merge_command(
     try:
         service = SearchService(settings)
         result = _load_result(service, phrase)
-        destination = _resolve_output(settings, output, result)
+        destination = _resolve_video_output(settings, output, result)
         final_path = VideoMerger(settings).merge_result(
             result,
             output_path=destination,
@@ -194,9 +385,101 @@ def merge_command(
         _fail(exc)
 
 
+@app.command("enhance")
+def enhance_command(
+    phrases: Annotated[
+        list[str] | None,
+        typer.Argument(
+            help=(
+                "Optional phrase(s). If omitted, enhances the latest built video. "
+                "Pass up to 5 phrases as separate quoted arguments or separated by semicolons."
+            )
+        ),
+    ] = None,
+    input_path: Annotated[
+        Path | None,
+        typer.Option(
+            "--input",
+            "-i",
+            help="Existing MP4 to enhance. Defaults to outputs/videos/<slug>.mp4.",
+        ),
+    ] = None,
+    output: Annotated[
+        Path | None,
+        typer.Option(
+            "--output",
+            "-o",
+            help="Enhanced MP4 path. Defaults to outputs/reels/<slug>-reel.mp4.",
+        ),
+    ] = None,
+    broll: Annotated[
+        bool,
+        typer.Option("--broll/--no-broll", help="Add a short Wikimedia Commons b-roll hook."),
+    ] = True,
+    broll_query: Annotated[
+        str | None,
+        typer.Option("--broll-query", help="Custom Wikimedia Commons video search query."),
+    ] = None,
+    force_broll: Annotated[
+        bool,
+        typer.Option("--force-broll", help="Ignore cached b-roll and download a fresh candidate."),
+    ] = False,
+    verbose: Annotated[bool, typer.Option("--verbose", "-v", help="Enable debug logs.")] = False,
+) -> None:
+    """Create a more dynamic vertical Reel/Shorts version of a built video."""
+
+    settings, log_path = _prepare(verbose)
+    try:
+        phrase_list = _normalize_phrase_arguments(phrases, allow_empty=True)
+        if len(phrase_list) > 1 and input_path is not None:
+            raise AppError("Do not use --input with multiple phrases.")
+        if len(phrase_list) > 1 and output is not None:
+            raise AppError("Do not use --output with multiple phrases.")
+
+        service = SearchService(settings)
+
+        if not phrase_list:
+            _create_reel(
+                settings,
+                service,
+                None,
+                input_path=input_path,
+                output=output,
+                broll=broll,
+                broll_query=broll_query,
+                force_broll=force_broll,
+            )
+        else:
+            def create_one(phrase: str) -> Path:
+                return _create_reel(
+                    settings,
+                    service,
+                    phrase,
+                    input_path=input_path,
+                    output=output,
+                    broll=broll,
+                    broll_query=broll_query,
+                    force_broll=force_broll,
+                )
+
+            _run_phrase_batch(phrase_list, action_name="Reel", worker=create_one)
+
+        console.print(f"[dim]Log file: {log_path}[/dim]")
+    except Exception as exc:  # noqa: BLE001
+        _fail(exc)
+
+
 @app.command("build")
 def build_command(
-    phrase: Annotated[str, typer.Argument(help="English phrase to build into one video.")],
+    phrases: Annotated[
+        list[str],
+        typer.Argument(
+            help=(
+                "English phrase(s) to build into video. Pass up to 5 phrases as separate "
+                "quoted arguments or separated by semicolons."
+            )
+        ),
+    ],
     force_search: Annotated[
         bool,
         typer.Option("--force-search", "-f", help="Ignore cached search results."),
@@ -223,26 +506,25 @@ def build_command(
 
     settings, log_path = _prepare(verbose)
     try:
+        phrase_list = _normalize_phrase_arguments(phrases)
+        if len(phrase_list) > 1 and output is not None:
+            raise AppError("Do not use --output with multiple phrases.")
+
         service = SearchService(settings)
-        console.print(f"[bold]Searching:[/bold] {phrase}")
-        result = asyncio.run(service.search(phrase, force=force_search))
-        _print_search_summary(result, service.result_path_for(result))
 
-        console.print("[bold]Downloading clips[/bold]")
-        report = asyncio.run(DownloadManager(settings).download_all(result))
-        console.print(f"[green]Downloaded:[/green] {len(report.clips)} clips")
+        def build_one(phrase: str) -> Path:
+            return _build_video(
+                settings,
+                service,
+                phrase,
+                force_search=force_search,
+                output=output,
+                intro=intro,
+                outro=outro,
+                subtitles=subtitles,
+            )
 
-        console.print("[bold]Merging final video[/bold]")
-        destination = _resolve_output(settings, output, result)
-        final_path = VideoMerger(settings).merge_result(
-            result,
-            output_path=destination,
-            add_intro=intro,
-            add_outro=outro,
-            subtitles=subtitles,
-        )
-
-        console.print(f"[bold green]Done:[/bold green] {final_path}")
+        _run_phrase_batch(phrase_list, action_name="Video", worker=build_one)
         console.print(f"[dim]Log file: {log_path}[/dim]")
     except Exception as exc:  # noqa: BLE001
         _fail(exc)

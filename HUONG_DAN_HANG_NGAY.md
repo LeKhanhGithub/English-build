@@ -1,268 +1,260 @@
 # Huong dan tao video hang ngay
 
-File nay la quy trinh ngan gon de moi ngay ban chi can nhap mot cau tieng Anh va tao video MP4.
+Moi ngay ban chi can nhap mot cau tieng Anh. Project se tu search clip, tai video, tao subtitle, ghep thanh video ngang, va neu can thi tao them ban doc cho TikTok/Reels/Shorts.
 
-## 1. Loi `No module named 'pydantic'` la gi?
+## 1. Mo project
 
-Loi nay xay ra khi ban chay:
-
-```bash
-python main.py search "nice to meet you"
-```
-
-nhung lenh `python` dang tro toi Python global cua may, khong phai Python trong moi truong ao `.venv`.
-
-Dependencies nhu `pydantic`, `playwright`, `rich`, `typer` da duoc cai trong:
-
-```text
-.venv/
-```
-
-Vi vay ban can chay bang Python trong `.venv`, hoac kich hoat `.venv` truoc.
-
-## 2. Cach chay dung trong Git Bash
-
-Ban dang dung Git Bash / MINGW64, hay chay:
+Dung Git Bash:
 
 ```bash
 cd ~/OneDrive/Desktop/video-builder/playphrase-video-builder
 source .venv/Scripts/activate
+```
+
+Khi activate dung, dau dong lenh se co `(.venv)`.
+
+Neu khong muon activate, thay `python` bang:
+
+```bash
+./.venv/Scripts/python.exe
+```
+
+## 2. Lenh quan trong nhat
+
+Tao video ngang:
+
+```bash
 python main.py build "nice to meet you" --force-search
 ```
 
-Sau khi activate thanh cong, dau dong lenh thuong se hien them `(.venv)`.
-
-Tu luc do, ban co the dung:
+Tao them ban doc Reel/Shorts sau khi da build:
 
 ```bash
-python main.py build "hello" --force-search
-python main.py build "how are you" --force-search
-python main.py build "nice to meet you" --force-search
+python main.py enhance "nice to meet you"
 ```
 
-## 3. Cach chay khong can activate
-
-Neu khong muon activate `.venv`, hay go truc tiep:
+Tao nhieu video ngang trong mot lenh, toi da 5 cum:
 
 ```bash
-cd ~/OneDrive/Desktop/video-builder/playphrase-video-builder
-./.venv/Scripts/python.exe main.py build "nice to meet you" --force-search
+python main.py build "nice to meet you" "how are you" "see you soon" --force-search
 ```
 
-Day la cach it nham nhat trong Git Bash.
-
-## 4. Lenh dung moi ngay
-
-Moi ngay ban chi can thay phan trong dau ngoac kep:
+Tao nhieu Reel/Shorts trong mot lenh, sau khi cac video ngang da build xong:
 
 ```bash
-./.venv/Scripts/python.exe main.py build "CAU_TIENG_ANH_CAN_TIM" --force-search
+python main.py enhance "nice to meet you" "how are you" "see you soon"
 ```
 
-Vi du:
+Co the paste danh sach bang dau `;`:
+
+```bash
+python main.py build "nice to meet you; how are you; see you soon" --force-search
+```
+
+Neu khong activate `.venv`, dung:
 
 ```bash
 ./.venv/Scripts/python.exe main.py build "nice to meet you" --force-search
+./.venv/Scripts/python.exe main.py enhance "nice to meet you"
 ```
 
-Ket qua se nam trong:
+## 3. File ket qua nam o dau?
+
+Video ngang de upload YouTube/Facebook:
 
 ```text
-outputs/nice-to-meet-you.mp4
+outputs/videos/nice-to-meet-you.mp4
 ```
 
-Mac dinh hien tai:
-
-- Lay nhieu clip free nhat ma PlayPhrase tra ve, toi da 10 clip PlayPhrase.
-- Neu `COMB_ENABLED=true`, thu lay them clip public tu `comb.io` sau PlayPhrase.
-- Neu PlayPhrase + Comb chua du `TARGET_TOTAL_CLIPS` hoac tong video qua ngan, chuong trinh se thu them `Clip.Cafe`.
-- Mac dinh muc tieu la 10 clip tong: thuong la 5 PlayPhrase + toi da 5 Clip.Cafe neu Comb khong co clip khop.
-- Clip Comb/Clip.Cafe chi duoc them neu subtitle/title khop phrase da search hoac mot rule tuong duong da ho tro. Neu nguon phu khong co clip khop, video se ngan hon thay vi ghep clip sai cau.
-- Khong them outro / man ket thuc.
-- Moi clip co subtitle rieng trong `downloads/<phrase>/subtitles/`.
-- Video final se burn subtitle karaoke tieng Anh theo tung tu neu PlayPhrase co timing.
-- Clip Comb co subtitle tieng Anh theo tung dong loi thoai that trong timeline.
-- Clip.Cafe co subtitle VTT theo tung dong neu website cung cap.
-- Comb/Clip.Cafe khong expose timing tung tu nhu PlayPhrase, nen cac nguon nay khong dung karaoke gia.
-- Trong clip Comb/Clip.Cafe, text trung voi phrase da search se duoc highlight mau vang; text khac mau trang binh thuong.
-- Subtitle dai se duoc xuong dong de tranh tran video.
-
-## 5. Vi sao nen dung `--force-search`?
-
-`--force-search` bat chuong trinh tim lai PlayPhrase tu dau, khong lay search cache cu.
-
-Nen dung tuy chon nay cho workflow hang ngay de dam bao:
-
-- Video dung voi cau vua search.
-- Khong dung lai JSON cache cu.
-- Khong bi nham neu PlayPhrase doi ket qua theo thoi gian.
-
-Code hien tai cung da duoc sua de:
-
-- Khong bat clip mac dinh cua PlayPhrase truoc khi search.
-- Chi merge cac clip thuoc search-result hien tai.
-- Chi skip clip da tai neu URL nguon khop voi report cu.
-- Lay clip tu API search cua PlayPhrase truoc, nen co du title, movie, video URL va word timing.
-- Gioi han toi da 10 clip free moi phrase.
-- Them source phu `comb.io` sau PlayPhrase vi GetYarn hien bi Cloudflare Turnstile.
-- Source phu Comb duoc loc strict theo phrase; khong lay cac ket qua lien quan long leo nhu `fall for that` cho phrase `I'm falling for you`.
-- Them source phu thu 3 `Clip.Cafe` sau Comb de bu them clip khi Comb khong co ket qua dung cau.
-- Source phu Clip.Cafe cung duoc loc strict theo phrase va co subtitle VTT neu website cung cap.
-- Khong them outro mac dinh.
-
-## 6. Cac lenh rieng le khi can debug
-
-Chi search, chua tai video:
-
-```bash
-./.venv/Scripts/python.exe main.py search "nice to meet you" --force
-```
-
-Chi download clip cua search moi nhat:
-
-```bash
-./.venv/Scripts/python.exe main.py download
-```
-
-Chi merge clip cua search moi nhat:
-
-```bash
-./.venv/Scripts/python.exe main.py merge
-```
-
-Full pipeline:
-
-```bash
-./.venv/Scripts/python.exe main.py build "nice to meet you" --force-search
-```
-
-## 7. Tuy chinh so luong va source phu
-
-Trong file `.env`:
-
-```env
-TARGET_TOTAL_CLIPS=10
-MAX_TOTAL_CLIPS=12
-MIN_TOTAL_DURATION_SECONDS=45
-COMB_ENABLED=true
-COMB_MAX_CLIPS=5
-COMB_URL=https://comb.io
-CLIPCAFE_ENABLED=true
-CLIPCAFE_MAX_CLIPS=5
-CLIPCAFE_URL=https://clip.cafe
-```
-
-Y nghia:
-
-- `TARGET_TOTAL_CLIPS=10`: muc tieu tong so clip sau khi gom nhieu nguon.
-- `MAX_TOTAL_CLIPS=12`: gioi han cung neu tong thoi luong van qua ngan.
-- `MIN_TOTAL_DURATION_SECONDS=45`: neu video uoc tinh ngan hon muc nay, co the lay them toi `MAX_TOTAL_CLIPS`.
-- `COMB_MAX_CLIPS=5`: toi da 5 clip tu Comb.
-- `CLIPCAFE_MAX_CLIPS=5`: toi da 5 clip tu Clip.Cafe.
-
-Neu chi muon dung PlayPhrase:
-
-```env
-COMB_ENABLED=false
-CLIPCAFE_ENABLED=false
-```
-
-Neu muon lay nhieu clip Comb hon, tang toi da 10:
-
-```env
-COMB_MAX_CLIPS=10
-```
-
-Neu muon lay nhieu clip Clip.Cafe hon, tang toi da 10:
-
-```env
-CLIPCAFE_MAX_CLIPS=10
-```
-
-## 8. Noi xem file ket qua
-
-Video MP4 cuoi cung:
+Video doc cho TikTok/Reels/Shorts:
 
 ```text
-outputs/<ten-cau-da-slug>.mp4
-```
-
-Vi du:
-
-```text
-outputs/nice-to-meet-you.mp4
-outputs/hello.mp4
-outputs/how-are-you.mp4
+outputs/reels/nice-to-meet-you-reel.mp4
 ```
 
 Clip tai ve:
 
 ```text
-downloads/<ten-cau-da-slug>/clips/
+downloads/nice-to-meet-you/clips/
 ```
 
-Subtitle tieng Anh di kem:
+Subtitle va metadata:
 
 ```text
-downloads/<ten-cau-da-slug>/subtitles/
+downloads/nice-to-meet-you/subtitles/
+downloads/nice-to-meet-you/search-results.json
+downloads/nice-to-meet-you/download-report.json
 ```
 
-Trong folder subtitle se co:
+B-roll Wikimedia cho ban Reel:
 
 ```text
-001.ass   # subtitle karaoke de burn vao video
-001.txt   # cau tieng Anh dang plain text
-001.json  # word timing goc tu PlayPhrase
+downloads/nice-to-meet-you/broll/
 ```
 
-Search JSON:
+## 4. Workflow de dung moi ngay
 
-```text
-downloads/<ten-cau-da-slug>/search-results.json
-```
-
-Log moi lan chay:
-
-```text
-logs/
-```
-
-## 9. Neu PlayPhrase bi loi browser
-
-Thu chay voi browser hien len:
+Thay cau trong dau ngoac kep:
 
 ```bash
-HEADLESS=false ./.venv/Scripts/python.exe main.py build "nice to meet you" --force-search
+python main.py build "CAU_TIENG_ANH" --force-search
+python main.py enhance "CAU_TIENG_ANH"
 ```
 
-Neu dung Git Bash tren Windows ma bien moi truong tren khong an, dung:
+Vi du:
+
+```bash
+python main.py build "I'm falling for you" --force-search
+python main.py enhance "I'm falling for you"
+```
+
+Neu muon chon b-roll mood rieng cho ban Reel:
+
+```bash
+python main.py enhance "I'm falling for you" --broll-query "couple walking" --force-broll
+```
+
+B-roll mac dinh se xoay nhieu canh doi thuong hon va ne cac clip meeting/office.
+Neu mot cum da co b-roll cu, dung `--force-broll` de tai lai clip mo dau moi.
+Intro va b-roll opener se hien them nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi kem icon co that neu dich duoc; thoi luong
+intro va opener van giu nhu cu.
+
+Neu chi muon layout doc, khong can b-roll:
+
+```bash
+python main.py enhance "I'm falling for you" --no-broll
+```
+
+## 5. Cac lenh debug
+
+Chi search, chua tai video:
+
+```bash
+python main.py search "nice to meet you" --force
+```
+
+Chi tai clip cua search moi nhat:
+
+```bash
+python main.py download
+```
+
+Chi ghep video ngang tu clip da tai:
+
+```bash
+python main.py merge
+```
+
+Ghep video ngang cho mot cau cu the:
+
+```bash
+python main.py merge "nice to meet you"
+```
+
+## 6. Chuong trinh dang lay video tu dau?
+
+Thu tu nguon:
+
+1. PlayPhrase: nguon chinh, co word timing nen subtitle co karaoke tung tu.
+2. Clip.Cafe: nguon phu uu tien thu hai theo cau hinh mac dinh.
+3. Comb.io: nguon phu, chi lay neu subtitle/title khop cau search.
+4. Wikimedia Commons: chi dung lam b-roll hook cho lenh `enhance`.
+
+Comb/Clip.Cafe khong co timing tung tu nhu PlayPhrase. Vi vay cac clip nay hien subtitle theo dong, va highlight mau vang doan trung voi cau search.
+
+Co the doi thu tu nguon bang `SOURCE_PRIORITY` trong `.env`.
+
+## 7. Cau hinh quan trong trong `.env`
+
+```env
+HEADLESS=true
+MAX_PARALLEL=4
+MAX_CLIPS=10
+SOURCE_PRIORITY=playphrase,clipcafe,comb
+TARGET_TOTAL_CLIPS=10
+MAX_TOTAL_CLIPS=12
+MIN_TOTAL_DURATION_SECONDS=45
+
+COMB_ENABLED=true
+COMB_MAX_CLIPS=5
+
+CLIPCAFE_ENABLED=true
+CLIPCAFE_MAX_CLIPS=5
+
+COMMONS_BROLL_ENABLED=true
+COMMONS_MAX_BYTES=80000000
+COMMONS_MIN_SHORT_EDGE=1080
+COMMONS_MIN_LONG_EDGE=1920
+COMMONS_VERIFY_SSL=false
+
+TRANSLATIONS_ENABLED=true
+TRANSLATION_PROVIDER=gemini
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-3.5-flash
+TRANSLATION_CONTACT_EMAIL=
+```
+
+Y nghia nhanh:
+
+- `TARGET_TOTAL_CLIPS=10`: muc tieu tong so clip sau khi gom nhieu nguon.
+- `SOURCE_PRIORITY=playphrase,clipcafe,comb`: thu tu xep clip vao video cuoi. Doi thanh `playphrase,comb,clipcafe` neu muon Comb truoc Clip.Cafe.
+- `MAX_TOTAL_CLIPS=12`: gioi han cao nhat neu video van qua ngan.
+- `MIN_TOTAL_DURATION_SECONDS=45`: neu tong clip ngan hon muc nay, chuong trinh co the tim them.
+- `COMMONS_MIN_SHORT_EDGE=1080` va `COMMONS_MIN_LONG_EDGE=1920`: chi lay b-roll toi thieu 1080p de tranh bi mo.
+- `COMMONS_VERIFY_SSL=false`: may nay dang can false vi Wikimedia bi loi chain SSL tren Windows. May khac co the dat true.
+- `TRANSLATIONS_ENABLED=true`: hien nghia Trung/Nhat/Viet/Han/Tay Ban Nha/Hindi tren intro va b-roll opener.
+- `TRANSLATION_PROVIDER=gemini`: dich tu nhien hon bang Gemini API va cache vao `downloads/<phrase-slug>/translations.json`. Neu chua co `GEMINI_API_KEY`, tool tu fallback ve phrasebook/MyMemory.
+- `GEMINI_API_KEY`: API key Google AI Studio/Gemini. De trong neu tam thoi muon dung fallback.
+- `GEMINI_MODEL`: mac dinh `gemini-3.5-flash`.
+- `TRANSLATION_PROVIDER=phrasebook`: che do offline nhanh nhat, it tu hon.
+
+Sau khi doi `SOURCE_PRIORITY`, hay chay `build` voi `--force-search` de tao lai search-result dung thu tu moi.
+
+## 8. Loi hay gap
+
+### `No module named 'pydantic'`
+
+Ban dang chay Python global, chua activate `.venv`.
+
+Sua bang:
+
+```bash
+source .venv/Scripts/activate
+python main.py build "hello" --force-search
+```
+
+Hoac chay truc tiep:
+
+```bash
+./.venv/Scripts/python.exe main.py build "hello" --force-search
+```
+
+### PlayPhrase bi loi browser
+
+Thu mo browser len de xem:
 
 ```bash
 export HEADLESS=false
-./.venv/Scripts/python.exe main.py build "nice to meet you" --force-search
+python main.py build "hello" --force-search
 ```
 
-Sau do muon quay ve headless:
+Sau khi xong, dat lai trong `.env`:
+
+```env
+HEADLESS=true
+```
+
+### `ffprobe.exe` bi Windows Application Control chan
+
+Code da co fallback nen merge/build van co the chay. Neu van loi FFmpeg, cai lai FFmpeg bang winget va mo terminal moi:
+
+```powershell
+winget install Gyan.FFmpeg
+```
+
+## 9. Lenh nen dung nhat
 
 ```bash
-export HEADLESS=true
+python main.py build "your phrase here" --force-search
+python main.py enhance "your phrase here"
 ```
-
-## 10. Neu muon lam sach cache cu
-
-Thuong thi khong can, vi `--force-search` va download report da xu ly.
-
-Neu van muon xoa cache cua mot phrase cu, co the xoa folder tuong ung trong:
-
-```text
-downloads/
-```
-
-Vi du xoa cache cua `hello`:
-
-```bash
-rm -rf downloads/hello
-rm -f downloads/search-cache/hello.json
-```
-
-Chi xoa dung folder phrase ban muon lam moi.

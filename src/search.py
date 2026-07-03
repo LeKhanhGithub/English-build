@@ -144,8 +144,8 @@ class SearchService:
         if not normalized_phrase:
             raise NoSearchResultsError("Please provide a non-empty phrase.")
 
+        cached = self.load_cached(normalized_phrase)
         if not force:
-            cached = self.load_cached(normalized_phrase)
             if cached and self._cached_result_is_usable(cached):
                 logger.info("Loaded %s cached clips for %r", len(cached.clips), normalized_phrase)
                 write_json(self.latest_path, cached.model_dump(mode="json"))
@@ -154,52 +154,117 @@ class SearchService:
                 logger.info("Ignoring old cache without PlayPhrase word timings for %r", normalized_phrase)
 
         result = await self._search_playphrase(normalized_phrase)
-        if self.settings.comb_enabled:
-            from src.comb import CombSearchService
-
-            comb_start_index = len(result.clips) + 1
-            comb_clips = await CombSearchService(self.settings).search(
+        result.source_status["source_priority"] = self.settings.source_priority_order
+        await self._search_external_sources(result, normalized_phrase)
+        self._apply_source_priority(result)
+        if cached and self._should_keep_cached_result(cached, result):
+            logger.warning(
+                "Keeping previous cached result for %r because fresh fallback search found fewer clips.",
                 normalized_phrase,
-                start_index=comb_start_index,
             )
-            result.clips.extend(comb_clips)
-            result.source_status["comb"] = {
-                "enabled": True,
-                "strict_phrase_match": True,
-                "clips": len(comb_clips),
-            }
-        else:
-            result.source_status["comb"] = {
-                "enabled": False,
-                "strict_phrase_match": True,
-                "clips": 0,
-            }
+            write_json(self.latest_path, cached.model_dump(mode="json"))
+            return cached
 
-        if self._should_query_clipcafe(result):
-            from src.clipcafe import ClipCafeSearchService
+        self.save_result(result)
+        return result
 
-            remaining_slots = self._clipcafe_remaining_slots(result)
-            clipcafe_clips = await ClipCafeSearchService(self.settings).search(
-                normalized_phrase,
-                start_index=len(result.clips) + 1,
-                max_clips=remaining_slots,
+    async def _search_external_sources(self, result: SearchResult, phrase: str) -> None:
+        """Search enabled fallback sources according to SOURCE_PRIORITY."""
+
+        for source in self.settings.source_priority_order:
+            if source == "playphrase":
+                continue
+            if source == "clipcafe":
+                await self._maybe_add_clipcafe(result, phrase)
+            elif source == "comb":
+                await self._maybe_add_comb(result, phrase)
+
+        for source in ("clipcafe", "comb"):
+            result.source_status.setdefault(
+                source,
+                {
+                    "enabled": self._source_enabled(source),
+                    "strict_phrase_match": True,
+                    "clips": 0,
+                    "skipped": True,
+                },
             )
-            result.clips.extend(clipcafe_clips)
-            result.source_status["clipcafe"] = {
-                "enabled": True,
-                "strict_phrase_match": True,
-                "clips": len(clipcafe_clips),
-            }
-        else:
+
+    async def _maybe_add_clipcafe(self, result: SearchResult, phrase: str) -> None:
+        """Try Clip.Cafe when the current result still needs more clips."""
+
+        if not self._should_query_external(result, "clipcafe"):
             result.source_status["clipcafe"] = {
                 "enabled": self.settings.clipcafe_enabled,
                 "strict_phrase_match": True,
                 "clips": 0,
                 "skipped": True,
             }
+            return
 
-        self.save_result(result)
-        return result
+        from src.clipcafe import ClipCafeSearchService
+
+        remaining_slots = self._external_remaining_slots(result)
+        clipcafe_clips = await ClipCafeSearchService(self.settings).search(
+            phrase,
+            start_index=len(result.clips) + 1,
+            max_clips=remaining_slots,
+        )
+        result.clips.extend(clipcafe_clips)
+        result.source_status["clipcafe"] = {
+            "enabled": True,
+            "strict_phrase_match": True,
+            "clips": len(clipcafe_clips),
+        }
+
+    async def _maybe_add_comb(self, result: SearchResult, phrase: str) -> None:
+        """Try Comb.io when the current result still needs more clips."""
+
+        if not self._should_query_external(result, "comb"):
+            result.source_status["comb"] = {
+                "enabled": self.settings.comb_enabled,
+                "strict_phrase_match": True,
+                "clips": 0,
+                "skipped": True,
+            }
+            return
+
+        from src.comb import CombSearchService
+
+        remaining_slots = self._external_remaining_slots(result)
+        comb_clips = await CombSearchService(self.settings).search(
+            phrase,
+            start_index=len(result.clips) + 1,
+            max_clips=remaining_slots,
+        )
+        result.clips.extend(comb_clips)
+        result.source_status["comb"] = {
+            "enabled": True,
+            "strict_phrase_match": True,
+            "clips": len(comb_clips),
+        }
+
+    def _apply_source_priority(self, result: SearchResult) -> None:
+        """Sort result clips by configured source priority and reindex them."""
+
+        priority = {
+            source: index
+            for index, source in enumerate(self.settings.source_priority_order)
+        }
+        result.clips.sort(key=lambda clip: (priority.get(clip.source, 999), clip.index))
+        for index, clip in enumerate(result.clips, start=1):
+            clip.index = index
+
+    def _should_keep_cached_result(self, cached: SearchResult, fresh: SearchResult) -> bool:
+        """Return True when a fresh search likely lost fallback clips due to source failures."""
+
+        if not self._cached_result_is_usable(cached):
+            return False
+        if len(cached.clips) <= len(fresh.clips):
+            return False
+        if len(fresh.clips) >= self.settings.target_total_clips:
+            return False
+        return len(cached.clips) >= self.settings.target_total_clips
 
     async def _search_playphrase(self, phrase: str) -> SearchResult:
         """Run browser automation and collect clips."""
@@ -460,6 +525,8 @@ class SearchService:
             clipcafe_status = result.source_status.get("clipcafe", {})
             if clipcafe_status.get("strict_phrase_match") is not True:
                 return False
+        if result.source_status.get("source_priority") != self.settings.source_priority_order:
+            return False
 
         return bool(result.clips) and all(
             clip.subtitle_text
@@ -484,25 +551,38 @@ class SearchService:
         )
         return phrase_has_highlight_match(searchable_text, phrase)
 
-    def _should_query_clipcafe(self, result: SearchResult) -> bool:
-        """Return True when Clip.Cafe should try to fill count or duration gaps."""
+    def _should_query_external(self, result: SearchResult, source: str) -> bool:
+        """Return True when a fallback source should try to fill count or duration gaps."""
 
-        if not self.settings.clipcafe_enabled or self.settings.clipcafe_max_clips <= 0:
+        if not self._source_enabled(source) or self._source_max_clips(source) <= 0:
             return False
-        if len(result.clips) < self.settings.target_total_clips:
-            return True
-        return (
-            len(result.clips) < self.settings.max_total_clips
-            and self._estimated_duration(result) < self.settings.min_total_duration_seconds
-        )
+        return self._external_remaining_slots(result) > 0
 
-    def _clipcafe_remaining_slots(self, result: SearchResult) -> int:
-        """Return how many Clip.Cafe clips can still be added."""
+    def _external_remaining_slots(self, result: SearchResult) -> int:
+        """Return how many fallback clips can still be added."""
 
         if len(result.clips) < self.settings.target_total_clips:
             return max(0, self.settings.target_total_clips - len(result.clips))
         if self._estimated_duration(result) < self.settings.min_total_duration_seconds:
             return max(0, self.settings.max_total_clips - len(result.clips))
+        return 0
+
+    def _source_enabled(self, source: str) -> bool:
+        """Return whether a fallback source is enabled."""
+
+        if source == "clipcafe":
+            return self.settings.clipcafe_enabled
+        if source == "comb":
+            return self.settings.comb_enabled
+        return False
+
+    def _source_max_clips(self, source: str) -> int:
+        """Return configured clip cap for a fallback source."""
+
+        if source == "clipcafe":
+            return self.settings.clipcafe_max_clips
+        if source == "comb":
+            return self.settings.comb_max_clips
         return 0
 
     @staticmethod
